@@ -1,0 +1,13 @@
+#summary Introduction to tools for STM8S development
+
+= Required =
+
+* [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset.zip ST Visual Develop]
+* [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset_pack24_patch.zip ST Visual Develop Patch 2]
+* [http://www.st.com/internet/com/SOFTWARE_RESOURCES/SW_COMPONENT/FIRMWARE/stm8_stdperiph_lib.zip STM8S/A Standard Peripherals Library]
+* [http://www.cosmicsoftware.com/download_stm8_32k.php Cosmic Software STM8/32K free compiler version]
+* [http://www.st.com/internet/evalboard/product/247087.jsp STM8S-DISCOVERY]
+
+= Install =
+
+Install STVD and patch. Install STM8 StdPeriphLib. Install cosmic compiler and request license (takes 1 business day). Order STM8S-DISCOVERY for $9 from DigiKey or local reseller.
