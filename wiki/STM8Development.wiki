@@ -3,9 +3,13 @@
 = Required =
 
 * [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset.zip ST Visual Develop]
+
 * [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset_pack24_patch.zip ST Visual Develop Patch 2]
+
 * [http://www.st.com/internet/com/SOFTWARE_RESOURCES/SW_COMPONENT/FIRMWARE/stm8_stdperiph_lib.zip STM8S/A Standard Peripherals Library]
+
 * [http://www.cosmicsoftware.com/download_stm8_32k.php Cosmic Software STM8/32K free compiler version]
+
 * [http://www.st.com/internet/evalboard/product/247087.jsp STM8S-DISCOVERY]
 
 = Install =
