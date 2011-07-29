@@ -2,9 +2,27 @@
 
 = Introduction =
 
+Simple, small, fun flight controller. Currently works in rate (heading hold) mode, attitude (hover, auto-level) to be added later.
+
+== Hardware ==
+
+  * STM8S105 CPU (8bit CISC, 16MHz)
+  * Invensense IDG500 / ISZ500 Gyro
+  * Analog ADXL345 digital SPI accelerometer
+  * PPM (up to 12 channels) RC input
+  * PWM (50..450Hz) motor output for up to 6 motors
+  * I2C header for possible expansion or motor control
+  * UART (firmware update, telemetry)
+  * Battery voltage monitoring and low-voltage alarm
+  * Buzzer for alarm/user notification
+  * Status LED
+
+== Status ==
+
 It works.
 
+== Board revisions ==
 
-AfroFlightRev0
+AfroFlightRev0 (currently testing)
 
-AfroFlightRev1
+AfroFlightRev1 (planning)
