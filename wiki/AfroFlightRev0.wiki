@@ -1,0 +1,5 @@
+#summary Hardware details for rev0 board
+
+= Connections =
+
+http://i.imgur.com/kHD02.png
