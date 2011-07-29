@@ -34,7 +34,7 @@ Output during successful update:
 If the above method fails (firmware was too old), firmware needs to be flashed during bootloader timeout at power-up (0.5 seconds)
 
 
-  # Follow steps 1-6 in the 'standard method'
+  # Follow steps 1-5 in the 'standard method'
   # Firmware upgrade command is, "afroflashfc.exe <com port number> <firmware update file> EX" (adding "ex" at the end from standard method)
   # for example, "afroflashfc.exe 1 update.s19 ex"
   # Get ready to press enter on the command line above, and power up the board.
