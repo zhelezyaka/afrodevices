@@ -2,4 +2,8 @@
 
 = Connections =
 
+== Board Top ==
 http://i.imgur.com/kHD02.png
+
+== Board Bottom ==
+http://i.imgur.com/fj7kE.png
