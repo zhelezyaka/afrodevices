@@ -1,0 +1,9 @@
+#summary Port of BASCOM Shrediquette firmware to C
+
+= Introduction =
+
+It's a mess.
+
+= Details =
+
+But it works.
