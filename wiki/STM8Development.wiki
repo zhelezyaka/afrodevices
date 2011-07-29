@@ -14,4 +14,10 @@
 
 = Install =
 
-Install STVD and patch. Install STM8 StdPeriphLib. Install cosmic compiler and request license (takes 1 business day). Order STM8S-DISCOVERY for $9 from DigiKey or local reseller.
+Install cosmic compiler and request license (takes 1 business day).
+Install STVD and patch.
+Install STM8 StdPeriphLib.
+Order STM8S-DISCOVERY for $9 from DigiKey or local reseller.
+Receive STM8-DISCOVERY.
+Remove solder jumpers SB1/SB2 from STM8-DISCOVERY.
+Debug.
