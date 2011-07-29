@@ -1,5 +1,7 @@
 #summary Hardware details for rev0 board
 
+Initial revision of AfroFlight board. Has some deficiencies but nothing show-stopping. Currently flight-testing and used for development.
+
 = Connections =
 
 == Board Top ==
