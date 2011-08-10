@@ -2,38 +2,24 @@
 
 = Required Development Tools / Hardware =
 
-* [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset.zip ST Visual Develop]
-
-* [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset_pack24_patch.zip ST Visual Develop Patch 2]
-
-* [http://www.st.com/internet/com/SOFTWARE_RESOURCES/SW_COMPONENT/FIRMWARE/stm8_stdperiph_lib.zip STM8S/A Standard Peripherals Library]
-
-* [http://www.cosmicsoftware.com/download_stm8_32k.php Cosmic Software STM8/32K free compiler version]
-
-* [http://www.st.com/internet/evalboard/product/247087.jsp STM8S-DISCOVERY]
-
+  * [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset.zip ST Visual Develop]
+  * [http://www.st.com/internet/com/SOFTWARE_RESOURCES/TOOL/TOOLSET/sttoolset_pack24_patch.zip ST Visual Develop Patch 2]
+  * [http://www.st.com/internet/com/SOFTWARE_RESOURCES/SW_COMPONENT/FIRMWARE/stm8_stdperiph_lib.zip STM8S/A Standard Peripherals Library]
+  * [http://www.cosmicsoftware.com/download_stm8_32k.php Cosmic Software STM8/32K free compiler version]
+  * [http://www.st.com/internet/evalboard/product/247087.jsp STM8S-DISCOVERY]
 
 == Reference manuals ==
 
-* [http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/DATASHEET/CD00200092.pdf STM8S10x Family Datasheet] - This covers pinouts, memory map, package info, etc.
-
-* [http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/REFERENCE_MANUAL/CD00190271.pdf STM8S10x Family Reference Manual] - This covers each peripheral in detail.
-
-* [http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/APPLICATION_NOTE/CD00194637.pdf STM8S Hardware connections checklist] - This covers Power/Clocking/etc.
-
+  * [http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/DATASHEET/CD00200092.pdf STM8S10x Family Datasheet] - This covers pinouts, memory map, package info, etc.
+  * [http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/REFERENCE_MANUAL/CD00190271.pdf STM8S10x Family Reference Manual] - This covers each peripheral in detail.
+  * [http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/APPLICATION_NOTE/CD00194637.pdf STM8S Hardware connections checklist] - This covers Power/Clocking/etc.
 
 = Install =
 
-Install cosmic compiler and request license (takes 1 business day).
-
-Install STVD and patch.
-
-Install STM8 StdPeriphLib.
-
-Order STM8S-DISCOVERY for $9 from DigiKey or local reseller.
-
-Receive STM8-DISCOVERY.
-
-Remove solder jumpers SB1/SB2 from STM8-DISCOVERY.
-
-Debug.
+  # Install cosmic compiler and request license (takes 1 business day).
+  # Install STVD and patch.
+  # Install STM8 StdPeriphLib.
+  # Order STM8S-DISCOVERY for $9 from DigiKey or local reseller.
+  # Receive STM8-DISCOVERY.
+  # To debug external targets, remove solder jumpers SB1/SB2 from STM8-DISCOVERY.
+  # Debug.
