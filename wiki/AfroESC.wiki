@@ -1,0 +1,8 @@
+#summary ATmega8-based brushless motor controller
+
+= Introduction =
+
+Low-cost brushless motor controller for R/C (multi-rotor) use.
+Fast PWM response, optional throttle response by I2C.
+
+http://i.imgur.com/moy3r.png
