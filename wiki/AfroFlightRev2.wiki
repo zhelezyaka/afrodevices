@@ -1,0 +1,11 @@
+#summary Hardware details for rev2 board
+
+rev1 fixed some design omissions in rev0, but was never manufactured.
+rev2 accepted the OpenPilot PCB dimensions of 36x36mm with 30.5mm mounting holes. This will be the final production version.
+
+Slightly larger board size allowed to place label silkscreen on top side of the board only, easing user assembly and testing.
+
+= Connections =
+
+== Board Top ==
+http://i.imgur.com/MRy0x.png
