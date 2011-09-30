@@ -25,4 +25,6 @@ It works.
 
 AfroFlightRev0 (currently testing)
 
-AfroFlightRev1 (planning)
+AfroFlightRev1 (used to make corrections for rev0, never manufactured)
+
+AfroFlightRev2 (final production version)
