@@ -2,7 +2,11 @@
 
 = Introduction =
 
-Simple, small, fun flight controller. Currently works in rate (heading hold) mode, attitude (hover, auto-level) to be added later.
+Simple, small, fun flight controller. 
+Two available firmware choices:
+
+  # Custom rate-mode (heading hold) firmware similar to kkboard - no hover/autolevel.
+  # Port of MultiWii to STM8S. All the same features of MultiWii 1.8p2 (and following the code for further changes).
 
 == Hardware ==
 
