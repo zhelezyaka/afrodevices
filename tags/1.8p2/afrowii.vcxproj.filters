@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="STVD Workspace">
+      <UniqueIdentifier>{3a0bfbc6-4b5f-48c6-af62-e6cf2f9b6186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FWLib">
+      <UniqueIdentifier>{e9ae7e47-faac-40f9-9101-12132fed8be0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="def.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sysdep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stm8s_it.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stm8s_conf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_adc1.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_clk.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_flash.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_gpio.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_i2c.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_spi.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_tim1.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_tim2.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_tim3.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_tim4.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_uart2.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+    <ClInclude Include="STM8S_StdPeriph_Driver\inc\stm8s_wwdg.h">
+      <Filter>FWLib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LCD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiWii_1_8_patch1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sysdep.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stm8_interrupt_vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_adc1.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_clk.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_flash.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_gpio.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_i2c.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_spi.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_tim1.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_tim2.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_tim3.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_tim4.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+    <ClCompile Include="STM8S_StdPeriph_Driver\src\stm8s_uart2.c">
+      <Filter>FWLib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="afrowii.stp">
+      <Filter>STVD Workspace</Filter>
+    </None>
+    <None Include="afrowii.wdb">
+      <Filter>STVD Workspace</Filter>
+    </None>
+    <None Include="afrowii.dep">
+      <Filter>STVD Workspace</Filter>
+    </None>
+    <None Include="afrowii.stw">
+      <Filter>STVD Workspace</Filter>
+    </None>
+    <None Include="afrowii.wed">
+      <Filter>STVD Workspace</Filter>
+    </None>
+  </ItemGroup>
+</Project>
