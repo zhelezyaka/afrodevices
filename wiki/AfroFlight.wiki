@@ -27,7 +27,7 @@ It works.
 
 == Board revisions ==
 
-AfroFlightRev0 (currently testing)
+AfroFlightRev0 (development/testing version)
 
 AfroFlightRev1 (used to make corrections for rev0, never manufactured)
 
