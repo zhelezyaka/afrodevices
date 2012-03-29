@@ -10,15 +10,17 @@ Two available firmware choices:
 
 == Hardware ==
 
-  * STM32F103C8T6 CPU (32bit ARM Cortex M3, 72MHz)
-  * Invensense MPU3050 3-axis gyro
+  * 36x36mm 2layer pcb, 30.5mm mounting pattern
+  * STM32F103C8T6 CPU (32bit ARM Cortex M3, 72MHz, 64K/128K flash)
+  * Invensense MPU3050 3-axis gyro (pin-compatible to MPU6050)
   * Analog ADXL345 digital accelerometer
   * Honeywell HMC5883L digital compass
   * Bosch-Sensortec BMP085 pressure sensor
-  * 6 + 8 PWM I/O can remap as input or output for RC/PPM/Motors/Servos
-  * PPM (up to 12 channels) RC input
-  * 8 channel PWM RC input
-  * PWM (50..450Hz) motor output for up to 6 motors
+  * 6 + 8 PWM I/O can remap as input or output for RC/CPPM/Motors/Servos
+  * second UART accessible for Spektrum Satellite RX or GPS
+  * CPPM (up to 12 channels) RC input
+  * 8 channel standard PWM RC input
+  * PWM (50..1kHz) motor output for up to 6 motors, can be remapped with other pins for 8 motors + camera stabilization
   * Onboard USB connector for telemetry and firmware update
   * Battery voltage monitoring and low-voltage alarm
   * Buzzer for alarm/user notification
