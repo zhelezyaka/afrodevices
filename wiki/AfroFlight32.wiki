@@ -33,10 +33,10 @@ RCGroups thread: http://www.rcgroups.com/forums/showthread.php?t=1595761
 
 == Board revisions ==
 
+AfroFlight32 rev1 (current production version)
+
+http://i.imgur.com/IhJTw.jpg
+
 AfroFlight32 rev0 (previous production version)
 
 http://i.imgur.com/7GcTd.jpg
-
-AfroFlight32 rev0 (current production version)
-
-http://i.imgur.com/IhJTw.jpg
