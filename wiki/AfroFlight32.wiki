@@ -14,6 +14,7 @@ Two available firmware choices:
   * STM32F103C8T6 CPU (32bit ARM Cortex M3, 72MHz, 64K/128K flash)
   * Invensense MPU3050 3-axis gyro (pin-compatible to MPU6050)
   * Analog ADXL345 digital accelerometer
+  * FreeScale MMA5843 digital accelerometer
   * Honeywell HMC5883L digital compass
   * Bosch-Sensortec BMP085 pressure sensor
   * 6 + 8 PWM I/O can remap as input or output for RC/CPPM/Motors/Servos
