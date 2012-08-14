@@ -3,7 +3,7 @@
 = Introduction =
 
 Simple, small, fun flight controller. 
-Two available firmware choices:
+Several available firmware choices:
 
   # MultiWii-dev port to STM32 ("baseflight" in SVN)
   # Written from scratch "correct" firmware using various attitude estimators, Kalman filtering, etc ("baseflightplus" in SVN)
