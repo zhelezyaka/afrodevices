@@ -37,7 +37,11 @@ RCGroups thread: http://www.rcgroups.com/forums/showthread.php?t=1595761
 
 == Board revisions ==
 
-AfroFlight32 rev3 (current production version)
+AfroFlight32 rev4 (current production version)
+
+http://i.imgur.com/m231K.jpg
+
+AfroFlight32 rev3
 
 http://i.imgur.com/IhJTw.jpg
 
