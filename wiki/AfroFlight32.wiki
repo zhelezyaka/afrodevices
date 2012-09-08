@@ -34,6 +34,7 @@ Several available firmware choices:
 
 It works.
 Discussion forum at multiwii.com 32bit section: http://www.multiwii.com/forum/viewforum.php?f=21
+
 RCGroups thread (now defunct): http://www.rcgroups.com/forums/showthread.php?t=1595761
 
 == Board revisions ==
