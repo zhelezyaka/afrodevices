@@ -33,9 +33,17 @@ Several available firmware choices:
 == Status ==
 
 It works.
-Discussion forum at multiwii.com 32bit section: http://www.multiwii.com/forum/viewforum.php?f=21
+Discussion forum at multiwii.com 32bit section: 
 
-RCGroups thread (now defunct): http://www.rcgroups.com/forums/showthread.php?t=1595761
+http://www.multiwii.com/forum/viewforum.php?f=21
+
+RCGroups thread (now defunct):
+
+http://www.rcgroups.com/forums/showthread.php?t=1595761
+
+Manual:
+
+http://www.abusemark.com/downloads/naze32_rev2.pdf
 
 == Board revisions ==
 
