@@ -3,6 +3,9 @@
 
 // October 2012     V2.1-dev
 
+#define F_CUT   20.0f
+#define RC      0.5f / (M_PI * F_CUT)
+
 flags_t f;
 int16_t debug[4];
 uint8_t toggleBeep = 0;
@@ -244,6 +247,7 @@ void computeRC(void)
 
 void loop(void)
 {
+    static float lastDTerm[3] = { 0.0, 0.0, 0.0};
     static uint8_t rcDelayCommand;      // this indicates the number of time (multiple of RC measurement at 50Hz) the sticks must be maintained to run or switch off motors
     uint8_t axis, i;
     int16_t error, errorAngle;
@@ -590,6 +594,7 @@ void loop(void)
         }
 
         // **** PITCH & ROLL & YAW PID ****    
+        float dT = cycleTime * 1e-6;
         prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
         for (axis = 0; axis < 3; axis++) {
             if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
@@ -637,6 +642,9 @@ void loop(void)
             delta2[axis] = delta1[axis];
             delta1[axis] = delta;
 
+            // calculate PT1 element on deltaSum
+    		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
+    		lastDTerm[axis] = deltaSum;
             DTerm = ((int32_t)deltaSum * dynD8[axis]) >> 5; // 32 bits is needed for calculation
             axisPID[axis] =  PTerm + ITerm - DTerm;
         }

@@ -1,5 +1,6 @@
 #include "board.h"
 #include "mw.h"
+#include "kalman.h"
 
 uint16_t calibratingA = 0;       // the calibration is done is the main loop. Calibrating decreases at each cycle down to 0, then we enter in a normal mode.
 uint16_t calibratingG = 0;
@@ -266,6 +267,9 @@ void ACC_getADC(void)
         acc.align(accADC);
 
     ACC_Common();
+
+    // filter the accelerometer data
+    accelKalmanfilterStep(accADC);
 }
 
 #ifdef BARO
@@ -298,6 +302,7 @@ void Baro_update(void)
         case 3:
             baro.get_up();
             pressure = baro.calculate();
+            baroKalmanfilterStep(&pressure);
             BaroAlt = (1.0f - pow(pressure / 101325.0f, 0.190295f)) * 4433000.0f; // centimeter
             state = 0;
             baroDeadline += baro.repeat_delay;
@@ -397,6 +402,7 @@ void Gyro_getADC(void)
         gyro.align(gyroADC);
 
     GYRO_Common();
+    gyroKalmanfilterStep(gyroADC);
 }
 
 #ifdef MAG

@@ -1,5 +1,6 @@
 #include "board.h"
 #include "mw.h"
+#include "kalman.h"
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 float accLPFVel[3];
@@ -32,6 +33,9 @@ void imuInit(void)
     if (sensors(SENSOR_MAG))
         Mag_init();
 #endif
+
+    // setup the kalman filters
+    initKalmanfilters();
 }
 
 
