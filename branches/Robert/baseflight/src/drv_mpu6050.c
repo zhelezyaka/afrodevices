@@ -114,8 +114,8 @@
 #define MPU_RA_WHO_AM_I         0x75
 
 #define MPU6050_SMPLRT_DIV      0       //8000Hz
-// #define MPU6050_DLPF_CFG        0   // 256Hz
-#define MPU6050_DLPF_CFG   3        // 42Hz
+#define MPU6050_DLPF_CFG        0   // 256Hz
+//#define MPU6050_DLPF_CFG   3        // 42Hz
 
 #define MPU6000ES_REV_C4        0x14
 #define MPU6000ES_REV_C5        0x15

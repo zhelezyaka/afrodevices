@@ -1,6 +1,10 @@
 #include "board.h"
 #include "mw.h"
 
+// my 'very' own settings
+#define ROBERT
+//#undef	ROBERT
+
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
 
@@ -75,7 +79,19 @@ int main(void)
     else
         pwm_params.airplane = false;
     pwm_params.useUART = feature(FEATURE_GPS) || feature(FEATURE_SPEKTRUM); // spektrum support uses UART too
+
+#ifdef ROBERT
+    // futaba
+    cfg.midrc = 1520;
+    cfg.mincheck = 1120;
+    cfg.maxcheck = 1890;
+    cfg.looptime = 4000;
+    featureSet(FEATURE_PPM);
+    pwm_params.usePPM = true; //  feature(FEATURE_PPM);
+#else
     pwm_params.usePPM = feature(FEATURE_PPM);
+#endif
+
     pwm_params.enableInput = !feature(FEATURE_SPEKTRUM); // disable inputs if using spektrum
     pwm_params.useServos = useServo;
     pwm_params.extraServos = cfg.gimbal_flags & GIMBAL_FORWARDAUX;

@@ -12,7 +12,7 @@
 config_t cfg;
 const char rcChannelLetters[] = "AERT1234";
 
-static uint8_t EEPROM_CONF_VERSION = 34;
+static uint8_t EEPROM_CONF_VERSION = 37;
 static uint32_t enabledSensors = 0;
 static void resetConf(void);
 
@@ -139,7 +139,7 @@ static void resetConf(void)
     cfg.P8[PITCH] = 40;
     cfg.I8[PITCH] = 30;
     cfg.D8[PITCH] = 23;
-    cfg.P8[YAW] = 85;
+    cfg.P8[YAW] = 55;
     cfg.I8[YAW] = 45;
     // cfg.D8[YAW] = 0;
     cfg.P8[PIDALT] = 16;
@@ -262,7 +262,6 @@ static void resetConf(void)
     // custom mixer. clear by defaults.
     for (i = 0; i < MAX_MOTORS; i++)
         cfg.customMixer[i].throttle = 0.0f;
-
     writeParams(0);
 }
 
