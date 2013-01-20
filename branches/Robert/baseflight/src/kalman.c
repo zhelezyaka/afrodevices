@@ -15,6 +15,7 @@
 
 extern uint16_t cycleTime;
 
+// select filter type
 #define k1d
 //#undef k1d
 //#define AlphaBeta
@@ -49,6 +50,22 @@ typedef struct {
 	float p;	// estimation error covariance
 } kalmanState_t;
 
+// barometer
+kalmanState_t kbaro;
+
+void baroKalmanfilterStep(int32_t *baro) {
+	float k;	// kalman gain
+	float measurement = *baro;
+	kbaro.p = kbaro.p + kbaro.q;
+
+	//measurement update
+	k = kbaro.p / (kbaro.p + kbaro.r);
+	kbaro.x = kbaro.x + k * (measurement - kbaro.x);
+	kbaro.p = (1 - k) * kbaro.p;
+
+	*baro = (int32_t)kbaro.x;
+}
+
 #ifdef k1d
 	// accelerometer
 	kalman1D_t kax;
@@ -60,17 +77,6 @@ typedef struct {
 	kalman1D_t kgy;
 	kalman1D_t kgz;
 
-	// barometer
-	kalman1D_t kbaro;
-
-	void baroKalmanfilterStep(int32_t *baro) {
-		static uint32_t _lastTime = 0;
-		uint32_t currentTime = micros();
-		float dT = (currentTime - _lastTime) * 1e-6;
-		_lastTime = currentTime;
-		kalman1DUpdate32(&kbaro, baro, dT);
-	}
-
 #else
 	// accelerometer
 	kalmanState_t kax;
@@ -81,22 +87,6 @@ typedef struct {
 	kalmanState_t kgx;
 	kalmanState_t kgy;
 	kalmanState_t kgz;
-
-	// barometer
-	kalmanState_t kbaro;
-
-	void baroKalmanfilterStep(int32_t *baro) {
-		float k;	// kalman gain
-		float measurement = *baro;
-		kbaro.p = kbaro.p + kbaro.q;
-
-		//measurement update
-		k = kbaro.p / (kbaro.p + kbaro.r);
-		kbaro.x = kbaro.x + k * (measurement - kbaro.x);
-		kbaro.p = (1 - k) * kbaro.p;
-
-		*baro = (int32_t)kbaro.x;
-	}
 
 #endif
 
@@ -148,14 +138,14 @@ static void initKalmanGyro()
 //#define P 0.47	// estimation error covariance
 
 	// small jakub frame
-#define Q 1.0 	// process noise covariance
-#define	R 0.01	// measurement noise covariance
-#define P 0.22	// estimation error covariance
+//#define Q 1.0 	// process noise covariance
+//#define	R 0.01	// measurement noise covariance
+//#define P 0.22	// estimation error covariance
 
 	// working the larger jakub frame
-//#define Q 4.0 	// process noise covariance
-//#define	R 0.625	// measurement noise covariance
-//#define P 0.42	// estimation error covariance	<-- rise to 0.6 is to twitchy - or lower to 0.22 for much more fun
+#define Q 4.0 	// process noise covariance
+#define	R 0.625	// measurement noise covariance
+#define P 0.42	// estimation error covariance	<-- rise to 0.6 is to twitchy - or lower to 0.22 for much more fun
 
 #ifdef k1d
 	initKalman1D(&kgx, Q, R, P, 0);
@@ -224,14 +214,7 @@ static void initKalmanBaro() {
 //#define	R 1e-1	// measurement noise covariance
 //#define P 0.42	// estimation error covariance
 
-#ifdef k1d
-	initKalman1D(&kbaro, Q, R, P, 0);
-#elif defined(AlphaBeta)
-	// already done: initAlphaBetafilter();
 	initSimpleKalmanState(&kbaro, Q, R, P, 0);
-#else
-	initSimpleKalmanState(&kbaro, Q, R, P, 0);
-#endif
 
 #undef Q
 #undef R
@@ -240,7 +223,7 @@ static void initKalmanBaro() {
 
 void accelKalmanfilterStep(int16_t acc[3]) {
 #ifdef k1d
-	static _lastTime = 0;
+	static int32_t _lastTime = 0;
 	uint32_t currentTime = micros();
 	float dT = (currentTime - _lastTime) * 1e-6;
 	_lastTime = currentTime;

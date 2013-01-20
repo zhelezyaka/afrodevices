@@ -3,7 +3,7 @@
 
 // my 'very' own settings
 #define ROBERT
-//#undef	ROBERT
+#undef	ROBERT
 
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
@@ -83,8 +83,8 @@ int main(void)
 #ifdef ROBERT
     // futaba
     cfg.midrc = 1520;
-    cfg.mincheck = 1120;
-    cfg.maxcheck = 1890;
+    cfg.mincheck = 1150;
+    cfg.maxcheck = 1850;
     cfg.looptime = 4000;
     featureSet(FEATURE_PPM);
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
