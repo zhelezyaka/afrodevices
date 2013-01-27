@@ -1,6 +1,6 @@
 #include "board.h"
 #include "mw.h"
-#include "kalman.h"
+#include "kalmanFilterFrontend.h"
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 float accLPFVel[3];

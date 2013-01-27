@@ -12,13 +12,14 @@
 typedef struct
 {
 	float d;
+	float fc;
 	float m_x[2];
 	float m_p[4];
 	float m_q[4];
 	float m_r;
 } kalman1D_t;
 
-void initKalman1D(kalman1D_t *kalmanState, float q, float r, float p, float x);
+void initKalman1D(kalman1D_t *kalmanState, float q, float r, float p, float x, float fc);
 void kalman1DUpdate32(kalman1D_t *kalmanState, int32_t *pvalue, float dt);
 void kalman1DUpdate(kalman1D_t *kalmanState, int16_t *pvalue, float dt);
 

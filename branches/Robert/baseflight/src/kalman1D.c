@@ -11,11 +11,7 @@
 #include "board.h"
 #include "kalman1D.h"
 
-#undef	F_CUT
-#define	F_CUT   120.0f
-float	FC;
-
-void initKalman1D(kalman1D_t *kalmanState, float q, float r, float p, float x)
+void initKalman1D(kalman1D_t *kalmanState, float q, float r, float p, float x, float fc_cut)
 {
 	kalmanState->m_q[0] = q;
 	kalmanState->m_q[1] = q * 1e-4f;
@@ -25,7 +21,7 @@ void initKalman1D(kalman1D_t *kalmanState, float q, float r, float p, float x)
 	kalmanState->m_x[0] = x;
 	kalmanState->m_x[1] = 0;
 	kalmanState->d = 0;
-	FC = 0.5f / (M_PI * F_CUT);
+	kalmanState->fc = fc_cut;
 }
 
 
@@ -35,8 +31,8 @@ void kalman1DUpdate32(kalman1D_t *kalmanState, int32_t *pvalue, float dt)
 	int i;
 
 	// a pt1 element to stop heavy vibrations and propeller wash
-    // calculate PT1 element
-	m = kalmanState->d + (dt / (FC + dt)) * (m - kalmanState->d);
+    // apply PT1 calculation
+	m = kalmanState->d + (dt / (kalmanState->fc + dt)) * (m - kalmanState->d);
 	kalmanState->d = m;
 
 	// Predict:

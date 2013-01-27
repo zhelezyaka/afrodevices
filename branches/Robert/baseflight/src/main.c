@@ -1,3 +1,6 @@
+//
+// j-link s/n 228001252
+//
 #include "board.h"
 #include "mw.h"
 
@@ -85,9 +88,11 @@ int main(void)
     cfg.midrc = 1520;
     cfg.mincheck = 1150;
     cfg.maxcheck = 1850;
-    cfg.looptime = 4000;
+    cfg.looptime = 0;
     featureSet(FEATURE_PPM);
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
+    cfg.acc_hardware = ACC_MPU6050;
+    cfg.mpu6050_scale = 1;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
 #endif
