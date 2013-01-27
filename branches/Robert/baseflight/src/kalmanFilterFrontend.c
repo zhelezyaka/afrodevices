@@ -15,8 +15,8 @@
 
 
 // the cutoff frequencies for the gyroscope and accelerometer
-#define	F_CUT_GYRO   120.0f
-#define	F_CUT_ACC     30.0f
+#define	F_CUT_GYRO   200.0f
+#define	F_CUT_ACC     40.0f
 
 // accelerometer
 kalman1D_t kax;
