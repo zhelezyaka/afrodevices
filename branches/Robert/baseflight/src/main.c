@@ -88,7 +88,7 @@ int main(void)
     cfg.midrc = 1520;
     cfg.mincheck = 1150;
     cfg.maxcheck = 1850;
-    cfg.looptime = 0;
+    //cfg.looptime = 4000;
     featureSet(FEATURE_PPM);
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
     cfg.acc_hardware = ACC_MPU6050;

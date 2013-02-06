@@ -13,9 +13,8 @@
 #include "kalman1D.h"
 #include "barofilter.h"
 
-
 // the cutoff frequencies for the gyroscope and accelerometer
-#define	F_CUT_GYRO   200.0f
+#define	F_CUT_GYRO   250.0f
 #define	F_CUT_ACC     40.0f
 
 // accelerometer
@@ -49,33 +48,33 @@ kalman1D_t kgz;
  r = 10;
  */
 
-static void initKalmanGyro()
+static void initKalmanGyro(int16_t gyros[3])
 {
 	// real bad on my small jakub frame
 //#define Q 0.0625 // process noise covariance
 //#define	R 4.0	// measurement noise covariance
 //#define P 0.47	// estimation error covariance
 
-	// small jakub frame
+// small jakub frame
 //#define Q 1.0 	// process noise covariance
 //#define	R 0.01	// measurement noise covariance
 //#define P 0.22	// estimation error covariance
 
-	// working the larger jakub frame
+// working the larger jakub frame
 #define Q 4.0 	// process noise covariance
 #define	R 0.625	// measurement noise covariance
 #define P 0.42	// estimation error covariance	<-- rise to 0.6 is to twitchy - or lower to 0.22 for much more fun
 	float fc = 0.5f / (M_PI * F_CUT_GYRO);
-	initKalman1D(&kgx, Q, R, P, 0, fc);
-	initKalman1D(&kgy, Q, R, P, 0, fc);
-	initKalman1D(&kgz, Q, R, P, 0, fc);
+	initKalman1D(&kgx, Q, R, P, gyros[0], fc);
+	initKalman1D(&kgy, Q, R, P, gyros[1], fc);
+	initKalman1D(&kgz, Q, R, P, gyros[2], fc);
 
 #undef Q
 #undef R
 #undef P
 }
 
-static void initKalmanAccel()
+static void initKalmanAccel(int16_t acc[3])
 {
 	// small jakub frame
 //#define Q 0.0625		// process noise covariance
@@ -89,47 +88,55 @@ static void initKalmanAccel()
 #define Q 0.625			// process noise covariance
 #define	R 4.0			// measurement noise covariance
 #define P 0.47			// estimation error covariance
-
 	float fc = 0.5f / (M_PI * F_CUT_ACC);
-	initKalman1D(&kax, Q, R, P, 0, fc);
-	initKalman1D(&kay, Q, R, P, 0, fc);
-	initKalman1D(&kaz, Q, R, P, 0, fc);
+	initKalman1D(&kax, Q, R, P, acc[0], fc);
+	initKalman1D(&kay, Q, R, P, acc[1], fc);
+	initKalman1D(&kaz, Q, R, P, acc[2], fc);
 
 #undef Q
 #undef R
 #undef P
 }
 
-
 void accelKalmanfilterStep(int16_t acc[3])
 {
-
+	static int _init = 0;
 	static int32_t _lastTime = 0;
 	uint32_t currentTime = micros();
 	float dT = (currentTime - _lastTime) * 1e-6;
 	_lastTime = currentTime;
-	kalman1DUpdate(&kax, &acc[0], dT);
-	kalman1DUpdate(&kay, &acc[1], dT);
-	kalman1DUpdate(&kaz, &acc[2], dT);
+
+	if (!_init)
+	{
+		_init = 1;
+		initKalmanAccel(acc);
+	}
+	else
+	{
+		kalman1DUpdate(&kax, &acc[0], dT);
+		kalman1DUpdate(&kay, &acc[1], dT);
+		kalman1DUpdate(&kaz, &acc[2], dT);
+	}
 
 }
 
 void gyroKalmanfilterStep(int16_t gyros[3])
 {
-
+	static int _init = 0;
 	static uint32_t _lastTime = 0;
 	uint32_t currentTime = micros();
 	float dT = (currentTime - _lastTime) * 1e-6;
 	_lastTime = currentTime;
 
-	kalman1DUpdate(&kgx, &gyros[0], dT);
-	kalman1DUpdate(&kgy, &gyros[1], dT);
-	kalman1DUpdate(&kgz, &gyros[2], dT);
-}
-
-void initKalmanfilters()
-{
-	initKalmanAccel();
-	initKalmanGyro();
-	initKalmanBaro();
+	if (!_init)
+	{
+		_init = 1;
+		initKalmanGyro(gyros);
+	}
+	else
+	{
+		kalman1DUpdate(&kgx, &gyros[0], dT);
+		kalman1DUpdate(&kgy, &gyros[1], dT);
+		kalman1DUpdate(&kgz, &gyros[2], dT);
+	}
 }
