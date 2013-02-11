@@ -9,7 +9,8 @@
 #include "board.h"
 #include "kalman1D.h"
 
-#define	F_CUT_BARO     10.0f
+// just bad for the large jakub frame #define	F_CUT_BARO     10.0f
+#define	F_CUT_BARO     4.0f
 kalman1D_t kbaro;
 
 /**
@@ -18,7 +19,7 @@ kalman1D_t kbaro;
 void baroKalmanfilterStep(int32_t *baro)
 {
 	static int _init = 0;
-	static int32_t _lastTime = 0;
+	static uint32_t _lastTime = 0;
 	uint32_t currentTime = micros();
 	float dt = (currentTime - _lastTime) * 1e-6;
 	_lastTime = currentTime;
@@ -26,9 +27,9 @@ void baroKalmanfilterStep(int32_t *baro)
 	if (!_init)
 	{
 		_init = 1;
-#define Q 0.625			// process noise covariance
-#define	R 4.0			// measurement noise covariance
-#define P 0.4			// estimation error covariance
+#define Q 1.2			// process noise covariance
+#define	R 40.0			// measurement noise covariance
+#define P 1.6			// estimation error covariance
 
 		float tmp = *baro;
 		float fc = 0.5f / (M_PI * F_CUT_BARO);

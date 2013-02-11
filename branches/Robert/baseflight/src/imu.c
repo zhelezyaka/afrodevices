@@ -300,7 +300,8 @@ static void getEstimatedAttitude(void)
         float sp = sinf(pitchRAD);
         float Xh = magX * cp + magY * sr * sp + magZ * cr * sp;
         float Yh = magY * cr - magZ * sr;
-        heading = _atan2f(-Yh, Xh);                      // magnetic heading * 10
+        float hd = (atan2f(-Yh, Xh) * 1800.0f / M_PI + magneticDeclination) / 10.0f;
+        heading = hd;                      // magnetic heading * 10
 #endif
         heading = heading + magneticDeclination;
         heading = heading / 10;
@@ -356,7 +357,6 @@ int32_t isq(int32_t x)
 {
     return x * x;
 }
-
 void getEstimatedAltitude(void)
 {
     static uint32_t deadLine = INIT_DELAY;
@@ -365,11 +365,13 @@ void getEstimatedAltitude(void)
     static int32_t baroHigh;
     uint32_t dTime;
     int16_t error;
-    float invG;
     int16_t accZ;
     static float vel = 0.0f;
     static int32_t lastBaroAlt;
     float baroVel;
+    float rpy[3];
+    t_fp_vector accel_ned;
+
 
     if ((int32_t)(currentTime - deadLine) < UPDATE_INTERVAL)
         return;
@@ -382,11 +384,11 @@ void getEstimatedAltitude(void)
     baroHigh -= baroHistTab[(baroHistIdx + 1) % cfg.baro_tab_size];
 
     baroHistIdx++;
-    if (baroHistIdx == cfg.baro_tab_size) 
+    if (baroHistIdx == cfg.baro_tab_size)
         baroHistIdx = 0;
 
     EstAlt = EstAlt * cfg.baro_noise_lpf + (baroHigh * 10.0f / (cfg.baro_tab_size - 1)) * (1.0f - cfg.baro_noise_lpf); // additional LPF to reduce baro noise
-
+    //EstAlt = BaroAlt;
     // P
     error = constrain(AltHold - EstAlt, -300, 300);
     error = applyDeadband16(error, 10); // remove small P parametr to reduce noise near zero position
@@ -397,15 +399,28 @@ void getEstimatedAltitude(void)
     errorAltitudeI = constrain(errorAltitudeI, -30000, 30000);
     BaroPID += (errorAltitudeI / 500); // I in range +/-60
 
-    // projection of ACC vector to global Z, with 1G subtructed
-    // Math: accZ = A * G / |G| - 1G
-    invG = InvSqrt(isq(EstG.V.X) + isq(EstG.V.Y) + isq(EstG.V.Z));
-    accZ = (accLPFVel[ROLL] * EstG.V.X + accLPFVel[PITCH] * EstG.V.Y + accLPFVel[YAW] * EstG.V.Z) * invG - acc_1G; 
+    // the accel values have to be rotated into the earth frame
+    rpy[0] = angle[ROLL] * DEG2RAD / 10.0;
+    rpy[1] = angle[PITCH] * DEG2RAD / 10.0;
+    rpy[2] = heading * DEG2RAD / 10.0;
+
+    accel_ned.A[0] = EstG.A[0];
+    accel_ned.A[1] = EstG.A[1];
+    accel_ned.A[2] = EstG.A[2];
+    rotateV(&accel_ned.V, rpy);
+    accZ = accel_ned.A[2] - acc_1G;
+//    invG = InvSqrt(isq(EstG.V.X) + isq(EstG.V.Y) + isq(EstG.V.Z));
+//    accZ = (accLPFVel[ROLL] * EstG.V.X + accLPFVel[PITCH] * EstG.V.Y + accLPFVel[YAW] * EstG.V.Z) * invG - acc_1G;
     accZ = applyDeadband16(accZ, acc_1G / cfg.accz_deadband);
     debug[0] = accZ;
 
-    // Integrator - velocity, cm/sec
-    vel += accZ * accVelScale * dTime;
+    if ( 0 == accZ) {
+    	vel = 0.0;
+    }
+    else {
+    	// Integrator - velocity, cm/sec
+    	vel += accZ * accVelScale * dTime;
+    }
 
     baroVel = (EstAlt - lastBaroAlt) / (dTime / 1000000.0f);
     baroVel = constrain(baroVel, -300, 300); // constrain baro velocity +/- 300cm/s

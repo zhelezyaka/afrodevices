@@ -15,7 +15,7 @@
 
 // the cutoff frequencies for the gyroscope and accelerometer
 #define	F_CUT_GYRO   250.0f
-#define	F_CUT_ACC     40.0f
+#define	F_CUT_ACC    200.0f
 
 // accelerometer
 kalman1D_t kax;
@@ -61,9 +61,9 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define P 0.22	// estimation error covariance
 
 // working the larger jakub frame
-#define Q 4.0 	// process noise covariance
+#define Q 2.0 	// process noise covariance
 #define	R 0.625	// measurement noise covariance
-#define P 0.42	// estimation error covariance	<-- rise to 0.6 is to twitchy - or lower to 0.22 for much more fun
+#define P 0.22	// estimation error covariance	<-- rise to 0.6 if it is twitchy - or lower to 0.22 for much more fun
 	float fc = 0.5f / (M_PI * F_CUT_GYRO);
 	initKalman1D(&kgx, Q, R, P, gyros[0], fc);
 	initKalman1D(&kgy, Q, R, P, gyros[1], fc);
@@ -92,7 +92,6 @@ static void initKalmanAccel(int16_t acc[3])
 	initKalman1D(&kax, Q, R, P, acc[0], fc);
 	initKalman1D(&kay, Q, R, P, acc[1], fc);
 	initKalman1D(&kaz, Q, R, P, acc[2], fc);
-
 #undef Q
 #undef R
 #undef P
