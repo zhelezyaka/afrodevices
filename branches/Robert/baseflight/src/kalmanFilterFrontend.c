@@ -61,8 +61,12 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define P 0.22	// estimation error covariance
 
 // working the larger jakub frame
-#define Q 2.0 	// process noise covariance
-#define	R 0.625	// measurement noise covariance
+//#define Q 2.0 	// process noise covariance
+//#define	R 0.625	// measurement noise covariance
+//#define P 0.22	// estimation error covariance
+
+#define Q 8.0 	// process noise covariance
+#define	R 0.1	// measurement noise covariance
 #define P 0.22	// estimation error covariance	<-- rise to 0.6 if it is twitchy - or lower to 0.22 for much more fun
 	float fc = 0.5f / (M_PI * F_CUT_GYRO);
 	initKalman1D(&kgx, Q, R, P, gyros[0], fc);
@@ -85,9 +89,9 @@ static void initKalmanAccel(int16_t acc[3])
 //#define	R 4.0			// measurement noise covariance
 //#define P 0.47			// estimation error covariance
 
-#define Q 0.625			// process noise covariance
-#define	R 4.0			// measurement noise covariance
-#define P 0.47			// estimation error covariance
+#define Q 0.1			// process noise covariance
+#define	R 10.0			// measurement noise covariance
+#define P 0.27			// estimation error covariance
 	float fc = 0.5f / (M_PI * F_CUT_ACC);
 	initKalman1D(&kax, Q, R, P, acc[0], fc);
 	initKalman1D(&kay, Q, R, P, acc[1], fc);

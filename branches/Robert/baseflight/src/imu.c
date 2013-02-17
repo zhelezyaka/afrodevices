@@ -1,5 +1,6 @@
 #include "board.h"
 #include "mw.h"
+#include "integrator.h"
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 float accLPFVel[3];
@@ -21,6 +22,7 @@ int16_t gyroZero[3] = { 0, 0, 0 };
 int16_t angle[2] = { 0, 0 };     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
 
 static void getEstimatedAttitude(void);
+void integratorStep();
 
 void imuInit(void)
 {
@@ -312,6 +314,8 @@ static void getEstimatedAttitude(void)
             heading = heading + 360;
     }
 #endif
+
+    integratorStep();
 }
 
 #ifdef BARO
@@ -357,6 +361,7 @@ int32_t isq(int32_t x)
 {
     return x * x;
 }
+
 void getEstimatedAltitude(void)
 {
     static uint32_t deadLine = INIT_DELAY;
@@ -365,12 +370,9 @@ void getEstimatedAltitude(void)
     static int32_t baroHigh;
     uint32_t dTime;
     int16_t error;
-    int16_t accZ;
-    static float vel = 0.0f;
+    float vel = 0.0f;
     static int32_t lastBaroAlt;
     float baroVel;
-    float rpy[3];
-    t_fp_vector accel_ned;
 
 
     if ((int32_t)(currentTime - deadLine) < UPDATE_INTERVAL)
@@ -399,43 +401,61 @@ void getEstimatedAltitude(void)
     errorAltitudeI = constrain(errorAltitudeI, -30000, 30000);
     BaroPID += (errorAltitudeI / 500); // I in range +/-60
 
-    // the accel values have to be rotated into the earth frame
-    rpy[0] = angle[ROLL] * DEG2RAD / 10.0;
-    rpy[1] = angle[PITCH] * DEG2RAD / 10.0;
-    rpy[2] = heading * DEG2RAD / 10.0;
-
-    accel_ned.A[0] = EstG.A[0];
-    accel_ned.A[1] = EstG.A[1];
-    accel_ned.A[2] = EstG.A[2];
-    rotateV(&accel_ned.V, rpy);
-    accZ = accel_ned.A[2] - acc_1G;
-//    invG = InvSqrt(isq(EstG.V.X) + isq(EstG.V.Y) + isq(EstG.V.Z));
-//    accZ = (accLPFVel[ROLL] * EstG.V.X + accLPFVel[PITCH] * EstG.V.Y + accLPFVel[YAW] * EstG.V.Z) * invG - acc_1G;
-    accZ = applyDeadband16(accZ, acc_1G / cfg.accz_deadband);
-    debug[0] = accZ;
-
-    if ( 0 == accZ) {
-    	vel = 0.0;
-    }
-    else {
-    	// Integrator - velocity, cm/sec
-    	vel += accZ * accVelScale * dTime;
-    }
+    vel = getZVelocity();
+    debug[0] = vel;
 
     baroVel = (EstAlt - lastBaroAlt) / (dTime / 1000000.0f);
     baroVel = constrain(baroVel, -300, 300); // constrain baro velocity +/- 300cm/s
     baroVel = applyDeadbandFloat(baroVel, 10); // to reduce noise near zero
     lastBaroAlt = EstAlt;
-    debug[1] = baroVel;
 
     // apply Complimentary Filter to keep near zero caluculated velocity based on baro velocity
     vel = vel * cfg.baro_cf + baroVel * (1.0f - cfg.baro_cf);
     // vel = constrain(vel, -300, 300); // constrain velocity +/- 300cm/s
-    debug[2] = vel;
-    // debug[3] = applyDeadbandFloat(vel, 5);
 
     // D
     BaroPID -= constrain(cfg.D8[PIDALT] * applyDeadbandFloat(vel, 5) / 20, -150, 150);
-    debug[3] = BaroPID;
 }
 #endif /* BARO */
+
+void integratorStep()
+{
+	// sums up the accelerometer values
+	static uint32_t _lastTime = 0;
+	uint32_t currentTime = micros();
+	float dT = (currentTime - _lastTime) * 1e-6;
+    float rpy[3];
+    t_fp_vector accel_ned;
+    int x = 0, y = 0, z = 0;
+
+
+	if (!_lastTime)
+	{
+		_lastTime = currentTime;
+		// wrong time
+		return;
+	}
+	_lastTime = currentTime;
+
+    // the accel values have to be rotated into the earth frame
+    rpy[0] = angle[ROLL] * DEG2RAD / 10.0;
+    rpy[1] = angle[PITCH] * DEG2RAD / 10.0;
+    rpy[2] = heading * DEG2RAD / 10.0;
+
+    accel_ned.A[0] = applyDeadband16(accSmooth[0], cfg.accelerometerNoise[0]);
+    accel_ned.A[1] = applyDeadband16(accSmooth[1], cfg.accelerometerNoise[1]);
+    accel_ned.A[2] = applyDeadband16(accSmooth[2], cfg.accelerometerNoise[2]);
+
+    // TODO: remove the hardcoded 1g stuff
+    accel_ned.A[0] = accel_ned.A[0] * 9.80665f / acc_1G;
+    accel_ned.A[1] = accel_ned.A[1] * 9.80665f / acc_1G;
+    accel_ned.A[2] = (accel_ned.A[2] - acc_1G) * 9.80665f / acc_1G;
+    rotateV(&accel_ned.V, rpy);
+
+    accIntegratorStep(accel_ned.A, dT);
+
+    getPosition(&x, &y, &z);
+    debug[1] = x;
+    debug[2] = y;
+    debug[3] = z;
+}

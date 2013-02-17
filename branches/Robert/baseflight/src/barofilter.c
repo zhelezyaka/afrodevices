@@ -16,7 +16,7 @@ kalman1D_t kbaro;
 /**
  * temporary solution
  */
-void baroKalmanfilterStep(int32_t *baro)
+void baroKalmanfilterStepOlder(int32_t *baro)
 {
 	static int _init = 0;
 	static uint32_t _lastTime = 0;
@@ -104,9 +104,10 @@ float term[3][3];
 /**
  * the filter is unstable - need to adjust the variance to meet with the bmp085
  */
-float baroFilter(float pressure)
+void baroKalmanfilterStep(int32_t *baro)
 {
 	static int32_t _lastTime = 0;
+	float pressure = * baro;
 	uint32_t currentTime = micros();
 	float dt = (currentTime - _lastTime) * 1e-6;
 	_lastTime = currentTime;
@@ -212,6 +213,6 @@ float baroFilter(float pressure)
 	}
 
 
-	return est[0];
+	*baro = est[0];
 }
 

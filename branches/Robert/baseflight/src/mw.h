@@ -4,7 +4,7 @@
 #define VBATFREQ 6        // to read battery voltage - nth number of loop iterations
 #define BARO_TAB_SIZE_MAX   48
 
-#define  VERSION  211
+#define  VERSION  212
 
 #define LAT  0
 #define LON  1
@@ -151,7 +151,6 @@ typedef struct config_t {
     uint8_t acc_hardware;                   // Which acc hardware to use on boards with more than one device
     uint8_t acc_lpf_factor;                 // Set the Low Pass Filter factor for ACC. Increasing this value would reduce ACC noise (visible in GUI), but would increase ACC lag time. Zero = no filter
     uint8_t acc_lpf_for_velocity;           // ACC lowpass for AccZ height hold
-    uint8_t accz_deadband;                  // ??
     uint16_t gyro_lpf;                      // mpuX050 LPF setting (TODO make it work on L3GD as well)
     uint16_t gyro_cmpf_factor;              // Set the Gyro Weight for Gyro/Acc complementary filter. Increasing this value would reduce and delay Acc influence on the output of the filter.
     uint32_t gyro_smoothing_factor;         // How much to smoothen with per axis (32bit value with Roll, Pitch, Yaw in bits 24, 16, 8 respectively
@@ -233,6 +232,9 @@ typedef struct config_t {
 
     // serial(uart1) baudrate
     uint32_t serial_baudrate;
+
+    // measured accelerometer noise
+    int16_t accelerometerNoise[3];
 
     motorMixer_t customMixer[MAX_MOTORS];   // custom mixtable
     uint8_t magic_ef;                       // magic number, should be 0xEF

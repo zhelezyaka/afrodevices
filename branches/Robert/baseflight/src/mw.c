@@ -252,7 +252,7 @@ void loop(void)
     uint8_t axis, i;
     int16_t error, errorAngle;
     int16_t delta, deltaSum;
-    int16_t PTerm, ITerm, PTermACC, ITermACC = 0, PTermGYRO = 0, ITermGYRO = 0, DTerm;
+    int16_t PTerm, ITerm, PTermACC = 0, ITermACC = 0, PTermGYRO = 0, ITermGYRO = 0, DTerm;
     static int16_t lastGyro[3] = { 0, 0, 0 };
     static int16_t delta1[3], delta2[3];
     static int16_t errorGyroI[3] = { 0, 0, 0 };

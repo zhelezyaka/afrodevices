@@ -180,7 +180,6 @@ static void resetConf(void)
     cfg.acc_hardware = ACC_DEFAULT;     // default/autodetect
     cfg.acc_lpf_factor = 4;
     cfg.acc_lpf_for_velocity = 10;
-    cfg.accz_deadband = 50;
     cfg.gyro_cmpf_factor = 400; // default MWC
     cfg.gyro_lpf = 42;
     cfg.mpu6050_scale = 1; // fuck invensense
@@ -258,6 +257,10 @@ static void resetConf(void)
 
     // serial (USART1) baudrate
     cfg.serial_baudrate = 115200;
+
+    cfg.accelerometerNoise[0] = 10;
+    cfg.accelerometerNoise[1] = 10;
+    cfg.accelerometerNoise[2] = 20;
 
     // custom mixer. clear by defaults.
     for (i = 0; i < MAX_MOTORS; i++)
