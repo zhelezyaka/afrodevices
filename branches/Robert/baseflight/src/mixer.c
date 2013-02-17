@@ -284,7 +284,9 @@ static void airplaneMixer(void)
 
 void mixTable(void)
 {
-    int16_t maxMotor;
+	int delta = 0;
+	int16_t maxMotor;
+	int16_t minMotor;
     uint32_t i;
 
     if (numberMotor > 3) {
@@ -293,6 +295,7 @@ void mixTable(void)
     }
 
     // motors for non-servo mixes
+	// TODO: reduce yaw command when it causes to exceed the max motor output
     if (numberMotor > 1)
         for (i = 0; i < numberMotor; i++)
             motor[i] = rcCommand[THROTTLE] * currentMixer[i].throttle + axisPID[PITCH] * currentMixer[i].pitch + axisPID[ROLL] * currentMixer[i].roll + cfg.yaw_direction * axisPID[YAW] * currentMixer[i].yaw;
@@ -368,12 +371,29 @@ void mixTable(void)
     }
 
     maxMotor = motor[0];
-    for (i = 1; i < numberMotor; i++)
+    minMotor = motor[0];
+    for (i = 1; i < numberMotor; i++){
         if (motor[i] > maxMotor)
             maxMotor = motor[i];
+        if (motor[i] < minMotor)
+        	minMotor = motor[i];
+    }
+    delta = 0;
+    if (f.ARMED) {
+        // check for values out of bound
+		if (maxMotor > cfg.maxthrottle)
+			delta = maxMotor - cfg.maxthrottle;
+		if (minMotor < cfg.minthrottle)
+			delta = minMotor - cfg.minthrottle;
+    }
+
     for (i = 0; i < numberMotor; i++) {
-        if (maxMotor > cfg.maxthrottle)     // this is a way to still have good gyro corrections if at least one motor reaches its max.
-            motor[i] -= maxMotor - cfg.maxthrottle;
+//        if (maxMotor > cfg.maxthrottle)     // this is a way to still have good gyro corrections if at least one motor reaches its max.
+//            motor[i] -= maxMotor - cfg.maxthrottle;
+    	// new
+    	if (delta) {
+    		motor[i] -= delta;
+    	}
         motor[i] = constrain(motor[i], cfg.minthrottle, cfg.maxthrottle);
         if ((rcData[THROTTLE]) < cfg.mincheck) {
             if (!feature(FEATURE_MOTOR_STOP))
