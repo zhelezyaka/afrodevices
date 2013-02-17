@@ -262,6 +262,7 @@ void loop(void)
     static uint32_t loopTime;
     uint16_t auxState = 0;
     int16_t prop;
+    float dT;
 
     // this will return false if spektrum is disabled. shrug.
     if (spektrumFrameComplete())
@@ -594,7 +595,7 @@ void loop(void)
         }
 
         // **** PITCH & ROLL & YAW PID ****    
-        float dT = cycleTime * 1e-6;
+        dT = cycleTime * 1e-6;
         prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
         for (axis = 0; axis < 3; axis++) {
             if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
