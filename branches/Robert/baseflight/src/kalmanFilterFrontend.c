@@ -65,7 +65,7 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define	R 0.625	// measurement noise covariance
 //#define P 0.22	// estimation error covariance
 
-#define Q 8.0 	// process noise covariance
+#define Q 10.0 	// process noise covariance
 #define	R 0.1	// measurement noise covariance
 #define P 0.22	// estimation error covariance	<-- rise to 0.6 if it is twitchy - or lower to 0.22 for much more fun
 	float fc = 0.5f / (M_PI * F_CUT_GYRO);

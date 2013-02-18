@@ -14,7 +14,7 @@
 void initKalman1D(kalman1D_t *kalmanState, float q, float r, float p, float x, float fc_cut)
 {
 	kalmanState->m_q[0] = q;
-	kalmanState->m_q[1] = q * 1e-4f;
+	kalmanState->m_q[1] = q * 1e-3f;
 	kalmanState->m_r = r;
 	kalmanState->m_p[0] = kalmanState->m_p[3] = p;
 	kalmanState->m_p[1] = kalmanState->m_p[2] = 0;
