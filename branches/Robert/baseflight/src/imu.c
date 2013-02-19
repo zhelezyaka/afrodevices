@@ -290,6 +290,8 @@ static void getEstimatedAttitude(void)
         // Attitude of the cross product vector GxM
 #if INACCURATE
         heading = _atan2f(EstG.V.X * EstM.V.Z - EstG.V.Z * EstM.V.X, EstG.V.Z * EstM.V.Y - EstG.V.Y * EstM.V.Z);
+        heading = heading + magneticDeclination;
+        heading = heading / 10;
 #else
         float rollRAD = (float)angle[ROLL] * RADX10;
         float pitchRAD = -(float)angle[PITCH] * RADX10;
@@ -305,9 +307,6 @@ static void getEstimatedAttitude(void)
         float hd = (atan2f(-Yh, Xh) * 1800.0f / M_PI + magneticDeclination) / 10.0f;
         heading = hd;                      // magnetic heading * 10
 #endif
-        heading = heading + magneticDeclination;
-        heading = heading / 10;
-
         if (heading > 180)
             heading = heading - 360;
         else if (heading < -180)
@@ -419,6 +418,57 @@ void getEstimatedAltitude(void)
 #endif /* BARO */
 
 void integratorStep()
+{
+    // sums up the accelerometer values
+    static uint32_t _lastTime = 0;
+    uint32_t currentTime = micros();
+    float dT = (currentTime - _lastTime) * 1e-6;
+    float rpy[3];
+    t_fp_vector accel_ned;
+    int x = 0, y = 0, z = 0;
+
+
+    if (!_lastTime)
+    {
+        _lastTime = currentTime;
+        // wrong time
+        return;
+    }
+    _lastTime = currentTime;
+
+    // the accel values have to be rotated into the earth frame
+    rpy[0] = -(float)angle[ROLL] * RADX10;
+    rpy[1] = -(float)angle[PITCH] * RADX10;
+    rpy[2] = -(float)heading * DEG2RAD ;
+
+//    accel_ned.V.X = accSmooth[0];
+//    accel_ned.V.Y = accSmooth[1];
+//    accel_ned.V.Z = accSmooth[2];
+    accel_ned.V.X = applyDeadband16(accSmooth[0], cfg.accelerometerNoise[0]);
+    accel_ned.V.Y = applyDeadband16(accSmooth[1], cfg.accelerometerNoise[1]);
+    accel_ned.V.Z = applyDeadband16(accSmooth[2], cfg.accelerometerNoise[2]);
+
+    rotateV(&accel_ned.V, rpy);
+
+    accel_ned.V.Z -= acc_1G;
+
+//    accel_ned.A[0] = applyDeadbandFloat(accel_ned.V.X, 10);
+//    accel_ned.A[1] = applyDeadbandFloat(accel_ned.V.Y, 10);
+//    accel_ned.A[2] = applyDeadbandFloat(accel_ned.V.Z, 20);
+
+    // TODO: remove the hardcoded 1g stuff
+    accel_ned.A[0] *=  9.80665f / acc_1G; //points left(west)
+    accel_ned.A[1] *=  9.80665f / acc_1G; //pintts back(south)
+    accel_ned.A[2] *=  9.80665f / acc_1G; //points up
+
+    accIntegratorStep(accel_ned.A, dT);
+
+    getPosition(&x, &y, &z);
+    debug[1] = x;
+    debug[2] = y;
+    debug[3] = z;
+}
+void integratorStepMe()
 {
 	// sums up the accelerometer values
 	static uint32_t _lastTime = 0;
