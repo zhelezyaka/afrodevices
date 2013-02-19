@@ -11,6 +11,7 @@
 void accIntegratorStep(float accel_ned[3], float dt);
 void getPosition(int *x, int *y, int *z);
 float getZVelocity();
+void resetIntegrator();
 
 
 #endif /* ROTATIONMATRIX_H_ */

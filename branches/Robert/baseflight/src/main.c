@@ -6,7 +6,7 @@
 
 // my 'very' own settings
 #define ROBERT
-#undef	ROBERT
+//#undef	ROBERT
 
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
@@ -85,7 +85,7 @@ int main(void)
 
 #ifdef ROBERT
     // futaba
-    cfg.midrc = 1520;
+    cfg.midrc = 1518;
     cfg.mincheck = 1150;
     cfg.maxcheck = 1850;
     cfg.looptime = 2500;

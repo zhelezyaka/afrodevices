@@ -24,38 +24,72 @@ typedef struct
 
 navStruct_t navData;
 
+void resetIntegrator()
+{
+	// update velocity
+	navData.velE = 0.0;
+	navData.velN = 0.0;
+	navData.velD = 0.0;
+
+	// update position
+	navData.posE = 0.0;
+	navData.posN = 0.0;
+	navData.alt  = 0.0;
+
+	navData.agl = 0.0;
+}
+
 void accIntegratorStep(float accel_ned[3], float dt)
 {
+	static int nullValueCounter[3] = {0,0,0};
 	int i;
-	float acc;
 	float vel[3];
-
-	// from m to cm
-	for (i = 0; i < 3; i++)
-	{
-		acc = accel_ned[i] * 100.0f;
-		accel_ned[i] = acc;
-	}
 
 	// new velocity
 	for (i = 0; i < 3; i++)
 	{
-		if (fabs(accel_ned[i]) > 1.0)
-			vel[i] = navData.velN + accel_ned[i] * dt;
-		else
-			vel[i] = 0.0;
-	}
-	// update position
-	navData.posN += (navData.velN + vel[0]) * 0.5f * dt;
-	navData.posE += (navData.velE + vel[1]) * 0.5f * dt;
-	navData.alt -= (navData.velD + vel[2]) * 0.5f * dt;
+		// from m to cm
+		accel_ned[i] *= 100.0f;
 
-	navData.agl -= (navData.velD + vel[2]) * 0.5f * dt;
+		if (fabs(accel_ned[i]) > 1.0f)
+		{
+			vel[i] = accel_ned[i] * dt;
+			nullValueCounter[i] = 0;
+		}
+		else
+		{
+			nullValueCounter[i]++;
+			if (nullValueCounter[i] > 2)
+			{
+				vel[i] = 0;
+				// reset velocity for this axe - stops the running integrator
+				switch (i)
+				{
+				case 0:
+					navData.velE = 0.0;
+					break;
+				case 1:
+					navData.velN = 0.0;
+					break;
+				case 2:
+					navData.velD = 0.0;
+					break;
+				}
+			}
+		}
+	}
 
 	// update velocity
-	navData.velN = vel[0];
-	navData.velE = vel[1];
-	navData.velD = vel[2];
+	navData.velE -= vel[0];
+	navData.velN -= vel[1];
+	navData.velD += vel[2];
+
+	// update position
+	navData.posE += navData.velE * 0.5f * dt;
+	navData.posN += navData.velN * 0.5f * dt;
+	navData.alt += navData.velD * 0.5f * dt;
+
+	navData.agl -= navData.velD * 0.5f * dt;
 }
 
 void getPosition(int *x, int *y, int *z)

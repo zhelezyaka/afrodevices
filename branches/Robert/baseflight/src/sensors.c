@@ -210,6 +210,7 @@ static void ACC_Common(void)
             cfg.accelerometerNoise[1] = (accelMax[1] - accelMin[1]) >> 1;
             cfg.accelerometerNoise[2] = (accelMax[2] - accelMin[2]) >> 1;
             writeParams(1);      // write accZero in EEPROM
+            resetIntegrator();
         }
         calibratingA--;
     }

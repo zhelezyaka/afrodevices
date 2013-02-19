@@ -13,10 +13,48 @@
 #define	F_CUT_BARO     4.0f
 kalman1D_t kbaro;
 
-/**
+/** from paul bizard at http://diydrones.com/profiles/blogs/barometric-altitude-sensor-1?id=705844%3ABlogPost%3A128591&page=5#comments
+ I am thinking about something like this:
+ Kalman filter state X: Altitude H and Altitude sensitivity coefficient C
+ X=[H,C]
+
+ Dynamic model f for the Kalman filter:
+ Hn+1 = Hn + Cn * [Pn+1 - Pn]
+ Cn+1 = Cn
+
+ The sensitivity factor Cn will be adapted by the Kalman filter.
+
+ So the linearized state transition matrix An[2x2] is:
+ 1 [Pn+1 - Pn]
+ 0 1
+
+ And the observation matrix C[1x2] is:
+ 1 0
+
+ The following computations are from Kalman.
+
+ Propagation each 25ms (each Pressure measurement):
+ Predicted state Xp(n+1) = f[X(n),P(n+1),P(n)]
+ Predicted covariance matrix Vp(n+1) = A(n) . V(n) . A*(n) + Q
+
+ Where:
+ Q is the process noise covariance matrix (to be tuned)
+ A* = transpose A
+
+ Update with each GPS measurement:
+ error dH(n) = Hgps(n) - Hp(n)
+ Residual covariance S(n) = C . Vp(n) . C* + R
+ Kalman gain K(n) = Vp(n) . C* . invS(n)
+ Updated state X(n) = Xp(n) + K(n) . dH(n)
+ Update covariance V(n) = [I - K(n) . C] . Vp(n)
+
+ Where:
+ Hgps = measured GPS altitude Hp = predicted altitude
+ invS = inverse of S
+ R is the GPS noise covariance matrix (to be tuned).
  * temporary solution
  */
-void baroKalmanfilterStepOlder(int32_t *baro)
+void baroKalmanfilterStep(int32_t *baro)
 {
 	static int _init = 0;
 	static uint32_t _lastTime = 0;
@@ -28,9 +66,8 @@ void baroKalmanfilterStepOlder(int32_t *baro)
 	{
 		_init = 1;
 #define Q 1.2			// process noise covariance
-#define	R 40.0			// measurement noise covariance
+#define	R 50.0			// measurement noise covariance
 #define P 1.6			// estimation error covariance
-
 		float tmp = *baro;
 		float fc = 0.5f / (M_PI * F_CUT_BARO);
 		initKalman1D(&kbaro, Q, R, P, tmp, fc);
@@ -45,8 +82,10 @@ void baroKalmanfilterStepOlder(int32_t *baro)
 	}
 }
 
+/**
+ *
 
-
+ */
 /*
  NAME - the instable baro filter
  kapogee.c - A third order Kalman filter for
@@ -73,7 +112,6 @@ void baroKalmanfilterStepOlder(int32_t *baro)
 #define MODELSIGMA 0.002
 #define MEASUREMENTVARIANCE MEASUREMENTSIGMA	// *MEASUREMENTSIGMA
 #define MODELVARIANCE MODELSIGMA				// *MODELSIGMA
-
 // the variables:
 int liftoff = 0;
 
@@ -83,20 +121,20 @@ float estp[3] =
 	{ 0, 0, 0 };
 float pest[3][3] =
 	{ 0.002, 0, 0,
-	  0, 0.004, 0,
-	  0, 0, 0.002 };
+					0, 0.004, 0,
+					0, 0, 0.002 };
 float pestp[3][3] =
 	{ 0, 0, 0,
-	  0, 0, 0,
-	  0, 0, 0 };
+					0, 0, 0,
+					0, 0, 0 };
 float phi[3][3] =
 	{ 1, 0, 0,
-	  0, 1, 0,
-	 0, 0, 1.0 };
+					0, 1, 0,
+					0, 0, 1.0 };
 float phit[3][3] =
 	{ 1, 0, 0,
-	  0, 1, 0,
-	  0, 0, 1.0 };
+					0, 1, 0,
+					0, 0, 1.0 };
 float gain[3] =
 	{ 0.010317, 0.010666, 0.004522 };
 float term[3][3];
@@ -104,10 +142,10 @@ float term[3][3];
 /**
  * the filter is unstable - need to adjust the variance to meet with the bmp085
  */
-void baroKalmanfilterStep(int32_t *baro)
+void baroKalmanfilterStepUnstable(int32_t *baro)
 {
 	static int32_t _lastTime = 0;
-	float pressure = * baro;
+	float pressure = *baro;
 	uint32_t currentTime = micros();
 	float dt = (currentTime - _lastTime) * 1e-6;
 	_lastTime = currentTime;
@@ -212,7 +250,68 @@ void baroKalmanfilterStep(int32_t *baro)
 		}
 	}
 
-
 	*baro = est[0];
 }
-
+//
+///* Prediction phase (each 25 ms) */
+///* ====================== */
+//{
+//	/* Input = calibarated pressure sensor */
+//	/* ---------------------------------------------- */
+//	/* Pressure variation P(n) - P(n-1)*/
+//	dP = pressure - pressure_old;
+//
+//	/* Predicted altitude */
+//	/* ------------------ */
+//	/* Note: sensitivity coefficient state[1] stays unchanged */
+//	state[0] += state[1]*dP;
+//
+//	/* Predicted covariance matrix */
+//	/* --------------------------- */
+//	/* Save Vhc */
+//	f_buff = variance[2];
+//
+//	/* Vhc = Vhc + Vc*dP */
+//	variance[2] += variance[1]*dP;
+//	/* Vc = Vc + Qc */
+//	variance[1] += Q[1];
+//	/* Vh = Vh + 2.Vhc.dP + Vc.(dP)^2 + Qh */
+//	variance[0] += (f_buff + variance[2])*dP + Q[0];
+//
+//	/* Phase (align) estimated altitude with GPS altitude (GPS has some delay) */
+//	h_filt += GPSFILT * (state[0] - h_filt);
+//
+//	/* Save pressure */
+//	pressure_old = pressure;
+//}
+//
+///* Correction phase (at GPS sampling rate) */
+///* ========================= */
+//{
+//	/* Residual covariance: RC = Vhp + R */
+//	/* --------------------------------- */
+//	RC = variance[0] + GPS_NOISE;
+//
+//	/* Kalman gain vector */
+//	/* ------------------ */
+//	/* Kalman altitude gain: Kh = Vhp/RC */
+//	Kh = variance[0]/RC;
+//
+//	/* Kalman coefficient gain: Kc = Vhc/RC */
+//	Kc = variance[2]/RC;
+//
+//	/* Altitude error */
+//	/* ----------------- */
+//	dh = hgps - h_filt;
+//
+//	/* Corrected state */
+//	/* --------------- */
+//	state[0] += Kh*dh; // h = hp + Kh*dh
+//	state[1] += Kc*dh;// c = cp + Kc*dh (note: cp = c)
+//
+//	/* Corrected state covariance matrix */
+//	/* --------------------------------- */
+//	variance[0] -= Kh*variance[0];
+//	variance[1] -= Kc*variance[2];
+//	variance[2] -= Kh*variance[2];
+//}

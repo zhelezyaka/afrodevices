@@ -1,5 +1,6 @@
 #include "board.h"
 #include "mw.h"
+#include "integrator.h"
 
 // October 2012     V2.1-dev
 
@@ -325,6 +326,7 @@ void loop(void)
                     // TODO: feature(FEATURE_FAILSAFE) && failsafeCnt == 0
                     f.ARMED = 1;
                     headFreeModeHold = heading;
+                    resetIntegrator();
                 } else if (f.ARMED)
                     f.ARMED = 0;
                 rcDelayCommand = 0;
@@ -335,6 +337,7 @@ void loop(void)
                 if (rcDelayCommand == 20) {
                     f.ARMED = 1;
                     headFreeModeHold = heading;
+                    resetIntegrator();
                 }
             } else
                 rcDelayCommand = 0;

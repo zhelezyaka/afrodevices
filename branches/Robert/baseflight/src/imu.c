@@ -452,9 +452,9 @@ void integratorStep()
 
     accel_ned.V.Z -= acc_1G;
 
-//    accel_ned.A[0] = applyDeadbandFloat(accel_ned.V.X, 10);
-//    accel_ned.A[1] = applyDeadbandFloat(accel_ned.V.Y, 10);
-//    accel_ned.A[2] = applyDeadbandFloat(accel_ned.V.Z, 20);
+//    accel_ned.A[0] = applyDeadbandFloat(accel_ned.V.X, cfg.accelerometerNoise[0]);
+//    accel_ned.A[1] = applyDeadbandFloat(accel_ned.V.Y, cfg.accelerometerNoise[1]);
+//    accel_ned.A[2] = applyDeadbandFloat(accel_ned.V.Z, cfg.accelerometerNoise[2]);
 
     // TODO: remove the hardcoded 1g stuff
     accel_ned.A[0] *=  9.80665f / acc_1G; //points left(west)
