@@ -438,6 +438,7 @@ void loop(void)
                 if (!f.BARO_MODE) {
                     f.BARO_MODE = 1;
                     AltHold = EstAlt;
+                    resetAltitude(AltHold);
                     initialThrottleHold = rcCommand[THROTTLE];
                     errorAltitudeI = 0;
                     BaroPID = 0;
@@ -528,7 +529,7 @@ void loop(void)
 #ifdef SONAR
             if (sensors(SENSOR_SONAR)) {
                 Sonar_update();
-                debug[2] = sonarAlt;
+                //debug[2] = sonarAlt;
             }
 #endif
             break;

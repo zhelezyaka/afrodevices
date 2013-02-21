@@ -10,8 +10,11 @@
 
 void accIntegratorStep(float accel_ned[3], float dt);
 void getPosition(int *x, int *y, int *z);
+float getZPosition();
 float getZVelocity();
 void resetIntegrator();
+void resetAltitude(int altHold);
+float getNedZ();
 
 
 #endif /* ROTATIONMATRIX_H_ */

@@ -66,7 +66,7 @@ void baroKalmanfilterStep(int32_t *baro)
 	{
 		_init = 1;
 #define Q 1.2			// process noise covariance
-#define	R 50.0			// measurement noise covariance
+#define	R 30.0			// measurement noise covariance
 #define P 1.6			// estimation error covariance
 		float tmp = *baro;
 		float fc = 0.5f / (M_PI * F_CUT_BARO);

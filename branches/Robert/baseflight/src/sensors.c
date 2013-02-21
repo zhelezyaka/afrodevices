@@ -314,7 +314,7 @@ void Baro_update(void)
         case 3:
             baro.get_up();
             pressure = baro.calculate();
-            baroKalmanfilterStep(&pressure);
+            //baroKalmanfilterStep(&pressure);
             BaroAlt = (1.0f - pow(pressure / 101325.0f, 0.190295f)) * 4433000.0f; // centimeter
             state = 0;
             baroDeadline += baro.repeat_delay;

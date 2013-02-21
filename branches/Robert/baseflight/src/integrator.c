@@ -12,6 +12,8 @@ float m[3][3];	// rotation matrix
 
 typedef struct
 {
+	float accNedSum;
+	int samples;
 	float velN;
 	float velE;
 	float velD;
@@ -26,12 +28,13 @@ navStruct_t navData;
 
 void resetIntegrator()
 {
-	// update velocity
+	navData.accNedSum = 0.0;
+	navData.samples = 0;
+
 	navData.velE = 0.0;
 	navData.velN = 0.0;
 	navData.velD = 0.0;
 
-	// update position
 	navData.posE = 0.0;
 	navData.posN = 0.0;
 	navData.alt  = 0.0;
@@ -90,6 +93,20 @@ void accIntegratorStep(float accel_ned[3], float dt)
 	navData.alt += navData.velD * 0.5f * dt;
 
 	navData.agl -= navData.velD * 0.5f * dt;
+
+	navData.accNedSum += accel_ned[2];
+	navData.samples++;
+}
+
+float getNedZ()
+{
+	float average = navData.accNedSum;
+	if (navData.samples > 0)
+	{
+		average /= (float) navData.samples;
+		navData.samples = 0;
+	}
+	return average;
 }
 
 void getPosition(int *x, int *y, int *z)
@@ -99,7 +116,18 @@ void getPosition(int *x, int *y, int *z)
 	*z = (int) navData.alt;
 }
 
+// centimeters
+float getZPosition()
+{
+	return navData.alt;
+}
+
 float getZVelocity()
 {
 	return navData.velD;
+}
+
+void resetAltitude(int altHold)
+{
+	navData.alt = altHold;
 }
