@@ -438,7 +438,7 @@ void loop(void)
                 if (!f.BARO_MODE) {
                     f.BARO_MODE = 1;
                     AltHold = EstAlt;
-                    resetAltitude(AltHold);
+                    resetIntegrator();
                     initialThrottleHold = rcCommand[THROTTLE];
                     errorAltitudeI = 0;
                     BaroPID = 0;
@@ -521,8 +521,14 @@ void loop(void)
             break;
         case 2:
 #ifdef BARO
-            if (sensors(SENSOR_BARO))
-                getEstimatedAltitude();
+            if (sensors(SENSOR_BARO)) {
+            	if (f.BARO_MODE) {
+            		getEstimatedAltitude();
+            	}
+            	else {
+            		BaroPID = 0;
+            	}
+            }
 #endif
             break;
         case 3:

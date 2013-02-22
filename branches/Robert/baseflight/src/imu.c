@@ -402,6 +402,7 @@ void getEstimatedAltitude(void)
 	static uint32_t deadLine = INIT_DELAY;
 	float dTime;
 	int32_t error;
+	int z = 0;
 
 	static int32_t lastBaroAlt;
 	float baroVel;
@@ -413,12 +414,16 @@ void getEstimatedAltitude(void)
 	deadLine = currentTime;
 
 	// dampen the barometer readings with the accelerometer readings (ned)
-	EstAlt = kalmanBaroCalculate(BaroAlt, getNedZ(), dTime);
+	EstAlt = kalmanBaroCalculate(BaroAlt, getNedZ(dTime), dTime);
 
 	// P
 	error = constrain(AltHold - EstAlt, -300, 300);
-	error = applyDeadband16(error, 10); // remove small P parametr to reduce noise near zero position
+	error = applyDeadband16(error, 10); // remove small P parameter to reduce noise near zero position
 	BaroPID = constrain((cfg.P8[PIDALT] * error / 100), -150, +150);
+
+	debug[0] = error;
+	z = getZPosition();
+	debug[1] = z;
 
 	// I
 	errorAltitudeI += error * cfg.I8[PIDALT] / 50;
@@ -448,7 +453,6 @@ void integratorStep()
 	float dT = (currentTime - _lastTime) * 1e-6;
 	float rpy[3];
 	t_fp_vector accel_ned;
-	int x = 0, y = 0, z = 0;
 
 	if (!_lastTime)
 	{
@@ -484,7 +488,4 @@ void integratorStep()
 	accel_ned.A[2] *= 9.80665f / acc_1G; //points up
 
 	accIntegratorStep(accel_ned.A, dT);
-
-	getPosition(&x, &y, &z);
-	debug[2] = z;
 }
