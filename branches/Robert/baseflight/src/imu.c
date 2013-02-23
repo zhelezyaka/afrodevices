@@ -417,6 +417,7 @@ void getEstimatedAltitude(void)
 	EstAlt = kalmanBaroCalculate(BaroAlt, getNedZ(dTime), dTime);
 
 	// P
+	// bumpy error = constrain(AltHold - EstAlt - z, -300, 300);
 	error = constrain(AltHold - EstAlt, -300, 300);
 	error = applyDeadband16(error, 10); // remove small P parameter to reduce noise near zero position
 	BaroPID = constrain((cfg.P8[PIDALT] * error / 100), -150, +150);
@@ -441,6 +442,9 @@ void getEstimatedAltitude(void)
 
 	// D
 	//BaroPID -= constrain(cfg.D8[PIDALT] * applyDeadbandFloat(vel, 5) / 20, -150, 150);
+   	if (!f.BARO_MODE) {
+   		BaroPID = 0;
+   	}
 }
 
 #endif /* BARO */

@@ -522,12 +522,7 @@ void loop(void)
         case 2:
 #ifdef BARO
             if (sensors(SENSOR_BARO)) {
-            	if (f.BARO_MODE) {
-            		getEstimatedAltitude();
-            	}
-            	else {
-            		BaroPID = 0;
-            	}
+             		getEstimatedAltitude();
             }
 #endif
             break;
