@@ -13,6 +13,7 @@ void getPosition(int *x, int *y, int *z);
 float getZPosition();
 void resetIntegrator();
 float getNedZ(float dt);
+float getZVelocity();
 
 
 #endif /* ROTATIONMATRIX_H_ */

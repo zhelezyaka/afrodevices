@@ -10,7 +10,7 @@
 #include "kalman1D.h"
 
 // just bad for the large jakub frame #define	F_CUT_BARO     10.0f
-#define	F_CUT_BARO     4.0f
+#define	F_CUT_BARO     2.0f
 kalman1D_t kbaro;
 
 /** from paul bizard at http://diydrones.com/profiles/blogs/barometric-altitude-sensor-1?id=705844%3ABlogPost%3A128591&page=5#comments

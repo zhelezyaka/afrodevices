@@ -6,7 +6,7 @@
  */
 
 #include "board.h"
-#include "integrator.h"
+#include "simpleIntegrator.h"
 
 float m[3][3];	// rotation matrix
 #define	F_CUT_ACCNED     2.0f
@@ -111,8 +111,8 @@ float getNedZ(float dt)
 		average /= (float) navData.samples;
 		navData.samples = 0;
 	}
-	//lastVal = lastVal + (dt / (fc_ned + dt)) * (average - lastVal);
-	return average;
+	lastVal = lastVal + (dt / (fc_ned + dt)) * (average - lastVal);
+	return lastVal;
 }
 
 // centimeters
@@ -129,3 +129,7 @@ float getZPosition()
 	return navData.alt;
 }
 
+float getZVelocity()
+{
+	return navData.velD;
+}

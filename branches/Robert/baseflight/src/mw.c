@@ -1,6 +1,6 @@
 #include "board.h"
 #include "mw.h"
-#include "integrator.h"
+#include "simpleintegrator.h"
 
 // October 2012     V2.1-dev
 

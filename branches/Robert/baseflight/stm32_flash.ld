@@ -17,7 +17,7 @@ _estack = 0x20005000;    /* end of 10K RAM */
 
 /* Generate a link error if heap and stack don't fit into RAM */
 _Min_Heap_Size = 0;      /* required amount of heap  */
-_Min_Stack_Size = 0x400; /* required amount of stack */
+_Min_Stack_Size = 0x600; /* required amount of stack */
 
 /* Specify the memory areas */
 MEMORY
@@ -116,6 +116,11 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
   } >RAM
+
+PROVIDE( _HEAP_START = _ebss );
+
+/* end of the heap -> align 8 byte */ 
+PROVIDE ( _HEAP_END = ALIGN(ORIGIN(RAM) + LENGTH(RAM) - 8 ,8) );
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :

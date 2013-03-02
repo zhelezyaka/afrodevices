@@ -1,6 +1,6 @@
 #include "board.h"
 #include "mw.h"
-#include "integrator.h"
+#include "simpleintegrator.h"
 #include "baroFusion.h"
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
@@ -399,22 +399,38 @@ int32_t isq(int32_t x)
 
 void getEstimatedAltitude(void)
 {
-	static uint32_t deadLine = INIT_DELAY;
-	float dTime;
-	int32_t error;
-	int z = 0;
+    static uint32_t deadLine = INIT_DELAY;
+    static int16_t baroHistTab[BARO_TAB_SIZE_MAX];
+    static int8_t baroHistIdx;
+    static int32_t baroHigh;
+    float dTime;
+    int16_t error;
+    static float vel = 0.0f;
+    static int32_t lastBaroAlt;
+    float baroVel, z;
+    float accZ;
 
-	static int32_t lastBaroAlt;
-	float baroVel;
+    if ((int32_t)(currentTime - deadLine) < UPDATE_INTERVAL)
+        return;
 
-	if ((int32_t)(currentTime - deadLine) < UPDATE_INTERVAL)
-		return;
-
-	dTime = (currentTime - deadLine)  * 1e-6;
+    dTime = (currentTime - deadLine)  * 1e-6;
 	deadLine = currentTime;
 
-	// dampen the barometer readings with the accelerometer readings (ned)
-	EstAlt = kalmanBaroCalculate(BaroAlt, getNedZ(dTime), dTime);
+    // **** Alt. Set Point stabilization PID ****
+    baroHistTab[baroHistIdx] = BaroAlt / 10;
+    baroHigh += baroHistTab[baroHistIdx];
+    baroHigh -= baroHistTab[(baroHistIdx + 1) % cfg.baro_tab_size];
+
+    baroHistIdx++;
+    if (baroHistIdx == cfg.baro_tab_size)
+        baroHistIdx = 0;
+
+    EstAlt = EstAlt * cfg.baro_noise_lpf + (baroHigh * 10.0f / (cfg.baro_tab_size - 1)) * (1.0f - cfg.baro_noise_lpf); // additional LPF to reduce baro noise
+
+    accZ = getNedZ(dTime);
+
+    // dampen the barometer readings with the accelerometer readings (ned)
+	EstAlt = kalmanBaroCalculate(EstAlt, accZ, dTime);
 
 	// P
 	// bumpy error = constrain(AltHold - EstAlt - z, -300, 300);
@@ -431,20 +447,22 @@ void getEstimatedAltitude(void)
 	errorAltitudeI = constrain(errorAltitudeI, -30000, 30000);
 	BaroPID += (errorAltitudeI / 500); // I in range +/-60
 
-	baroVel = (EstAlt - lastBaroAlt) / (dTime);
-	baroVel = constrain(baroVel, -300, 300); // constrain baro velocity +/- 300cm/s
-	baroVel = applyDeadbandFloat(baroVel, 10); // to reduce noise near zero
-	lastBaroAlt = EstAlt;
+    accZ = applyDeadband16(accZ, acc_1G / cfg.accelerometerNoise[2]);
+    debug[2] = accZ;
 
-	// apply Complimentary Filter to keep near zero caluculated velocity based on baro velocity
-	//vel = vel * cfg.baro_cf + baroVel * (1.0f - cfg.baro_cf);
-	// vel = constrain(vel, -300, 300); // constrain velocity +/- 300cm/s
+    vel += accZ * accVelScale * dTime;
 
-	// D
-	//BaroPID -= constrain(cfg.D8[PIDALT] * applyDeadbandFloat(vel, 5) / 20, -150, 150);
-   	if (!f.BARO_MODE) {
-   		BaroPID = 0;
-   	}
+    baroVel = (EstAlt - lastBaroAlt) / (dTime);
+    baroVel = constrain(baroVel, -300, 300); // constrain baro velocity +/- 300cm/s
+    baroVel = applyDeadbandFloat(baroVel, 10); // to reduce noise near zero
+    lastBaroAlt = EstAlt;
+
+    // apply Complimentary Filter to keep near zero caluculated velocity based on baro velocity
+    vel = vel * cfg.baro_cf + baroVel * (1.0f - cfg.baro_cf);
+    // vel = constrain(vel, -300, 300); // constrain velocity +/- 300cm/s
+
+    // D
+    BaroPID -= constrain(cfg.D8[PIDALT] * applyDeadbandFloat(vel, 5) / 20, -150, 150);
 }
 
 #endif /* BARO */
