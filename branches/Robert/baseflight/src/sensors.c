@@ -37,7 +37,7 @@ void sensorsAutodetect(void)
     bool havel3g4200d = false;
 
     // Autodetect gyro hardware. We have MPU3050 or MPU6050.
-    if (mpu6050Detect(&acc, &gyro, cfg.mpu6050_scale)) {
+    if (mpu6050Detect(&acc, &gyro, &cfg.mpu6050_scale)) {
         // this filled up  acc.* struct with init values
         haveMpu6k = true;
     } else if (l3g4200dDetect(&gyro)) {
@@ -61,7 +61,7 @@ retry:
             ; // fallthrough
        case 2: // MPU6050
             if (haveMpu6k) {
-                mpu6050Detect(&acc, &gyro, cfg.mpu6050_scale); // yes, i'm rerunning it again.  re-fill acc struct
+                mpu6050Detect(&acc, &gyro, &cfg.mpu6050_scale); // yes, i'm rerunning it again.  re-fill acc struct
                 accHardware = ACC_MPU6050;
                 if (cfg.acc_hardware == ACC_MPU6050)
                     break;
@@ -179,8 +179,6 @@ static void ACC_Common(void)
 {
     static int32_t a[3];
     int axis;
-    int16_t accelMin[3] = { 2048, 2048, 2048 };
-    int16_t accelMax[3] = { -2048, -2048, -2048 };
 
     if (calibratingA > 0) {
         for (axis = 0; axis < 3; axis++) {
@@ -189,9 +187,6 @@ static void ACC_Common(void)
                 a[axis] = 0;
             // Sum up 400 readings
             a[axis] += accADC[axis];
-
-            accelMax[axis] = max(accelMax[axis], accADC[axis]);
-            accelMin[axis] = min(accelMin[axis], accADC[axis]);
 
             // Clear global variables for next reading
             accADC[axis] = 0;
@@ -204,11 +199,6 @@ static void ACC_Common(void)
             cfg.accZero[YAW] = a[YAW] / 400 - acc_1G;       // for nunchuk 200=1G
             cfg.angleTrim[ROLL] = 0;
             cfg.angleTrim[PITCH] = 0;
-
-            // the measured noise
-            cfg.accelerometerNoise[0] = (accelMax[0] - accelMin[0]) >> 1;
-            cfg.accelerometerNoise[1] = (accelMax[1] - accelMin[1]) >> 1;
-            cfg.accelerometerNoise[2] = (accelMax[2] - accelMin[2]) >> 1;
             writeParams(1);      // write accZero in EEPROM
             resetIntegrator();
         }

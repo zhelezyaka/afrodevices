@@ -234,7 +234,7 @@ typedef struct config_t {
     uint32_t serial_baudrate;
 
     // measured accelerometer noise
-    int16_t accelerometerNoise[3];
+    int16_t accz_deadband;
 
     motorMixer_t customMixer[MAX_MOTORS];   // custom mixtable
     uint8_t magic_ef;                       // magic number, should be 0xEF
