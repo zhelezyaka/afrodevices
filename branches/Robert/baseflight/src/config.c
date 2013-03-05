@@ -12,7 +12,7 @@
 config_t cfg;
 const char rcChannelLetters[] = "AERT1234";
 
-static uint8_t EEPROM_CONF_VERSION = 37;
+static uint8_t EEPROM_CONF_VERSION = 38;
 static uint32_t enabledSensors = 0;
 static void resetConf(void);
 
