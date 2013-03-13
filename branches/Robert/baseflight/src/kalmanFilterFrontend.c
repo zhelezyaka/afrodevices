@@ -23,13 +23,9 @@ KalmanFilter kgx;
 KalmanFilter kgy;
 KalmanFilter kgz;
 
+// could create two filters - but the
 KalmanFilter alloc_filter_1d(float P, float Q, float R)
 {
-	/* The state model has three dimensions:
-	 x, x', x''
-	 Each time step we can only observe position, not velocity and acceleration,
-	 so the observation vector has only one dimension.
-	 */
 	KalmanFilter f = alloc_filter(1, 1);
 
 	set_identity_matrix(&f.state_transition);
