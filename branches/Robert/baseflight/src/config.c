@@ -161,8 +161,8 @@ static void resetConf(void)
     // cfg.P8[PIDVEL] = 0;
     // cfg.I8[PIDVEL] = 0;
     // cfg.D8[PIDVEL] = 0;
-    cfg.rcRate8 = 90;
-    cfg.rcExpo8 = 65;
+    cfg.rcRate8 = 99;
+    cfg.rcExpo8 = 20;
     // cfg.rollPitchRate = 0;
     // cfg.yawRate = 0;
     // cfg.dynThrPID = 0;

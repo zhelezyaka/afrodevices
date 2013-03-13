@@ -1,7 +1,8 @@
 #include "board.h"
 #include "mw.h"
 #include "simpleIntegrator.h"
-#include "baroFusion.h"
+#include "kalman.h"
+#include "acc_integrator.h"
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 float accLPFVel[3];
@@ -259,14 +260,14 @@ static void getEstimatedAttitude(void)
         rotateV(&EstM.V, deltaGyroAngle);
 
     if (abs(accSmooth[ROLL]) < acc_25deg && abs(accSmooth[PITCH]) < acc_25deg && accSmooth[YAW] > 0)
-        f.SMALL_ANGLES_25 = 1;
+        baroFilter.SMALL_ANGLES_25 = 1;
     else
-        f.SMALL_ANGLES_25 = 0;
+        baroFilter.SMALL_ANGLES_25 = 0;
 
     // Apply complimentary filter (Gyro drift correction)
     // If accel magnitude >1.4G or <0.6G and ACC vector outside of the limit range => we neutralize the effect of accelerometers in the angle estimation.
     // To do that, we just skip filter, as EstV already rotated by Gyro
-    if ((36 < accMag && accMag < 196) || f.SMALL_ANGLES_25) {
+    if ((36 < accMag && accMag < 196) || baroFilter.SMALL_ANGLES_25) {
         for (axis = 0; axis < 3; axis++)
             EstG.A[axis] = (EstG.A[axis] * (float)cfg.gyro_cmpf_factor + accSmooth[axis]) * INV_GYR_CMPF_FACTOR;
     }
@@ -369,10 +370,11 @@ void getEstimatedAltitude(void)
     static int32_t baroHigh;
     uint32_t dTime;
     int16_t error;
+    float invG;
     int16_t accZ;
     static float vel = 0.0f;
     static int32_t lastBaroAlt;
-    float baroVel, z;
+    float baroVel;
 
     if ((int32_t)(currentTime - deadLine) < UPDATE_INTERVAL)
         return;
@@ -385,32 +387,28 @@ void getEstimatedAltitude(void)
     baroHigh -= baroHistTab[(baroHistIdx + 1) % cfg.baro_tab_size];
 
     baroHistIdx++;
-    if (baroHistIdx == cfg.baro_tab_size) 
+    if (baroHistIdx == cfg.baro_tab_size)
         baroHistIdx = 0;
 
     EstAlt = EstAlt * cfg.baro_noise_lpf + (baroHigh * 10.0f / (cfg.baro_tab_size - 1)) * (1.0f - cfg.baro_noise_lpf); // additional LPF to reduce baro noise
-
-    accZ = getNedZ(dTime);
-
-    // dampen the barometer readings with the accelerometer readings (ned)
-	EstAlt = kalmanBaroCalculate(EstAlt, accZ, dTime);
 
     // P
     error = constrain(AltHold - EstAlt, -300, 300);
     error = applyDeadband16(error, 10); // remove small P parametr to reduce noise near zero position
     BaroPID = constrain((cfg.P8[PIDALT] * error / 100), -150, +150);
 
-	debug[0] = error;
-	z = getZPosition();
-	debug[1] = z;
-
     // I
     errorAltitudeI += error * cfg.I8[PIDALT] / 50;
     errorAltitudeI = constrain(errorAltitudeI, -30000, 30000);
     BaroPID += (errorAltitudeI / 500); // I in range +/-60
 
+    // projection of ACC vector to global Z, with 1G subtructed
+    // Math: accZ = A * G / |G| - 1G
+    invG = InvSqrt(isq(EstG.V.X) + isq(EstG.V.Y) + isq(EstG.V.Z));
+    accZ = (accLPFVel[ROLL] * EstG.V.X + accLPFVel[PITCH] * EstG.V.Y + accLPFVel[YAW] * EstG.V.Z) * invG - acc_1G;
+    //accZ = getNedZ();
     accZ = applyDeadband16(accZ, acc_1G / cfg.accz_deadband);
-    debug[0] = accZ;
+    //debug[0] = accZ;
 
     // Integrator - velocity, cm/sec
     vel += accZ * accVelScale * dTime;
@@ -419,7 +417,7 @@ void getEstimatedAltitude(void)
     baroVel = constrain(baroVel, -300, 300); // constrain baro velocity +/- 300cm/s
     baroVel = applyDeadbandFloat(baroVel, 10); // to reduce noise near zero
     lastBaroAlt = EstAlt;
-    debug[1] = baroVel;
+    //debug[1] = baroVel;
 
     // apply Complimentary Filter to keep near zero caluculated velocity based on baro velocity
     vel = vel * cfg.baro_cf + baroVel * (1.0f - cfg.baro_cf);
@@ -431,6 +429,7 @@ void getEstimatedAltitude(void)
     BaroPID -= constrain(cfg.D8[PIDALT] * applyDeadbandFloat(vel, 5) / 20, -150, 150);
     debug[3] = BaroPID;
 }
+
 #endif /* BARO */
 
 
@@ -446,6 +445,7 @@ void integratorStep()
 	if (!_lastTime)
 	{
 		_lastTime = currentTime;
+		init_integrator();
 		// wrong time
 		return;
 	}
@@ -477,4 +477,8 @@ void integratorStep()
 	accel_ned.A[2] *= 9.80665f / acc_1G; //points up
 
 	accIntegratorStep(accel_ned.A, dT);
+
+	// the time varying  kalman filter
+	float nedZ = acc_integrator_step(accel_ned.A[2], dT);
+	debug[0] = nedZ;
 }

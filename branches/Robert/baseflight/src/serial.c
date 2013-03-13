@@ -191,7 +191,7 @@ static void evaluateCommand(void)
         headSerialReply(0);
         break;
     case MSP_SET_RAW_GPS:
-        f.GPS_FIX = read8();
+        baroFilter.GPS_FIX = read8();
         GPS_numSat = read8();
         GPS_coord[LAT] = read32();
         GPS_coord[LON] = read32();
@@ -238,9 +238,9 @@ static void evaluateCommand(void)
         serialize16(cycleTime);
         serialize16(i2cGetErrorCounter());
         serialize16(sensors(SENSOR_ACC) | sensors(SENSOR_BARO) << 1 | sensors(SENSOR_MAG) << 2 | sensors(SENSOR_GPS) << 3 | sensors(SENSOR_SONAR) << 4);
-        serialize32(f.ANGLE_MODE << BOXANGLE | f.HORIZON_MODE << BOXHORIZON | f.BARO_MODE << BOXBARO | f.MAG_MODE << BOXMAG | f.ARMED << BOXARM | 
+        serialize32(baroFilter.ANGLE_MODE << BOXANGLE | baroFilter.HORIZON_MODE << BOXHORIZON | baroFilter.BARO_MODE << BOXBARO | baroFilter.MAG_MODE << BOXMAG | baroFilter.ARMED << BOXARM | 
                     rcOptions[BOXCAMSTAB] << BOXCAMSTAB | rcOptions[BOXCAMTRIG] << BOXCAMTRIG | 
-                    f.GPS_HOME_MODE << BOXGPSHOME | f.GPS_HOLD_MODE << BOXGPSHOLD | f.HEADFREE_MODE << BOXHEADFREE | f.PASSTHRU_MODE << BOXPASSTHRU | 
+                    baroFilter.GPS_HOME_MODE << BOXGPSHOME | baroFilter.GPS_HOLD_MODE << BOXGPSHOLD | baroFilter.HEADFREE_MODE << BOXHEADFREE | baroFilter.PASSTHRU_MODE << BOXPASSTHRU | 
                     rcOptions[BOXBEEPERON] << BOXBEEPERON | rcOptions[BOXLEDMAX] << BOXLEDMAX | rcOptions[BOXLLIGHTS] << BOXLLIGHTS | rcOptions[BOXHEADADJ] << BOXHEADADJ);
         break;
     case MSP_RAW_IMU:
@@ -269,7 +269,7 @@ static void evaluateCommand(void)
         break;
     case MSP_RAW_GPS:
         headSerialReply(14);
-        serialize8(f.GPS_FIX);
+        serialize8(baroFilter.GPS_FIX);
         serialize8(GPS_numSat);
         serialize32(GPS_coord[LAT]);
         serialize32(GPS_coord[LON]);
@@ -364,7 +364,7 @@ static void evaluateCommand(void)
         headSerialReply(0);
         break;
     case MSP_MAG_CALIBRATION:
-        f.CALIBRATE_MAG = 1;
+        baroFilter.CALIBRATE_MAG = 1;
         headSerialReply(0);
         break;
     case MSP_EEPROM_WRITE:
@@ -465,7 +465,7 @@ void serialCom(void)
             c_state = IDLE;
         }
     }
-    if (!cliMode && !uartAvailable() && feature(FEATURE_TELEMETRY) && f.ARMED) { // The first 2 conditions should never evaluate to true but I'm putting it here anyway - silpstream
+    if (!cliMode && !uartAvailable() && feature(FEATURE_TELEMETRY) && baroFilter.ARMED) { // The first 2 conditions should never evaluate to true but I'm putting it here anyway - silpstream
         sendTelemetry();
         return;
     }

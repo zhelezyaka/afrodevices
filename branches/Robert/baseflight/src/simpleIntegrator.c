@@ -9,9 +9,6 @@
 #include "simpleIntegrator.h"
 
 float m[3][3];	// rotation matrix
-#define	F_CUT_ACCNED     2.0f
-
-float fc_ned = 0.5f / (M_PI * F_CUT_ACCNED);
 
 typedef struct
 {
@@ -102,17 +99,15 @@ void accIntegratorStep(float accel_ned[3], float dt)
 }
 
 // average the samples since the last reading
-float getNedZ(float dt)
+float getNedZ()
 {
-	static float lastVal = 0.0;
 	float average = navData.accNedSum;
 	if (navData.samples > 0)
 	{
 		average /= (float) navData.samples;
 		navData.samples = 0;
 	}
-	lastVal = lastVal + (dt / (fc_ned + dt)) * (average - lastVal);
-	return lastVal;
+	return average;
 }
 
 // centimeters

@@ -271,10 +271,10 @@ void GPS_NewData(uint16_t c)
             GPS_update = 0;
         else
             GPS_update = 1;
-        if (f.GPS_FIX && GPS_numSat >= 5) {
-            if (!f.ARMED)
-                f.GPS_FIX_HOME = 0;
-            if (!f.GPS_FIX_HOME && f.ARMED)
+        if (baroFilter.GPS_FIX && GPS_numSat >= 5) {
+            if (!baroFilter.ARMED)
+                baroFilter.GPS_FIX_HOME = 0;
+            if (!baroFilter.GPS_FIX_HOME && baroFilter.ARMED)
                 GPS_reset_home_position();
             // Apply moving average filter to GPS data
 #if defined(GPS_FILTERING)
@@ -309,7 +309,7 @@ void GPS_NewData(uint16_t c)
             GPS_distanceToHome = dist / 100;
             GPS_directionToHome = dir / 100;
             
-            if (!f.GPS_FIX_HOME) {      // If we don't have home set, do not display anything
+            if (!baroFilter.GPS_FIX_HOME) {      // If we don't have home set, do not display anything
                 GPS_distanceToHome = 0;
                 GPS_directionToHome = 0;
             }
@@ -317,7 +317,7 @@ void GPS_NewData(uint16_t c)
             // calculate the current velocity based on gps coordinates continously to get a valid speed at the moment when we start navigating
             GPS_calc_velocity();
 
-            if (f.GPS_HOLD_MODE || f.GPS_HOME_MODE) { // ok we are navigating
+            if (baroFilter.GPS_HOLD_MODE || baroFilter.GPS_HOME_MODE) { // ok we are navigating
                 // do gps nav calculations here, these are common for nav and poshold
                 GPS_distance_cm_bearing(&GPS_coord[LAT], &GPS_coord[LON], &GPS_WP[LAT], &GPS_WP[LON], &wp_distance, &target_bearing);
                 GPS_calc_location_error(&GPS_WP[LAT], &GPS_WP[LON], &GPS_coord[LAT], &GPS_coord[LON]);
@@ -358,13 +358,13 @@ void GPS_NewData(uint16_t c)
 
 void GPS_reset_home_position(void)
 {
-    if (f.GPS_FIX && GPS_numSat >= 5) {
+    if (baroFilter.GPS_FIX && GPS_numSat >= 5) {
         GPS_home[LAT] = GPS_coord[LAT];
         GPS_home[LON] = GPS_coord[LON];
         GPS_calc_longitude_scaling(GPS_coord[LAT]); // need an initial value for distance and bearing calc
         nav_takeoff_bearing = heading;              // save takeoff heading
         // Set ground altitude
-        f.GPS_FIX_HOME = 1;
+        baroFilter.GPS_FIX_HOME = 1;
     }
 }
 
@@ -807,7 +807,7 @@ static bool GPS_NMEA_newFrame(char c)
             } else if (param == 5 && string[0] == 'W')
                 GPS_coord[LON] = -GPS_coord[LON];
             else if (param == 6) {
-                f.GPS_FIX = string[0] > '0';
+                baroFilter.GPS_FIX = string[0] > '0';
             } else if (param == 7) {
                 GPS_numSat = grab_fields(string, 0);
             } else if (param == 9) {
@@ -1051,18 +1051,18 @@ static bool UBLOX_parse_gps(void)
         GPS_coord[LON] = _buffer.posllh.longitude;
         GPS_coord[LAT] = _buffer.posllh.latitude;
         GPS_altitude = _buffer.posllh.altitude_msl / 10 / 100;  //alt in m
-        f.GPS_FIX = next_fix;
+        baroFilter.GPS_FIX = next_fix;
         _new_position = true;
         break;
     case MSG_STATUS:
         next_fix = (_buffer.status.fix_status & NAV_STATUS_FIX_VALID) && (_buffer.status.fix_type == FIX_3D);
         if (!next_fix)
-            f.GPS_FIX = false;
+            baroFilter.GPS_FIX = false;
         break;
     case MSG_SOL:
         next_fix = (_buffer.solution.fix_status & NAV_STATUS_FIX_VALID) && (_buffer.solution.fix_type == FIX_3D);
         if (!next_fix)
-            f.GPS_FIX = false;
+            baroFilter.GPS_FIX = false;
         GPS_numSat = _buffer.solution.satellites;
         // GPS_hdop                        = _buffer.solution.position_DOP;
         // debug[3] = GPS_hdop;

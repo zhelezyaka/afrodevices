@@ -242,7 +242,7 @@ static void airplaneMixer(void)
         servomid[i] = 1500 + cfg.servotrim[i]; // servo center is 1500?
     }
 
-    if (!f.ARMED)
+    if (!baroFilter.ARMED)
         motor[0] = cfg.mincommand; // Kill throttle when disarmed
     else
         motor[0] = rcData[THROTTLE];
@@ -268,7 +268,7 @@ static void airplaneMixer(void)
         servo[2] = servomid[2] + (slowFlaps * cfg.servoreverse[2]);
     }
 
-    if (f.PASSTHRU_MODE) { // Direct passthru from RX
+    if (baroFilter.PASSTHRU_MODE) { // Direct passthru from RX
         servo[3] = servomid[3] + ((rcCommand[ROLL] + flapperons[0]) * cfg.servoreverse[3]);     //   Wing 1
         servo[4] = servomid[4] + ((rcCommand[ROLL] + flapperons[1]) * cfg.servoreverse[4]);     //   Wing 2
         servo[5] = servomid[5] + (rcCommand[YAW] * cfg.servoreverse[5]);                        //   Rudder
@@ -322,7 +322,7 @@ void mixTable(void)
 
         case MULTITYPE_FLYING_WING:
             motor[0] = rcCommand[THROTTLE];
-            if (f.PASSTHRU_MODE) {
+            if (baroFilter.PASSTHRU_MODE) {
                 // do not use sensors for correction, simple 2 channel mixing
                 servo[0]  = cfg.pitch_direction_l * (rcData[PITCH] - cfg.midrc) + cfg.roll_direction_l * (rcData[ROLL] - cfg.midrc);
                 servo[1]  = cfg.pitch_direction_r * (rcData[PITCH] - cfg.midrc) + cfg.roll_direction_r * (rcData[ROLL] - cfg.midrc);
@@ -379,7 +379,7 @@ void mixTable(void)
         	minMotor = motor[i];
     }
     delta = 0;
-    if (f.ARMED) {
+    if (baroFilter.ARMED) {
         // check for values out of bound
 		if (maxMotor > cfg.maxthrottle)
 			delta = maxMotor - cfg.maxthrottle;
@@ -401,7 +401,7 @@ void mixTable(void)
             else
                 motor[i] = cfg.mincommand;
         }
-        if (!f.ARMED)
+        if (!baroFilter.ARMED)
             motor[i] = cfg.mincommand;
     }
 }

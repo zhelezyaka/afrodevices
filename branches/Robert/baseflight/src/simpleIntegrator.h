@@ -12,7 +12,7 @@ void accIntegratorStep(float accel_ned[3], float dt);
 void getPosition(int *x, int *y, int *z);
 float getZPosition();
 void resetIntegrator();
-float getNedZ(float dt);
+float getNedZ();
 float getZVelocity();
 
 

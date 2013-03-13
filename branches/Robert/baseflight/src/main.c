@@ -92,6 +92,7 @@ int main(void)
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
     cfg.acc_hardware = ACC_MPU6050;
     cfg.mpu6050_scale = 1;
+    //cfg.looptime = 3500;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
 #endif
@@ -160,7 +161,7 @@ int main(void)
     if (cfg.mixerConfiguration == MULTITYPE_GIMBAL)
         calibratingA = 400;
     calibratingG = 1000;
-    f.SMALL_ANGLES_25 = 1;
+    baroFilter.SMALL_ANGLES_25 = 1;
 
     // loopy
     while (1) {

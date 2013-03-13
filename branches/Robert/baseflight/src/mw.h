@@ -313,7 +313,7 @@ extern int8_t   nav_mode;                                    // Navigation mode
 extern int16_t  nav_rated[2];                                // Adding a rate controller to the navigation to make it smoother
 
 extern config_t cfg;
-extern flags_t f;
+extern flags_t baroFilter;
 extern sensor_t acc;
 extern sensor_t gyro;
 extern baro_t baro;

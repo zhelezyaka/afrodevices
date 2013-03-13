@@ -3,7 +3,8 @@
 PROJECT=baseflight
 
 CC = arm-none-eabi-gcc
-OPT = -Os -std=c99
+OPT = -O2 -std=c99
+//OPT = -DDEBUG -std=c99
 OBJCOPY = arm-none-eabi-objcopy
 
 RM = rm -rf
@@ -15,8 +16,13 @@ LINK_SCRIPT=stm32_flash.ld
 
 # Assembler, Compiler and Linker flags and linker script settings
 LINKER_FLAGS=-lm -mthumb -mcpu=cortex-m3 -Wl,--gc-sections -T$(LINK_SCRIPT) -static -Wl,-cref "-Wl,-Map=$(BIN_DIR)/$(PROJECT).map" -Wl,--defsym=malloc_getpagesize_P=0x1000
-ASSEMBLER_FLAGS=-c $(OPT) -mcpu=cortex-m3 -mthumb -x assembler-with-cpp -Isrc -Ilib/STM32F10x_StdPeriph_Driver/inc -Ilib/CMSIS/CM3/CoreSupport -Ilib/CMSIS/CM3/DeviceSupport/ST/STM32F10x
-COMPILER_FLAGS=-c -mcpu=cortex-m3 $(OPT) -Wall -ffunction-sections -fdata-sections -mthumb -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -Isrc -Ilib/STM32F10x_StdPeriph_Driver/inc -Ilib/CMSIS/CM3/CoreSupport -Ilib/CMSIS/CM3/DeviceSupport/ST/STM32F10x
+ASSEMBLER_FLAGS=-c -g -mthumb -mcpu=cortex-m3 $(OPT) -x assembler-with-cpp -Isrc -Ilib/STM32F10x_StdPeriph_Driver/inc -Ilib/CMSIS/CM3/CoreSupport -Ilib/CMSIS/CM3/DeviceSupport/ST/STM32F10x
+COMPILER_FLAGS=-c -g -mthumb -mcpu=cortex-m3   $(OPT) -Wall -ffunction-sections -fdata-sections -mthumb -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -Isrc -Ilib/STM32F10x_StdPeriph_Driver/inc -Ilib/CMSIS/CM3/CoreSupport -Ilib/CMSIS/CM3/DeviceSupport/ST/STM32F10x
+
+#LINKER_FLAGS=-lm -mthumb -mcpu=cortex-m3 -Wl,--gc-sections -T$(LINK_SCRIPT) -static  -Wl,-cref "-Wl,-Map=$(BIN_DIR)/$(PROJECT).map" -Wl,--defsym=malloc_getpagesize_P=0x1000
+#LINK_SCRIPT="stm32_flash.ld"
+#ASSEMBLER_FLAGS=-c -g -O0 -mcpu=cortex-m3 -mthumb  -x assembler-with-cpp  -Isrc -Ilib\STM32F10x_StdPeriph_Driver\inc -Ilib\CMSIS\Device\ST\STM32F10x\Include -Ilib\CMSIS\Include
+#COMPILER_FLAGS=-c -g -mcpu=cortex-m3 -O0 -Wall -ffunction-sections -fdata-sections -mthumb -D"STM32F10X_MD" -D"USE_STDPERIPH_DRIVER"   -Isrc -Ilib\STM32F10x_StdPeriph_Driver\inc -Ilib\CMSIS\Device\ST\STM32F10x\Include -Ilib\CMSIS\CM3/CoreSupport 
 
 # Define sources and objects
 #

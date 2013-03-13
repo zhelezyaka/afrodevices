@@ -21,12 +21,12 @@ void buzzer(uint8_t warn_vbat)
     }
     //===================== Beeps for failsafe =====================
     if (feature(FEATURE_FAILSAFE)) {
-        if (failsafeCnt > (5 * cfg.failsafe_delay) && f.ARMED) {
+        if (failsafeCnt > (5 * cfg.failsafe_delay) && baroFilter.ARMED) {
             warn_failsafe = 1;      //set failsafe warning level to 1 while landing
             if (failsafeCnt > 5 * (cfg.failsafe_delay + cfg.failsafe_off_delay))
                 warn_failsafe = 2;  //start "find me" signal after landing   
         }
-        if (failsafeCnt > (5 * cfg.failsafe_delay) && !f.ARMED)
+        if (failsafeCnt > (5 * cfg.failsafe_delay) && !baroFilter.ARMED)
             warn_failsafe = 2;      // tx turned off while motors are off: start "find me" signal
         if (failsafeCnt == 0)
             warn_failsafe = 0;      // turn off alarm if TX is okay
@@ -34,7 +34,7 @@ void buzzer(uint8_t warn_vbat)
 
     //===================== GPS fix notification handling =====================
     if (sensors(SENSOR_GPS)) {
-        if ((rcOptions[BOXGPSHOME] || rcOptions[BOXGPSHOLD]) && !f.GPS_FIX) {     // if no fix and gps funtion is activated: do warning beeps
+        if ((rcOptions[BOXGPSHOME] || rcOptions[BOXGPSHOLD]) && !baroFilter.GPS_FIX) {     // if no fix and gps funtion is activated: do warning beeps
             warn_noGPSfix = 1;
         } else {
             warn_noGPSfix = 0;
@@ -58,7 +58,7 @@ void buzzer(uint8_t warn_vbat)
         beep_code('S','S','M','D');
     else if (warn_vbat == 1)
         beep_code('S','M','N','D');
-    else if (warn_runtime == 1 && f.ARMED)
+    else if (warn_runtime == 1 && baroFilter.ARMED)
         beep_code('S','S','M','N');                 // Runtime warning
     else if (toggleBeep > 0)
         beep(50);                                   // fast confirmation beep

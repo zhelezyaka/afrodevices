@@ -34,7 +34,7 @@ void ledringState(void)
     } else if (state == 2) {
         b[0] = 'd';		// all unicolor GREEN 
         b[1] = 1;
-        if (f.ARMED)
+        if (baroFilter.ARMED)
             b[2] = 1;
         else
             b[2] = 0;

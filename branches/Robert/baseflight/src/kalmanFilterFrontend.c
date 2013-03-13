@@ -10,43 +10,58 @@
 #include <stdint.h>
 #include "board.h"
 #include "kalmanFilterFrontend.h"
-#include "kalman1D.h"
+#include "kalman.h"
 #include "barofilter.h"
 
-// the cutoff frequencies for the gyroscope and accelerometer
-#define	F_CUT_GYRO   250.0f
-#define	F_CUT_ACC    200.0f
-
 // accelerometer
-kalman1D_t kax;
-kalman1D_t kay;
-kalman1D_t kaz;
+KalmanFilter kax;
+KalmanFilter kay;
+KalmanFilter kaz;
 
 // gyro
-kalman1D_t kgx;
-kalman1D_t kgy;
-kalman1D_t kgz;
+KalmanFilter kgx;
+KalmanFilter kgy;
+KalmanFilter kgz;
 
-/*
- http://hicode.wordpress.com/2011/10/21/1-d-kalman-filter-for-smoothing-gps-accelerometer-signals/
- //http://en.wikipedia.org/wiki/Kalman_filter
- //run kalman filtering
- //x_k = Ax_{k-1} + Bu_k + w_k
- //z_k = Hx_k+v_k
- //time update
- //x_k = Ax_{k-1} + Uu_k
- //P_k = AP_{k-1}A^T + Q
- //measurement update
- //K_k = P_k H^T(HP_kH^T + R)^T
- //x_k = x_k + K_k(z_k - Hx_k)
- //P_k = (I - K_kH)P_k
+KalmanFilter alloc_filter_1d(float P, float Q, float R)
+{
+	/* The state model has three dimensions:
+	 x, x', x''
+	 Each time step we can only observe position, not velocity and acceleration,
+	 so the observation vector has only one dimension.
+	 */
+	KalmanFilter f = alloc_filter(1, 1);
 
- a = 1.0;
- h = 1.0;
- p = 0.1;
- q = 0.001;
- r = 10;
- */
+	set_identity_matrix(&f.state_transition);
+
+	/* We observe (x) in each time step */
+	{
+		const float values[] = { 1.0, 1.0, 0.0 };
+		set_matrix(&f.observation_model, sizeof(values) / sizeof(values[0]), values);
+	}
+
+	/* Noise in the world. */
+	set_identity_matrix_value(&f.process_noise_covariance, Q);
+
+	/* Noise in our observation */
+	set_identity_matrix_value(&f.observation_noise_covariance, R);
+
+	/* The start position is totally unknown, so give a high variance */
+	scale_matrix(&f.state_estimate, 0.0);
+	set_identity_matrix_value(&f.estimate_covariance, P);
+
+	return f;
+}
+
+int16_t kalman_filter_step(KalmanFilter *f, int16_t val)
+{
+		const float values[] = { val};
+		set_matrix(&f->observation, sizeof(values) / sizeof(values[0]), values);
+		update(f);
+		// the position will be returned
+		return (int16_t) f->state_estimate.data[0][0];
+}
+
 
 static void initKalmanGyro(int16_t gyros[3])
 {
@@ -60,22 +75,14 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define	R 0.01	// measurement noise covariance
 //#define P 0.22	// estimation error covariance
 
-// working the larger jakub frame
-//#define Q 2.0 	// process noise covariance
-//#define	R 0.625	// measurement noise covariance
-//#define P 0.22	// estimation error covariance
+	const float p = 0.22;
+	const float q = 10.0;
+	const float r = 0.1;
 
-#define Q 15.0 	// process noise covariance
-#define	R 0.2	// measurement noise covariance
-#define P 0.22	// estimation error covariance	<-- rise to 0.6 if it is twitchy - or lower to 0.22 for much more fun
-	float fc = 0.5f / (M_PI * F_CUT_GYRO);
-	initKalman1D(&kgx, Q, R, P, gyros[0], fc);
-	initKalman1D(&kgy, Q, R, P, gyros[1], fc);
-	initKalman1D(&kgz, Q, R, P, gyros[2], fc);
+	kgx = alloc_filter_1d(p, q, r);
+	kgy = alloc_filter_1d(p, q, r);
+	kgz = alloc_filter_1d(p, q, r);
 
-#undef Q
-#undef R
-#undef P
 }
 
 static void initKalmanAccel(int16_t acc[3])
@@ -84,31 +91,19 @@ static void initKalmanAccel(int16_t acc[3])
 //#define Q 0.0625		// process noise covariance
 //#define	R 1.0		// measurement noise covariance
 //#define P 0.22		// estimation error covariance
+	const float p = 0.22;
+	const float q = 0.1;
+	const float r = 10.0;
 
-//#define Q 0.0625		// process noise covariance
-//#define	R 4.0			// measurement noise covariance
-//#define P 0.47			// estimation error covariance
-
-#define Q 0.2			// process noise covariance
-#define	R 10.0			// measurement noise covariance
-#define P 0.27			// estimation error covariance
-	float fc = 0.5f / (M_PI * F_CUT_ACC);
-	initKalman1D(&kax, Q, R, P, acc[0], fc);
-	initKalman1D(&kay, Q, R, P, acc[1], fc);
-	initKalman1D(&kaz, Q, R, P, acc[2], fc);
-#undef Q
-#undef R
-#undef P
+	kax = alloc_filter_1d(p, q, r);
+	kay = alloc_filter_1d(p, q, r);
+	kaz = alloc_filter_1d(p, q, r);
 }
+
 
 void accelKalmanfilterStep(int16_t acc[3])
 {
 	static int _init = 0;
-	static int32_t _lastTime = 0;
-	uint32_t currentTime = micros();
-	float dT = (currentTime - _lastTime) * 1e-6;
-	_lastTime = currentTime;
-
 	if (!_init)
 	{
 		_init = 1;
@@ -116,21 +111,15 @@ void accelKalmanfilterStep(int16_t acc[3])
 	}
 	else
 	{
-		kalman1DUpdate(&kax, &acc[0], dT);
-		kalman1DUpdate(&kay, &acc[1], dT);
-		kalman1DUpdate(&kaz, &acc[2], dT);
+		acc[0] = (int16_t)kalman_filter_step(&kax, acc[0]);
+		acc[1] = (int16_t)kalman_filter_step(&kay, acc[1]);
+		acc[2] = (int16_t)kalman_filter_step(&kaz, acc[2]);
 	}
-
 }
 
 void gyroKalmanfilterStep(int16_t gyros[3])
 {
 	static int _init = 0;
-	static uint32_t _lastTime = 0;
-	uint32_t currentTime = micros();
-	float dT = (currentTime - _lastTime) * 1e-6;
-	_lastTime = currentTime;
-
 	if (!_init)
 	{
 		_init = 1;
@@ -138,8 +127,8 @@ void gyroKalmanfilterStep(int16_t gyros[3])
 	}
 	else
 	{
-		kalman1DUpdate(&kgx, &gyros[0], dT);
-		kalman1DUpdate(&kgy, &gyros[1], dT);
-		kalman1DUpdate(&kgz, &gyros[2], dT);
+		gyros[0] = (int16_t)kalman_filter_step(&kgx, gyros[0]);
+		gyros[1] = (int16_t)kalman_filter_step(&kgy, gyros[1]);
+		gyros[2] = (int16_t)kalman_filter_step(&kgz, gyros[2]);
 	}
 }

@@ -517,14 +517,14 @@ void Mag_getADC(void)
     magADC[PITCH] = magADC[PITCH] * magCal[PITCH];
     magADC[YAW]   = magADC[YAW]   * magCal[YAW];
 
-    if (f.CALIBRATE_MAG) {
+    if (baroFilter.CALIBRATE_MAG) {
         tCal = t;
         for (axis = 0; axis < 3; axis++) {
             cfg.magZero[axis] = 0;
             magZeroTempMin[axis] = magADC[axis];
             magZeroTempMax[axis] = magADC[axis];
         }
-        f.CALIBRATE_MAG = 0;
+        baroFilter.CALIBRATE_MAG = 0;
     }
 
     if (magInit) {              // we apply offset only once mag calibration is done
