@@ -188,16 +188,25 @@ typedef struct config_t {
     uint16_t tri_yaw_min;                   // tail servo min
     uint16_t tri_yaw_max;                   // tail servo max
 
-    // flying wing related configuration
+    // flying wing/airplane related configuration
     uint16_t wing_left_min;                 // min/mid/max servo travel
     uint16_t wing_left_mid;
     uint16_t wing_left_max;
     uint16_t wing_right_min;
     uint16_t wing_right_mid;
     uint16_t wing_right_max;
-
-    int8_t pitch_direction_l;               // left servo - pitch orientation
-    int8_t pitch_direction_r;               // right servo - pitch orientation (opposite sign to pitch_direction_l if servos are mounted mirrored)
+    uint16_t pitch_min;
+    uint16_t pitch_mid;
+    uint16_t pitch_max;
+    uint16_t yaw_min;
+    uint16_t yaw_mid;
+    uint16_t yaw_max;
+    int8_t flaperons;						// enable (1) / disable (0) flaperon function
+    int8_t flap_aux;						// which AUX channel use to toggle flaps
+    int8_t vtail;							// airplane tail configuration, X (elev + rudd) [0] or V tail [1]
+    int8_t pitch_direction;					// airplane pitch servo orientation
+    int8_t pitch_direction_l;               // (Flying-wing only) left servo - pitch orientation
+    int8_t pitch_direction_r;               // (Flying-wing only) right servo - pitch orientation (opposite sign to pitch_direction_l if servos are mounted mirrored)
     int8_t roll_direction_l;                // left servo - roll orientation
     int8_t roll_direction_r;                // right servo - roll orientation  (same sign as ROLL_DIRECTION_L, if servos are mounted in mirrored orientation)
 

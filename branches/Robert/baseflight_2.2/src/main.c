@@ -63,7 +63,7 @@ int main(void)
     cfg.acc_lpf_factor = 0;
     mcfg.looptime = 0;
 #else
-    pwm_params.usePPM = getFeature(FEATURE_PPM);
+    pwm_params.usePPM = feature(FEATURE_PPM);
 #endif
 
     // configure power ADC
