@@ -274,7 +274,7 @@ void ACC_getADC(void)
 void Baro_Common(void)
 {
     static int32_t baroHistTab[BARO_TAB_SIZE_MAX];
-    static int baroHistIdx;
+    static int baroHistIdx = 0;
     int indexplus1;
 
     indexplus1 = (baroHistIdx + 1);

@@ -57,14 +57,14 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define P 0.22	// estimation error covariance
 
 // working the larger jakub frame
-//#define Q 10.0 	// process noise covariance
-//#define	R 0.1	// measurement noise covariance
-//#define P 0.22	// estimation error covariance
+#define Q 10.0 	// process noise covariance
+#define	R 0.1	// measurement noise covariance
+#define P 0.22	// estimation error covariance
 
-	// working the larger jakub frame
-	#define Q 1.0 	// process noise covariance
-	#define	R 0.0625	// measurement noise covariance
-	#define P 0.22	// estimation error covariance
+//	// working the larger jakub frame
+//	#define Q 1.0 	// process noise covariance
+//	#define	R 0.0625	// measurement noise covariance
+//	#define P 0.22	// estimation error covariance
 
 	initKalman1D(&kgx, Q, R, P, gyros[0]);
 	initKalman1D(&kgy, Q, R, P, gyros[1]);
@@ -86,13 +86,13 @@ static void initKalmanAccel(int16_t acc[3])
 //#define	R 4.0			// measurement noise covariance
 //#define P 0.47			// estimation error covariance
 
-//#define Q 0.1			// process noise covariance
-//#define	R 10.0			// measurement noise covariance
-//#define P 0.22			// estimation error covariance
-
-#define Q 0.0625			// process noise covariance
-#define	R 1.0			// measurement noise covariance
+#define Q 0.1			// process noise covariance
+#define	R 10.0			// measurement noise covariance
 #define P 0.22			// estimation error covariance
+
+//#define Q 0.0625			// process noise covariance
+//#define	R 1.0			// measurement noise covariance
+//#define P 0.22			// estimation error covariance
 
 	initKalman1D(&kax, Q, R, P, acc[0]);
 	initKalman1D(&kay, Q, R, P, acc[1]);

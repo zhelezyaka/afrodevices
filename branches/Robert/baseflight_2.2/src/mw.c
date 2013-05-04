@@ -708,8 +708,8 @@ void loop(void)
         prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
         for (axis = 0; axis < 3; axis++) {
             if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
-                // 50 degrees max inclination
-                errorAngle = constrain(2 * rcCommand[axis] + GPS_angle[axis], -500, +500) - angle[axis] + cfg.angleTrim[axis];
+                // 60 degrees max inclination
+                errorAngle = constrain(2 * rcCommand[axis] + GPS_angle[axis], -600, +600) - angle[axis] + cfg.angleTrim[axis];
                 PTermACC = (int32_t)errorAngle * cfg.P8[PIDLEVEL] / 100; // 32 bits is needed for calculation: errorAngle*P8[PIDLEVEL] could exceed 32768   16 bits is ok for result
                 PTermACC = constrain(PTermACC, -cfg.D8[PIDLEVEL] * 5, +cfg.D8[PIDLEVEL] * 5);
 
