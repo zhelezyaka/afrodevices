@@ -493,6 +493,7 @@ void loop(void)
                 if (!f.BARO_MODE) {
                     f.BARO_MODE = 1;
                     AltHold = EstAlt;
+                    setAltitudeHold(EstAlt);
                     initialThrottleHold = rcCommand[THROTTLE];
                     errorAltitudeI = 0;
                     BaroPID = 0;
@@ -621,7 +622,7 @@ void loop(void)
     }
 
     currentTime = micros();
-    if (mcfg.looptime == 0 || (int32_t)(currentTime - loopTime) >= 0) {
+    if (1 /*mcfg.looptime == 0 || (int32_t)(currentTime - loopTime) >= 0*/ ) {
         loopTime = currentTime + mcfg.looptime;
 
         computeIMU();
@@ -662,6 +663,7 @@ void loop(void)
                     } else {
                         if (isAltHoldChanged) {
                             AltHold = EstAlt;
+                            setAltitudeHold(EstAlt);
                             isAltHoldChanged = 0;
                         }
                         rcCommand[THROTTLE] = initialThrottleHold + BaroPID;
@@ -679,6 +681,7 @@ void loop(void)
                         isAltHoldChanged = 1;
                     } else if (isAltHoldChanged) {
                         AltHold = EstAlt;
+                        setAltitudeHold(EstAlt);
                         isAltHoldChanged = 0;
                     }
                     rcCommand[THROTTLE] = initialThrottleHold + BaroPID;

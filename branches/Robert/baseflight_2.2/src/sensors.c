@@ -148,6 +148,31 @@ void batteryInit(void)
     batteryWarningVoltage = i * mcfg.vbatmincellvoltage; // 3.3V per cell minimum, configurable in CLI
 }
 
+
+void sampleMemsDevices(float samples_gyroADC[3], float samples_accADC[3])
+{
+	int16_t i;
+	int16_t sample_gyroADC[3] = {0,0,0};
+	int16_t sample_accADC[3] = {0,0,0};
+
+    if (sensors(SENSOR_ACC)) {
+    	acc.read(sample_accADC);
+    }
+    gyro.read(sample_gyroADC);
+
+    if (!calibratingG) {
+    	// filter is active when not calibrating
+       	accelKalmanfilterStep(sample_accADC);
+       	gyroKalmanfilterStep(sample_gyroADC);
+    }
+
+    // save the individual samples
+    for (i = 0; i < 3; i++) {
+    	samples_gyroADC[i] += sample_gyroADC[i];
+    	samples_accADC[i] += sample_accADC[i];
+    }
+}
+
 // ALIGN_GYRO = 0,
 // ALIGN_ACCEL = 1,
 // ALIGN_MAG = 2
@@ -183,7 +208,7 @@ static void ACC_Common(void)
             // Sum up 400 readings
             a[axis] += accADC[axis];
             // Clear global variables for next reading
-            accADC[axis] = 0;
+            // accADC[axis] = 0;
             mcfg.accZero[axis] = 0;
         }
         // Calculate average, shift Z down by acc_1G and store values in EEPROM at end of calibration
@@ -218,7 +243,7 @@ static void ACC_Common(void)
                 // Sum up 50 readings
                 b[axis] += accADC[axis];
                 // Clear global variables for next reading
-                accADC[axis] = 0;
+                //accADC[axis] = 0;
                 mcfg.accZero[axis] = 0;
             }
             // all values are measured
@@ -254,7 +279,7 @@ static void ACC_Common(void)
 
 void ACC_getADC(void)
 {
-    acc.read(accADC);
+    // done in sample devices: acc.read(accADC);
     // if we have CUSTOM alignment configured, user is "assumed" to know what they're doing
     if (mcfg.align[ALIGN_ACCEL][0])
         alignSensors(ALIGN_ACCEL, accADC);
@@ -262,12 +287,6 @@ void ACC_getADC(void)
         acc.align(accADC);
 
     ACC_Common();
-
-    // filter the accelerometer data
-    if (!calibratingA) {
-    	// filter is active when not calibrating
-    	accelKalmanfilterStep(accADC);
-    }
 }
 
 #ifdef BARO
@@ -368,7 +387,7 @@ static void GYRO_Common(void)
             g[axis] += gyroADC[axis];
             devPush(&var[axis], gyroADC[axis]);
             // Clear global variables for next reading
-            gyroADC[axis] = 0;
+            //gyroADC[axis] = 0;
             gyroZero[axis] = 0;
             if (calibratingG == 1) {
                 float dev = devStandardDeviation(&var[axis]);
@@ -387,6 +406,7 @@ static void GYRO_Common(void)
         }
         calibratingG--;
     }
+
     for (axis = 0; axis < 3; axis++) {
         gyroADC[axis] -= gyroZero[axis];
         //anti gyro glitch, limit the variation between two consecutive readings
@@ -398,7 +418,7 @@ static void GYRO_Common(void)
 void Gyro_getADC(void)
 {
     // range: +/- 8192; +/- 2000 deg/sec
-    gyro.read(gyroADC);
+    // done in sampleMemsDevices: gyro.read(gyroADC);
     // if we have CUSTOM alignment configured, user is "assumed" to know what they're doing
     if (mcfg.align[ALIGN_GYRO][0])
         alignSensors(ALIGN_GYRO, gyroADC);
@@ -406,11 +426,6 @@ void Gyro_getADC(void)
         gyro.align(gyroADC);
 
     GYRO_Common();
-
-    if (!calibratingG) {
-    	// filter is active when not calibrating
-    	gyroKalmanfilterStep(gyroADC);
-    }
 }
 
 #ifdef MAG

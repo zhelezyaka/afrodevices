@@ -386,11 +386,13 @@ void annexCode(void);
 void computeIMU(void);
 void blinkLED(uint8_t num, uint8_t wait, uint8_t repeat);
 int getEstimatedAltitude(void);
+void setAltitudeHold(int altitude);
 
 // Sensors
 void sensorsAutodetect(void);
 void batteryInit(void);
 uint16_t batteryAdcToVoltage(uint16_t src);
+void sampleMemsDevices(float samples_gyroADC[3], float samples_accADC[3]);
 void ACC_getADC(void);
 int Baro_update(void);
 void Gyro_getADC(void);

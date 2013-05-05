@@ -1,5 +1,6 @@
 #include "board.h"
 #include "mw.h"
+#include "kalmanFilterFrontend.h"
 
 // my 'very' own settings
 #define ROBERT
@@ -20,7 +21,10 @@ static void _putc(void *p, char c)
 
 int main(void)
 {
-    uint8_t i;
+	extern float samples_gyroADC[3], samples_accADC[3];
+	extern volatile uint8_t doTimerUpdate;
+
+    uint8_t i, sampleCount;
     drv_pwm_config_t pwm_params;
     drv_adc_config_t adc_params;
 
@@ -60,7 +64,7 @@ int main(void)
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
     mcfg.acc_hardware = ACC_MPU6050;
 	mcfg.mixerConfiguration = MULTITYPE_QUADP;
-    cfg.acc_lpf_factor = 0;
+    cfg.acc_lpf_factor = 4;
     mcfg.looptime = 0;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
@@ -158,7 +162,25 @@ int main(void)
 
     // loopy
     while (1) {
-        loop();
+    	if (doTimerUpdate) {
+    		// each milli second
+    		sampleCount++;
+    		doTimerUpdate = false;
+    		sampleMemsDevices(samples_gyroADC, samples_accADC);
+
+    		if (sampleCount >= 3) {
+    			for (i = 0; i < 3; i++)
+    			{
+    				accADC[i] = samples_accADC[i] / (float) sampleCount;
+    				gyroADC[i] = samples_gyroADC[i] / (float) sampleCount;
+
+    				samples_accADC[i] = 0.0;
+    				samples_gyroADC[i] = 0.0;
+    			}
+    			loop();
+    			sampleCount = 0;
+    		}
+    	}
     }
 }
 

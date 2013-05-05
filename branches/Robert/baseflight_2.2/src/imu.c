@@ -1,6 +1,8 @@
 #include "board.h"
 #include "mw.h"
 
+float samples_gyroADC[3], samples_accADC[3];
+
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 float accLPFVel[3];
 int16_t acc_25deg = 0;
@@ -43,35 +45,18 @@ void computeIMU(void)
 {
     uint32_t axis;
     static int16_t gyroADCprevious[3] = { 0, 0, 0 };
-    int16_t gyroADCp[3];
-    int16_t gyroADCinter[3];
-    static uint32_t timeInterleave = 0;
     static int16_t gyroYawSmooth = 0;
 
     if (sensors(SENSOR_ACC)) {
         ACC_getADC();
-        getEstimatedAttitude();
-    }
-
+     }
     Gyro_getADC();
 
-    for (axis = 0; axis < 3; axis++)
-        gyroADCp[axis] = gyroADC[axis];
-    timeInterleave = micros();
-    annexCode();
-
-    if ((micros() - timeInterleave) > 650) {
-        annex650_overrun_count++;
-    } else {
-        while ((micros() - timeInterleave) < 650);  // empirical, interleaving delay between 2 consecutive reads
-    }
-
-    Gyro_getADC();
     for (axis = 0; axis < 3; axis++) {
-        gyroADCinter[axis] = gyroADC[axis] + gyroADCp[axis];
-        // empirical, we take a weighted value of the current and the previous values
-        gyroData[axis] = (gyroADCinter[axis] + gyroADCprevious[axis]) / 3;
-        gyroADCprevious[axis] = gyroADCinter[axis] / 2;
+         // empirical !?!
+        gyroData[axis] = (gyroADC[axis] + gyroADCprevious[axis]) * 0.5;
+        gyroADC[axis] = gyroData[axis];
+        gyroADCprevious[axis] = gyroData[axis];
         if (!sensors(SENSOR_ACC))
             accADC[axis] = 0;
     }
@@ -93,6 +78,9 @@ void computeIMU(void)
         gyroData[YAW] = (gyroYawSmooth * 2 + gyroData[YAW]) / 3;
         gyroYawSmooth = gyroData[YAW];
     }
+
+    getEstimatedAttitude();
+    annexCode();
 }
 
 // **************************************************
@@ -188,7 +176,7 @@ static int16_t _atan2f(float y, float x)
 }
 
 // Use original baseflight angle calculation
-// #define BASEFLIGHT_CALC
+#define BASEFLIGHT_CALC
 static float invG;
 
 static void getEstimatedAttitude(void)
@@ -311,14 +299,23 @@ int16_t applyDeadband(int16_t value, int16_t deadband)
     return value;
 }
 
+static float estimationError	= 0.0;
+static float hDotEstimate		= 0.0f;
+static float hEstimate			= 0.0;
+
+void setAltitudeHold(int altitude)
+{
+	estimationError = 0.0;
+	hDotEstimate = 0.0;
+	hEstimate = altitude;
+	EstAlt = altitude;
+}
+
 int getEstimatedAltitude(void)
 {
     static int32_t baroGroundPressure;
     static uint32_t previousT;
 
-    static float estimationError	= 0.0;
-    static float hDotEstimate		= 0.0f;
-    static float hEstimate			= 0.0;
 
     uint32_t currentT = micros();
     uint32_t dTime;

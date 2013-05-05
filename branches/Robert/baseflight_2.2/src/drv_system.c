@@ -12,6 +12,8 @@ static volatile uint32_t usTicks = 0;
 // current uptime for 1kHz systick timer. will rollover after 49 days. hopefully we won't care.
 static volatile uint32_t sysTickUptime = 0;
 
+uint8_t volatile doTimerUpdate = false;
+
 static void cycleCounterInit(void)
 {
     RCC_ClocksTypeDef clocks;
@@ -23,6 +25,7 @@ static void cycleCounterInit(void)
 void SysTick_Handler(void)
 {
     sysTickUptime++;
+    doTimerUpdate = true;
 }
 
 // Return system uptime in microseconds (rollover in 70minutes)
@@ -91,7 +94,7 @@ void systemInit(void)
     cycleCounterInit();
 
     // SysTick
-    SysTick_Config(SystemCoreClock / 1000);
+    SysTick_Config(SystemCoreClock / 1000 - 1);
 
     // Configure the rest of the stuff
 #ifndef FY90Q
