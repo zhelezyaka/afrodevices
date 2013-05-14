@@ -25,10 +25,15 @@ int16_t angle[2] = { 0, 0 };     // absolute angle inclination in multiple of 0.
 static void getEstimatedAttitude(void);
 void integratorStep();
 
+#define	F_CUT_ACC_NED     20.0f
+float fc_acc_ned;
+
 void imuInit(void)
 {
     acc_25deg = acc_1G * 0.423f;
     accVelScale = 9.80665f / acc_1G / 10000.0f;
+
+    fc_acc_ned = 0.5f / (M_PI * F_CUT_ACC_NED);
 
 #ifdef MAG
     // if mag sensor is enabled, use it
@@ -362,12 +367,14 @@ int32_t isq(int32_t x)
     return x * x;
 }
 
+
 void getEstimatedAltitude(void)
 {
     static uint32_t deadLine = INIT_DELAY;
     static int16_t baroHistTab[BARO_TAB_SIZE_MAX];
     static int8_t baroHistIdx;
     static int32_t baroHigh;
+    static float dTerm = 0.0;
     uint32_t dTime;
     int16_t error;
     float invG;
@@ -380,6 +387,7 @@ void getEstimatedAltitude(void)
         return;
     dTime = currentTime - deadLine;
     deadLine = currentTime;
+    dTime *= 1e-6;
 
     // **** Alt. Set Point stabilization PID ****
     baroHistTab[baroHistIdx] = BaroAlt / 10;
@@ -405,19 +413,26 @@ void getEstimatedAltitude(void)
     // projection of ACC vector to global Z, with 1G subtructed
     // Math: accZ = A * G / |G| - 1G
     invG = InvSqrt(isq(EstG.V.X) + isq(EstG.V.Y) + isq(EstG.V.Z));
+
+
     accZ = (accLPFVel[ROLL] * EstG.V.X + accLPFVel[PITCH] * EstG.V.Y + accLPFVel[YAW] * EstG.V.Z) * invG - acc_1G;
+
+    // pt1 at 20 hz
+    dTerm = dTerm + (dTime / (fc_acc_ned + dTime)) * ((float) accZ - dTerm);
+    accZ = dTerm;
+
     //accZ = getNedZ();
-    accZ = applyDeadband16(accZ, acc_1G / cfg.accz_deadband);
-    //debug[0] = accZ;
+    //accZ = applyDeadband16(accZ, acc_1G / cfg.accz_deadband);
+    debug[0] = accZ;
 
     // Integrator - velocity, cm/sec
     vel += accZ * accVelScale * dTime;
 
-    baroVel = (EstAlt - lastBaroAlt) / (dTime / 1000000.0f);
+    baroVel = (EstAlt - lastBaroAlt) / (dTime);
     baroVel = constrain(baroVel, -300, 300); // constrain baro velocity +/- 300cm/s
     baroVel = applyDeadbandFloat(baroVel, 10); // to reduce noise near zero
     lastBaroAlt = EstAlt;
-    //debug[1] = baroVel;
+    debug[1] = baroVel;
 
     // apply Complimentary Filter to keep near zero caluculated velocity based on baro velocity
     vel = vel * cfg.baro_cf + baroVel * (1.0f - cfg.baro_cf);
@@ -471,9 +486,9 @@ void integratorStep()
 //    accel_ned.A[2] = applyDeadbandFloat(accel_ned.V.Z, cfg.accelerometerNoise[2]);
 
 	// TODO: remove the hardcoded 1g stuff
-	accel_ned.A[0] *= 9.80665f / acc_1G; //points left(west)
-	accel_ned.A[1] *= 9.80665f / acc_1G; //pintts back(south)
-	accel_ned.A[2] *= 9.80665f / acc_1G; //points up
+	accel_ned.A[0] *= 9.8065f / acc_1G; //points left(west)
+	accel_ned.A[1] *= 9.8065f / acc_1G; //pintts back(south)
+	accel_ned.A[2] *= 9.8065f / acc_1G; //points up
 
 	accIntegratorStep(accel_ned.A, dT);
 }
