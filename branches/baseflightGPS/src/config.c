@@ -133,12 +133,12 @@ static void resetConf(void)
     setFeature(FEATURE_VBAT);
 
     // cfg.looptime = 0;
-    cfg.P8[ROLL] = 40;
-    cfg.I8[ROLL] = 30;
-    cfg.D8[ROLL] = 23;
-    cfg.P8[PITCH] = 40;
-    cfg.I8[PITCH] = 30;
-    cfg.D8[PITCH] = 23;
+    cfg.P8[ROLL] = 50;
+    cfg.I8[ROLL] = 45;
+    cfg.D8[ROLL] = 31;
+    cfg.P8[PITCH] = 50;
+    cfg.I8[PITCH] = 45;
+    cfg.D8[PITCH] = 31;
     cfg.P8[YAW] = 55;
     cfg.I8[YAW] = 45;
     // cfg.D8[YAW] = 0;

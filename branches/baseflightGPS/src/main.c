@@ -85,7 +85,7 @@ int main(void)
 
 #ifdef ROBERT
     // futaba
-    cfg.midrc = 1518;
+    cfg.midrc = 1538;
     cfg.mincheck = 1150;
     cfg.maxcheck = 1850;
     setFeature(FEATURE_PPM);

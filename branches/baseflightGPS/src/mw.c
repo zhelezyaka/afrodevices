@@ -4,7 +4,7 @@
 
 // October 2012     V2.1-dev
 
-#define F_CUT   20.0f
+#define F_CUT   17.0f
 #define RC      0.5f / (M_PI * F_CUT)
 
 flags_t flightMode;
