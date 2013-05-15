@@ -6,7 +6,7 @@
 
 // my 'very' own settings
 #define ROBERT
-#undef	ROBERT
+//#undef	ROBERT
 
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
@@ -90,7 +90,7 @@ int main(void)
     cfg.maxcheck = 1850;
     setFeature(FEATURE_PPM);
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
-//    cfg.acc_hardware = ACC_MPU6050;
+    cfg.acc_hardware = ACC_MPU6050;
 //    cfg.mpu6050_scale = 1;
     //cfg.looptime = 3000;
     cfg.acc_lpf_factor = 0;
