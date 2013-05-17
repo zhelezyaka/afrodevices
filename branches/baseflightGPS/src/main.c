@@ -6,7 +6,7 @@
 
 // my 'very' own settings
 #define ROBERT
-//#undef	ROBERT
+#undef	ROBERT
 
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;

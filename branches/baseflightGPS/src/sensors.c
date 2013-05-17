@@ -271,7 +271,8 @@ void ACC_getADC(void)
     ACC_Common();
 
     // filter the accelerometer data
-    accelKalmanfilterStep(accADC);
+    if (!calibratingG)
+    	accelKalmanfilterStep(accADC);
 }
 
 #ifdef BARO
@@ -404,7 +405,8 @@ void Gyro_getADC(void)
         gyro.align(gyroADC);
 
     GYRO_Common();
-    gyroKalmanfilterStep(gyroADC);
+    if (!calibratingG)
+    	gyroKalmanfilterStep(gyroADC);
 }
 
 #ifdef MAG
