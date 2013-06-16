@@ -3,7 +3,7 @@
 
 // my 'very' own settings
 #define ROBERT
-//#undef	ROBERT
+#undef	ROBERT
 
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
@@ -61,11 +61,14 @@ int main(void)
     mcfg.acc_hardware = ACC_MPU6050;
 	mcfg.mixerConfiguration = MULTITYPE_QUADP;
     cfg.acc_lpf_factor = 0;
-	// not higher than 500hz
-    mcfg.looptime = 2000;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
 #endif
+
+	// not higher than 500hz
+    if (mcfg.looptime < 2000) {
+    	mcfg.looptime = 2000;
+    }
 
     // configure power ADC
     if (mcfg.power_adc_channel > 0 && (mcfg.power_adc_channel == 1 || mcfg.power_adc_channel == 9))

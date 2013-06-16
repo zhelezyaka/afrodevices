@@ -712,6 +712,7 @@ void loop(void)
         dT = cycleTime * 1e-6;
         prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
         for (axis = 0; axis < 3; axis++) {
+        	PTermACC = 0.0;
             if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
                 // 50 degrees max inclination
                 errorAngle = constrain(2 * rcCommand[axis] + GPS_angle[axis], -500, +500) - angle[axis] + cfg.angleTrim[axis];
@@ -757,6 +758,21 @@ void loop(void)
 			lastDTerm[axis] = deltaSum;
 			DTerm = ((int32_t) deltaSum * dynD8[axis]) >> 5; // 32 bits is needed for calculation
 			axisPID[axis] = PTerm + ITerm - DTerm;
+        }
+
+        // dada ante portas
+        bool upside_down = angle[ROLL] > 900 || angle[ROLL] < -900;
+        if (upside_down)
+        {
+        	int16_t roll_delta, pitch_delta, delta;
+
+        	roll_delta = abs(angle[ROLL]) - 900;
+        	pitch_delta = abs(abs(angle[PITCH]) - 900);
+        	delta = min(roll_delta, pitch_delta);
+        	delta *= 2;
+        	rcCommand[3] -= delta;
+        	if (rcCommand[3] < 1100)
+        		rcCommand[3] = 1100;
         }
 
         mixTable();
