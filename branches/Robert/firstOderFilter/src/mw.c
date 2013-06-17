@@ -413,7 +413,7 @@ static void pidRewrite(void)
         DTerm = (deltaSum * cfg.D8[axis]) >> 8;
 
         // -----calculate total PID output     
-        axisPID[axis] = PTerm + ITerm - DTerm;
+        axisPID[axis] = PTerm + ITerm + DTerm;
     }
 }
 
