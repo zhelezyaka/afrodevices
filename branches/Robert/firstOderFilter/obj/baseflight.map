@@ -1631,7 +1631,7 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
                 0x08000000                g_pfnVectors
                 0x0800010c                . = ALIGN (0x4)
 
-.text           0x08000110    0x15514
+.text           0x08000110    0x15930
                 0x08000110                . = ALIGN (0x4)
  *(.text)
  .text          0x08000110       0x54 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
@@ -1975,793 +1975,801 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
  .text.ftoa     0x08003494       0xf0 obj/src/cli.o
  .text.cliPrintVar
                 0x08003584       0xa8 obj/src/cli.o
- .text.cliSet   0x0800362c      0x174 obj/src/cli.o
- .text.cliDump  0x080037a0      0x27c obj/src/cli.o
- .text.cliCMix  0x08003a1c      0x75c obj/src/cli.o
+ .text.cliSet   0x0800362c      0x1bc obj/src/cli.o
+ .text.cliDump  0x080037e8      0x29c obj/src/cli.o
+ .text.cliCMix  0x08003a84      0x75c obj/src/cli.o
  .text.cliProcess
-                0x08004178      0x34c obj/src/cli.o
-                0x08004178                cliProcess
+                0x080041e0      0x36c obj/src/cli.o
+                0x080041e0                cliProcess
  .text.validEEPROM
-                0x080044c4       0x5c obj/src/config.o
+                0x0800454c       0x5c obj/src/config.o
  .text.parseRcChannels
-                0x08004520       0x34 obj/src/config.o
-                0x08004520                parseRcChannels
+                0x080045a8       0x34 obj/src/config.o
+                0x080045a8                parseRcChannels
  .text.readEEPROM
-                0x08004554      0x668 obj/src/config.o
-                0x08004554                readEEPROM
+                0x080045dc      0x670 obj/src/config.o
+                0x080045dc                readEEPROM
  .text.writeEEPROM
-                0x08004bbc      0x110 obj/src/config.o
-                0x08004bbc                writeEEPROM
+                0x08004c4c      0x110 obj/src/config.o
+                0x08004c4c                writeEEPROM
  .text.checkFirstTime
-                0x08004ccc      0x2a4 obj/src/config.o
-                0x08004ccc                checkFirstTime
- .text.sensors  0x08004f70       0x14 obj/src/config.o
-                0x08004f70                sensors
+                0x08004d5c      0x2a4 obj/src/config.o
+                0x08004d5c                checkFirstTime
+ .text.sensors  0x08005000       0x14 obj/src/config.o
+                0x08005000                sensors
  .text.sensorsSet
-                0x08004f84       0x10 obj/src/config.o
-                0x08004f84                sensorsSet
+                0x08005014       0x10 obj/src/config.o
+                0x08005014                sensorsSet
  .text.sensorsClear
-                0x08004f94       0x14 obj/src/config.o
-                0x08004f94                sensorsClear
+                0x08005024       0x14 obj/src/config.o
+                0x08005024                sensorsClear
  .text.sensorsMask
-                0x08004fa8        0xc obj/src/config.o
-                0x08004fa8                sensorsMask
- .text.feature  0x08004fb4       0x14 obj/src/config.o
-                0x08004fb4                feature
+                0x08005038        0xc obj/src/config.o
+                0x08005038                sensorsMask
+ .text.feature  0x08005044       0x14 obj/src/config.o
+                0x08005044                feature
  .text.featureSet
-                0x08004fc8       0x10 obj/src/config.o
-                0x08004fc8                featureSet
+                0x08005058       0x10 obj/src/config.o
+                0x08005058                featureSet
  .text.featureClear
-                0x08004fd8       0x14 obj/src/config.o
-                0x08004fd8                featureClear
+                0x08005068       0x14 obj/src/config.o
+                0x08005068                featureClear
  .text.featureMask
-                0x08004fec        0xc obj/src/config.o
-                0x08004fec                featureMask
- .text.adcInit  0x08004ff8      0x160 obj/src/drv_adc.o
-                0x08004ff8                adcInit
+                0x0800507c        0xc obj/src/config.o
+                0x0800507c                featureMask
+ .text.adcInit  0x08005088      0x160 obj/src/drv_adc.o
+                0x08005088                adcInit
  .text.adcGetChannel
-                0x08005158       0x10 obj/src/drv_adc.o
-                0x08005158                adcGetChannel
+                0x080051e8       0x10 obj/src/drv_adc.o
+                0x080051e8                adcGetChannel
  .text.adxl345Align
-                0x08005168        0x4 obj/src/drv_adxl345.o
+                0x080051f8        0x4 obj/src/drv_adxl345.o
  .text.adxl345Read
-                0x0800516c      0x15c obj/src/drv_adxl345.o
+                0x080051fc      0x15c obj/src/drv_adxl345.o
  .text.adxl345Init
-                0x080052c8       0x5c obj/src/drv_adxl345.o
+                0x08005358       0x5c obj/src/drv_adxl345.o
  .text.adxl345Detect
-                0x08005324       0x50 obj/src/drv_adxl345.o
-                0x08005324                adxl345Detect
+                0x080053b4       0x50 obj/src/drv_adxl345.o
+                0x080053b4                adxl345Detect
  .text.bmp085_calculate
-                0x08005374       0xfc obj/src/drv_bmp085.o
+                0x08005404       0xfc obj/src/drv_bmp085.o
  .text.bmp085_get_up
-                0x08005470       0x58 obj/src/drv_bmp085.o
+                0x08005500       0x58 obj/src/drv_bmp085.o
  .text.bmp085_get_ut
-                0x080054c8       0x40 obj/src/drv_bmp085.o
+                0x08005558       0x40 obj/src/drv_bmp085.o
  .text.bmp085_start_up
-                0x08005508       0x2c obj/src/drv_bmp085.o
+                0x08005598       0x2c obj/src/drv_bmp085.o
  .text.bmp085_start_ut
-                0x08005534       0x1c obj/src/drv_bmp085.o
+                0x080055c4       0x1c obj/src/drv_bmp085.o
  .text.EXTI15_10_IRQHandler
-                0x08005550       0x24 obj/src/drv_bmp085.o
-                0x08005550                EXTI15_10_IRQHandler
+                0x080055e0       0x24 obj/src/drv_bmp085.o
+                0x080055e0                EXTI15_10_IRQHandler
  .text.bmp085Detect
-                0x08005574      0x23c obj/src/drv_bmp085.o
-                0x08005574                bmp085Detect
+                0x08005604      0x23c obj/src/drv_bmp085.o
+                0x08005604                bmp085Detect
  .text.ECHO_EXTI_IRQHandler
-                0x080057b0       0x64 obj/src/drv_hcsr04.o
-                0x080057b0                ECHO_EXTI_IRQHandler
+                0x08005840       0x64 obj/src/drv_hcsr04.o
+                0x08005840                ECHO_EXTI_IRQHandler
  .text.EXTI1_IRQHandler
-                0x08005814        0x4 obj/src/drv_hcsr04.o
-                0x08005814                EXTI1_IRQHandler
+                0x080058a4        0x4 obj/src/drv_hcsr04.o
+                0x080058a4                EXTI1_IRQHandler
  .text.EXTI9_5_IRQHandler
-                0x08005818        0x4 obj/src/drv_hcsr04.o
-                0x08005818                EXTI9_5_IRQHandler
+                0x080058a8        0x4 obj/src/drv_hcsr04.o
+                0x080058a8                EXTI9_5_IRQHandler
  .text.hcsr04_init
-                0x0800581c      0x100 obj/src/drv_hcsr04.o
-                0x0800581c                hcsr04_init
+                0x080058ac      0x100 obj/src/drv_hcsr04.o
+                0x080058ac                hcsr04_init
  .text.hcsr04_get_distance
-                0x0800591c       0x50 obj/src/drv_hcsr04.o
-                0x0800591c                hcsr04_get_distance
+                0x080059ac       0x50 obj/src/drv_hcsr04.o
+                0x080059ac                hcsr04_get_distance
  .text.hmc5883lDetect
-                0x0800596c       0x3c obj/src/drv_hmc5883l.o
-                0x0800596c                hmc5883lDetect
+                0x080059fc       0x3c obj/src/drv_hmc5883l.o
+                0x080059fc                hmc5883lDetect
  .text.hmc5883lRead
-                0x080059a8       0xac obj/src/drv_hmc5883l.o
-                0x080059a8                hmc5883lRead
- *fill*         0x08005a54        0x4 00
+                0x08005a38       0xac obj/src/drv_hmc5883l.o
+                0x08005a38                hmc5883lRead
+ *fill*         0x08005ae4        0x4 00
  .text.hmc5883lInit
-                0x08005a58      0x730 obj/src/drv_hmc5883l.o
-                0x08005a58                hmc5883lInit
+                0x08005ae8      0x730 obj/src/drv_hmc5883l.o
+                0x08005ae8                hmc5883lInit
  .text.i2c_ev_handler
-                0x08006188      0x3ec obj/src/drv_i2c.o
+                0x08006218      0x3ec obj/src/drv_i2c.o
  .text.I2C1_EV_IRQHandler
-                0x08006574        0x4 obj/src/drv_i2c.o
-                0x08006574                I2C1_EV_IRQHandler
+                0x08006604        0x4 obj/src/drv_i2c.o
+                0x08006604                I2C1_EV_IRQHandler
  .text.I2C2_EV_IRQHandler
-                0x08006578        0x4 obj/src/drv_i2c.o
-                0x08006578                I2C2_EV_IRQHandler
- .text.i2cInit  0x0800657c      0x198 obj/src/drv_i2c.o
-                0x0800657c                i2cInit
- .text.i2cRead  0x08006714       0xdc obj/src/drv_i2c.o
-                0x08006714                i2cRead
+                0x08006608        0x4 obj/src/drv_i2c.o
+                0x08006608                I2C2_EV_IRQHandler
+ .text.i2cInit  0x0800660c      0x198 obj/src/drv_i2c.o
+                0x0800660c                i2cInit
+ .text.i2cRead  0x080067a4       0xdc obj/src/drv_i2c.o
+                0x080067a4                i2cRead
  .text.i2cWriteBuffer
-                0x080067f0      0x11c obj/src/drv_i2c.o
-                0x080067f0                i2cWriteBuffer
+                0x08006880      0x11c obj/src/drv_i2c.o
+                0x08006880                i2cWriteBuffer
  .text.i2cWrite
-                0x0800690c       0x14 obj/src/drv_i2c.o
-                0x0800690c                i2cWrite
+                0x0800699c       0x14 obj/src/drv_i2c.o
+                0x0800699c                i2cWrite
  .text.i2c_er_handler
-                0x08006920       0xb4 obj/src/drv_i2c.o
+                0x080069b0       0xb4 obj/src/drv_i2c.o
  .text.I2C2_ER_IRQHandler
-                0x080069d4        0x4 obj/src/drv_i2c.o
-                0x080069d4                I2C2_ER_IRQHandler
+                0x08006a64        0x4 obj/src/drv_i2c.o
+                0x08006a64                I2C2_ER_IRQHandler
  .text.I2C1_ER_IRQHandler
-                0x080069d8        0x4 obj/src/drv_i2c.o
-                0x080069d8                I2C1_ER_IRQHandler
+                0x08006a68        0x4 obj/src/drv_i2c.o
+                0x08006a68                I2C1_ER_IRQHandler
  .text.i2cGetErrorCounter
-                0x080069dc       0x10 obj/src/drv_i2c.o
-                0x080069dc                i2cGetErrorCounter
+                0x08006a6c       0x10 obj/src/drv_i2c.o
+                0x08006a6c                i2cGetErrorCounter
  .text.l3g4200dAlign
-                0x080069ec       0x10 obj/src/drv_l3g4200d.o
+                0x08006a7c       0x10 obj/src/drv_l3g4200d.o
  .text.l3g4200dRead
-                0x080069fc       0x60 obj/src/drv_l3g4200d.o
+                0x08006a8c       0x60 obj/src/drv_l3g4200d.o
  .text.l3g4200dInit
-                0x08006a5c       0x38 obj/src/drv_l3g4200d.o
+                0x08006aec       0x38 obj/src/drv_l3g4200d.o
  .text.l3g4200dDetect
-                0x08006a94       0x84 obj/src/drv_l3g4200d.o
-                0x08006a94                l3g4200dDetect
+                0x08006b24       0x84 obj/src/drv_l3g4200d.o
+                0x08006b24                l3g4200dDetect
  .text.ledringState
-                0x08006b18      0x108 obj/src/drv_ledring.o
-                0x08006b18                ledringState
+                0x08006ba8      0x108 obj/src/drv_ledring.o
+                0x08006ba8                ledringState
  .text.mma8452Align
-                0x08006c20       0x10 obj/src/drv_mma845x.o
+                0x08006cb0       0x10 obj/src/drv_mma845x.o
  .text.mma8452Read
-                0x08006c30       0x64 obj/src/drv_mma845x.o
+                0x08006cc0       0x64 obj/src/drv_mma845x.o
  .text.mma8452Init
-                0x08006c94       0x88 obj/src/drv_mma845x.o
+                0x08006d24       0x88 obj/src/drv_mma845x.o
  .text.mma8452Detect
-                0x08006d1c       0x50 obj/src/drv_mma845x.o
-                0x08006d1c                mma8452Detect
+                0x08006dac       0x50 obj/src/drv_mma845x.o
+                0x08006dac                mma8452Detect
  .text.mpu3050Align
-                0x08006d6c        0x8 obj/src/drv_mpu3050.o
+                0x08006dfc        0x8 obj/src/drv_mpu3050.o
  .text.mpu3050ReadTemp
-                0x08006d74       0x3c obj/src/drv_mpu3050.o
+                0x08006e04       0x3c obj/src/drv_mpu3050.o
  .text.mpu3050Read
-                0x08006db0       0x60 obj/src/drv_mpu3050.o
+                0x08006e40       0x60 obj/src/drv_mpu3050.o
  .text.mpu3050Init
-                0x08006e10       0x50 obj/src/drv_mpu3050.o
+                0x08006ea0       0x50 obj/src/drv_mpu3050.o
  .text.mpu3050Detect
-                0x08006e60       0x98 obj/src/drv_mpu3050.o
-                0x08006e60                mpu3050Detect
+                0x08006ef0       0x98 obj/src/drv_mpu3050.o
+                0x08006ef0                mpu3050Detect
  .text.mpu6050AccInit
-                0x08006ef8       0x20 obj/src/drv_mpu6050.o
+                0x08006f88       0x20 obj/src/drv_mpu6050.o
  .text.mpu6050AccAlign
-                0x08006f18        0xc obj/src/drv_mpu6050.o
+                0x08006fa8        0xc obj/src/drv_mpu6050.o
  .text.mpu6050GyroAlign
-                0x08006f24        0x8 obj/src/drv_mpu6050.o
+                0x08006fb4        0x8 obj/src/drv_mpu6050.o
  .text.mpu6050GyroRead
-                0x08006f2c       0x60 obj/src/drv_mpu6050.o
+                0x08006fbc       0x60 obj/src/drv_mpu6050.o
  .text.mpu6050AccRead
-                0x08006f8c       0x60 obj/src/drv_mpu6050.o
+                0x0800701c       0x60 obj/src/drv_mpu6050.o
  .text.mpu6050GyroInit
-                0x08006fec       0x80 obj/src/drv_mpu6050.o
+                0x0800707c       0x80 obj/src/drv_mpu6050.o
  .text.mpu6050Detect
-                0x0800706c      0x15c obj/src/drv_mpu6050.o
-                0x0800706c                mpu6050Detect
+                0x080070fc      0x15c obj/src/drv_mpu6050.o
+                0x080070fc                mpu6050Detect
  .text.ms5611_calculate
-                0x080071c8       0xa0 obj/src/drv_ms5611.o
+                0x08007258       0xa0 obj/src/drv_ms5611.o
  .text.ms5611_read_adc
-                0x08007268       0x28 obj/src/drv_ms5611.o
+                0x080072f8       0x28 obj/src/drv_ms5611.o
  .text.ms5611_get_up
-                0x08007290       0x14 obj/src/drv_ms5611.o
+                0x08007320       0x14 obj/src/drv_ms5611.o
  .text.ms5611_get_ut
-                0x080072a4       0x14 obj/src/drv_ms5611.o
+                0x08007334       0x14 obj/src/drv_ms5611.o
  .text.ms5611_start_up
-                0x080072b8        0xc obj/src/drv_ms5611.o
+                0x08007348        0xc obj/src/drv_ms5611.o
  .text.ms5611_start_ut
-                0x080072c4        0xc obj/src/drv_ms5611.o
+                0x08007354        0xc obj/src/drv_ms5611.o
  .text.ms5611Detect
-                0x080072d0      0x294 obj/src/drv_ms5611.o
-                0x080072d0                ms5611Detect
+                0x08007360      0x294 obj/src/drv_ms5611.o
+                0x08007360                ms5611Detect
  .text.pwmTimeBase
-                0x08007564       0x48 obj/src/drv_pwm.o
+                0x080075f4       0x48 obj/src/drv_pwm.o
  .text.pwmICConfig
-                0x080075ac       0x34 obj/src/drv_pwm.o
+                0x0800763c       0x34 obj/src/drv_pwm.o
  .text.pwmCallback
-                0x080075e0       0x70 obj/src/drv_pwm.o
+                0x08007670       0x70 obj/src/drv_pwm.o
  .text.pwmTIMxHandler
-                0x08007650       0xcc obj/src/drv_pwm.o
+                0x080076e0       0xcc obj/src/drv_pwm.o
  .text.ppmCallback
-                0x0800771c       0x94 obj/src/drv_pwm.o
+                0x080077ac       0x94 obj/src/drv_pwm.o
  .text.pwmOutConfig.constprop.1
-                0x080077b0      0x138 obj/src/drv_pwm.o
+                0x08007840      0x138 obj/src/drv_pwm.o
  .text.pwmInConfig
-                0x080078e8       0xe0 obj/src/drv_pwm.o
+                0x08007978       0xe0 obj/src/drv_pwm.o
  .text.TIM1_CC_IRQHandler
-                0x080079c8       0x78 obj/src/drv_pwm.o
-                0x080079c8                TIM1_CC_IRQHandler
+                0x08007a58       0x78 obj/src/drv_pwm.o
+                0x08007a58                TIM1_CC_IRQHandler
  .text.TIM2_IRQHandler
-                0x08007a40        0xc obj/src/drv_pwm.o
-                0x08007a40                TIM2_IRQHandler
+                0x08007ad0        0xc obj/src/drv_pwm.o
+                0x08007ad0                TIM2_IRQHandler
  .text.TIM3_IRQHandler
-                0x08007a4c       0x10 obj/src/drv_pwm.o
-                0x08007a4c                TIM3_IRQHandler
+                0x08007adc       0x10 obj/src/drv_pwm.o
+                0x08007adc                TIM3_IRQHandler
  .text.TIM4_IRQHandler
-                0x08007a5c       0x10 obj/src/drv_pwm.o
-                0x08007a5c                TIM4_IRQHandler
- .text.pwmInit  0x08007a6c      0x158 obj/src/drv_pwm.o
-                0x08007a6c                pwmInit
+                0x08007aec       0x10 obj/src/drv_pwm.o
+                0x08007aec                TIM4_IRQHandler
+ .text.pwmInit  0x08007afc      0x158 obj/src/drv_pwm.o
+                0x08007afc                pwmInit
  .text.pwmWriteMotor
-                0x08007bc4       0x1c obj/src/drv_pwm.o
-                0x08007bc4                pwmWriteMotor
+                0x08007c54       0x1c obj/src/drv_pwm.o
+                0x08007c54                pwmWriteMotor
  .text.pwmWriteServo
-                0x08007be0       0x1c obj/src/drv_pwm.o
-                0x08007be0                pwmWriteServo
- .text.pwmRead  0x08007bfc       0x10 obj/src/drv_pwm.o
-                0x08007bfc                pwmRead
+                0x08007c70       0x1c obj/src/drv_pwm.o
+                0x08007c70                pwmWriteServo
+ .text.pwmRead  0x08007c8c       0x10 obj/src/drv_pwm.o
+                0x08007c8c                pwmRead
  .text.SysTick_Handler
-                0x08007c0c       0x10 obj/src/drv_system.o
-                0x08007c0c                SysTick_Handler
- .text.micros   0x08007c1c       0x3c obj/src/drv_system.o
-                0x08007c1c                micros
- .text.millis   0x08007c58        0xc obj/src/drv_system.o
-                0x08007c58                millis
+                0x08007c9c       0x10 obj/src/drv_system.o
+                0x08007c9c                SysTick_Handler
+ .text.micros   0x08007cac       0x3c obj/src/drv_system.o
+                0x08007cac                micros
+ .text.millis   0x08007ce8        0xc obj/src/drv_system.o
+                0x08007ce8                millis
  .text.delayMicroseconds
-                0x08007c64       0x70 obj/src/drv_system.o
-                0x08007c64                delayMicroseconds
- .text.delay    0x08007cd4       0x40 obj/src/drv_system.o
-                0x08007cd4                delay
+                0x08007cf4       0x70 obj/src/drv_system.o
+                0x08007cf4                delayMicroseconds
+ .text.delay    0x08007d64       0x40 obj/src/drv_system.o
+                0x08007d64                delay
  .text.systemInit
-                0x08007d14      0x15c obj/src/drv_system.o
-                0x08007d14                systemInit
+                0x08007da4      0x15c obj/src/drv_system.o
+                0x08007da4                systemInit
  .text.failureMode
-                0x08007e70       0x4c obj/src/drv_system.o
-                0x08007e70                failureMode
+                0x08007f00       0x4c obj/src/drv_system.o
+                0x08007f00                failureMode
  .text.systemReset
-                0x08007ebc       0x28 obj/src/drv_system.o
-                0x08007ebc                systemReset
+                0x08007f4c       0x28 obj/src/drv_system.o
+                0x08007f4c                systemReset
  .text.uart2Open
-                0x08007ee4       0x54 obj/src/drv_uart.o
+                0x08007f74       0x54 obj/src/drv_uart.o
  .text.uartTxDMA
-                0x08007f38       0x44 obj/src/drv_uart.o
+                0x08007fc8       0x44 obj/src/drv_uart.o
  .text.DMA1_Channel4_IRQHandler
-                0x08007f7c       0x34 obj/src/drv_uart.o
-                0x08007f7c                DMA1_Channel4_IRQHandler
+                0x0800800c       0x34 obj/src/drv_uart.o
+                0x0800800c                DMA1_Channel4_IRQHandler
  .text.uartInit
-                0x08007fb0      0x144 obj/src/drv_uart.o
-                0x08007fb0                uartInit
+                0x08008040      0x144 obj/src/drv_uart.o
+                0x08008040                uartInit
  .text.uartAvailable
-                0x080080f4       0x20 obj/src/drv_uart.o
-                0x080080f4                uartAvailable
+                0x08008184       0x20 obj/src/drv_uart.o
+                0x08008184                uartAvailable
  .text.uartTransmitEmpty
-                0x08008114       0x20 obj/src/drv_uart.o
-                0x08008114                uartTransmitEmpty
+                0x080081a4       0x20 obj/src/drv_uart.o
+                0x080081a4                uartTransmitEmpty
  .text.uartRead
-                0x08008134       0x20 obj/src/drv_uart.o
-                0x08008134                uartRead
+                0x080081c4       0x20 obj/src/drv_uart.o
+                0x080081c4                uartRead
  .text.uartReadPoll
-                0x08008154       0x2c obj/src/drv_uart.o
-                0x08008154                uartReadPoll
+                0x080081e4       0x2c obj/src/drv_uart.o
+                0x080081e4                uartReadPoll
  .text.uartWrite
-                0x08008180       0x30 obj/src/drv_uart.o
-                0x08008180                uartWrite
+                0x08008210       0x30 obj/src/drv_uart.o
+                0x08008210                uartWrite
  .text.uartPrint
-                0x080081b0       0x18 obj/src/drv_uart.o
-                0x080081b0                uartPrint
+                0x08008240       0x18 obj/src/drv_uart.o
+                0x08008240                uartPrint
  .text.uart2Init
-                0x080081c8       0xe0 obj/src/drv_uart.o
-                0x080081c8                uart2Init
+                0x08008258       0xe0 obj/src/drv_uart.o
+                0x08008258                uart2Init
  .text.uart2ChangeBaud
-                0x080082a8        0x4 obj/src/drv_uart.o
-                0x080082a8                uart2ChangeBaud
+                0x08008338        0x4 obj/src/drv_uart.o
+                0x08008338                uart2ChangeBaud
  .text.uart2Write
-                0x080082ac       0x40 obj/src/drv_uart.o
-                0x080082ac                uart2Write
+                0x0800833c       0x40 obj/src/drv_uart.o
+                0x0800833c                uart2Write
  .text.uart2TransmitEmpty
-                0x080082ec       0x20 obj/src/drv_uart.o
-                0x080082ec                uart2TransmitEmpty
+                0x0800837c       0x20 obj/src/drv_uart.o
+                0x0800837c                uart2TransmitEmpty
  .text.USART2_IRQHandler
-                0x0800830c       0x78 obj/src/drv_uart.o
-                0x0800830c                USART2_IRQHandler
+                0x0800839c       0x78 obj/src/drv_uart.o
+                0x0800839c                USART2_IRQHandler
  .text.initFirstOrderFilter
-                0x08008384       0x48 obj/src/filter.o
-                0x08008384                initFirstOrderFilter
+                0x08008414       0x48 obj/src/filter.o
+                0x08008414                initFirstOrderFilter
  .text.accelFilterStep
-                0x080083cc       0xe0 obj/src/filter.o
-                0x080083cc                accelFilterStep
+                0x0800845c       0xe0 obj/src/filter.o
+                0x0800845c                accelFilterStep
  .text.GPS_calc_longitude_scaling
-                0x080084ac       0x58 obj/src/gps.o
+                0x0800853c       0x58 obj/src/gps.o
  .text.gpsPrint
-                0x08008504       0x44 obj/src/gps.o
+                0x08008594       0x44 obj/src/gps.o
  .text.GPS_distance_cm_bearing.isra.2
-                0x08008548       0x90 obj/src/gps.o
+                0x080085d8       0x90 obj/src/gps.o
  .text.grab_fields.constprop.4
-                0x080085d8       0x44 obj/src/gps.o
- .text.gpsInit  0x0800861c      0x334 obj/src/gps.o
-                0x0800861c                gpsInit
+                0x08008668       0x44 obj/src/gps.o
+ .text.gpsInit  0x080086ac      0x334 obj/src/gps.o
+                0x080086ac                gpsInit
  .text.GPS_reset_home_position
-                0x08008950       0x4c obj/src/gps.o
-                0x08008950                GPS_reset_home_position
+                0x080089e0       0x4c obj/src/gps.o
+                0x080089e0                GPS_reset_home_position
  .text.GPS_reset_nav
-                0x0800899c       0x6c obj/src/gps.o
-                0x0800899c                GPS_reset_nav
+                0x08008a2c       0x6c obj/src/gps.o
+                0x08008a2c                GPS_reset_nav
  .text.GPS_set_next_wp
-                0x08008a08       0xa8 obj/src/gps.o
-                0x08008a08                GPS_set_next_wp
+                0x08008a98       0xa8 obj/src/gps.o
+                0x08008a98                GPS_set_next_wp
  .text.wrap_18000
-                0x08008ab0       0x24 obj/src/gps.o
-                0x08008ab0                wrap_18000
+                0x08008b40       0x24 obj/src/gps.o
+                0x08008b40                wrap_18000
  .text.GPS_coord_to_degrees
-                0x08008ad4      0x194 obj/src/gps.o
-                0x08008ad4                GPS_coord_to_degrees
+                0x08008b64      0x194 obj/src/gps.o
+                0x08008b64                GPS_coord_to_degrees
  .text.GPS_NewData
-                0x08008c68     0x1210 obj/src/gps.o
- .text.imuInit  0x08009e78       0x5c obj/src/imu.o
-                0x08009e78                imuInit
- .text.rotateV  0x08009ed4      0x154 obj/src/imu.o
-                0x08009ed4                rotateV
+                0x08008cf8     0x1210 obj/src/gps.o
+ .text.imuInit  0x08009f08       0x5c obj/src/imu.o
+                0x08009f08                imuInit
+ .text.rotateV  0x08009f64      0x154 obj/src/imu.o
+                0x08009f64                rotateV
  .text.computeIMU
-                0x0800a028      0x6b8 obj/src/imu.o
-                0x0800a028                computeIMU
+                0x0800a0b8      0x6b8 obj/src/imu.o
+                0x0800a0b8                computeIMU
  .text.applyDeadband
-                0x0800a6e0       0x24 obj/src/imu.o
-                0x0800a6e0                applyDeadband
+                0x0800a770       0x24 obj/src/imu.o
+                0x0800a770                applyDeadband
  .text.getEstimatedAltitude
-                0x0800a704      0x2dc obj/src/imu.o
-                0x0800a704                getEstimatedAltitude
- .text._putc    0x0800a9e0        0x8 obj/src/main.o
+                0x0800a794      0x2dc obj/src/imu.o
+                0x0800a794                getEstimatedAltitude
+ .text._putc    0x0800aa70        0x8 obj/src/main.o
  .text.startup.main
-                0x0800a9e8      0x350 obj/src/main.o
-                0x0800a9e8                main
+                0x0800aa78      0x350 obj/src/main.o
+                0x0800aa78                main
  .text.HardFault_Handler
-                0x0800ad38       0x14 obj/src/main.o
-                0x0800ad38                HardFault_Handler
+                0x0800adc8       0x14 obj/src/main.o
+                0x0800adc8                HardFault_Handler
  .text.mixerInit
-                0x0800ad4c      0x280 obj/src/mixer.o
-                0x0800ad4c                mixerInit
+                0x0800addc      0x280 obj/src/mixer.o
+                0x0800addc                mixerInit
  .text.mixerLoadMix
-                0x0800afcc       0xa0 obj/src/mixer.o
-                0x0800afcc                mixerLoadMix
+                0x0800b05c       0xa0 obj/src/mixer.o
+                0x0800b05c                mixerLoadMix
  .text.writeServos
-                0x0800b06c       0x74 obj/src/mixer.o
-                0x0800b06c                writeServos
+                0x0800b0fc       0x74 obj/src/mixer.o
+                0x0800b0fc                writeServos
  .text.writeMotors
-                0x0800b0e0       0x2c obj/src/mixer.o
-                0x0800b0e0                writeMotors
+                0x0800b170       0x2c obj/src/mixer.o
+                0x0800b170                writeMotors
  .text.writeAllMotors
-                0x0800b10c       0x44 obj/src/mixer.o
-                0x0800b10c                writeAllMotors
+                0x0800b19c       0x44 obj/src/mixer.o
+                0x0800b19c                writeAllMotors
  .text.mixTable
-                0x0800b150      0x7f4 obj/src/mixer.o
-                0x0800b150                mixTable
+                0x0800b1e0      0x7f4 obj/src/mixer.o
+                0x0800b1e0                mixTable
+ *fill*         0x0800b9d4        0x4 00
+ .text.pidMultiWii
+                0x0800b9d8      0x858 obj/src/mw.o
+ .text.pidRewrite
+                0x0800c230      0x3a0 obj/src/mw.o
  .text.blinkLED
-                0x0800b944       0xd4 obj/src/mw.o
-                0x0800b944                blinkLED
- .text.mwArm    0x0800ba18       0x44 obj/src/mw.o
+                0x0800c5d0       0xd4 obj/src/mw.o
+                0x0800c5d0                blinkLED
+ .text.mwArm    0x0800c6a4       0x44 obj/src/mw.o
  .text.annexCode
-                0x0800ba5c      0x760 obj/src/mw.o
-                0x0800ba5c                annexCode
+                0x0800c6e8      0x7d0 obj/src/mw.o
+                0x0800c6e8                annexCode
  .text.pwmReadRawRC
-                0x0800c1bc       0x28 obj/src/mw.o
-                0x0800c1bc                pwmReadRawRC
+                0x0800ceb8       0x28 obj/src/mw.o
+                0x0800ceb8                pwmReadRawRC
  .text.computeRC
-                0x0800c1e4      0x2a4 obj/src/mw.o
-                0x0800c1e4                computeRC
- .text.loop     0x0800c488     0x1628 obj/src/mw.o
-                0x0800c488                loop
- .text.uli2a    0x0800dab0       0x68 obj/src/printf.o
- .text.ui2a     0x0800db18       0x68 obj/src/printf.o
- .text.putchw   0x0800db80       0xa4 obj/src/printf.o
+                0x0800cee0      0x2a4 obj/src/mw.o
+                0x0800cee0                computeRC
+ .text.setPIDController
+                0x0800d184       0x1c obj/src/mw.o
+                0x0800d184                setPIDController
+ .text.loop     0x0800d1a0      0xd04 obj/src/mw.o
+                0x0800d1a0                loop
+ .text.uli2a    0x0800dea4       0x68 obj/src/printf.o
+ .text.ui2a     0x0800df0c       0x68 obj/src/printf.o
+ .text.putchw   0x0800df74       0xa4 obj/src/printf.o
  .text.tfp_format
-                0x0800dc24      0x198 obj/src/printf.o
-                0x0800dc24                tfp_format
+                0x0800e018      0x198 obj/src/printf.o
+                0x0800e018                tfp_format
  .text.init_printf
-                0x0800ddbc       0x18 obj/src/printf.o
-                0x0800ddbc                init_printf
+                0x0800e1b0       0x18 obj/src/printf.o
+                0x0800e1b0                init_printf
  .text.tfp_printf
-                0x0800ddd4       0x38 obj/src/printf.o
-                0x0800ddd4                tfp_printf
+                0x0800e1c8       0x38 obj/src/printf.o
+                0x0800e1c8                tfp_printf
  .text.alignSensors
-                0x0800de0c       0x7c obj/src/sensors.o
+                0x0800e200       0x7c obj/src/sensors.o
  .text.sensorsAutodetect
-                0x0800de88      0x194 obj/src/sensors.o
-                0x0800de88                sensorsAutodetect
+                0x0800e27c      0x194 obj/src/sensors.o
+                0x0800e27c                sensorsAutodetect
  .text.batteryAdcToVoltage
-                0x0800e01c       0x40 obj/src/sensors.o
-                0x0800e01c                batteryAdcToVoltage
+                0x0800e410       0x40 obj/src/sensors.o
+                0x0800e410                batteryAdcToVoltage
  .text.batteryInit
-                0x0800e05c       0xb4 obj/src/sensors.o
-                0x0800e05c                batteryInit
+                0x0800e450       0xb4 obj/src/sensors.o
+                0x0800e450                batteryInit
  .text.ACC_getADC
-                0x0800e110      0x2a4 obj/src/sensors.o
-                0x0800e110                ACC_getADC
+                0x0800e504      0x2a4 obj/src/sensors.o
+                0x0800e504                ACC_getADC
  .text.Baro_Common
-                0x0800e3b4       0x48 obj/src/sensors.o
-                0x0800e3b4                Baro_Common
+                0x0800e7a8       0x48 obj/src/sensors.o
+                0x0800e7a8                Baro_Common
  .text.Baro_update
-                0x0800e3fc       0x70 obj/src/sensors.o
-                0x0800e3fc                Baro_update
+                0x0800e7f0       0x70 obj/src/sensors.o
+                0x0800e7f0                Baro_update
  .text.Gyro_getADC
-                0x0800e46c      0x460 obj/src/sensors.o
-                0x0800e46c                Gyro_getADC
+                0x0800e860      0x460 obj/src/sensors.o
+                0x0800e860                Gyro_getADC
  .text.Mag_init
-                0x0800e8cc       0x2c obj/src/sensors.o
-                0x0800e8cc                Mag_init
+                0x0800ecc0       0x2c obj/src/sensors.o
+                0x0800ecc0                Mag_init
  .text.Mag_getADC
-                0x0800e8f8      0x1f4 obj/src/sensors.o
-                0x0800e8f8                Mag_getADC
+                0x0800ecec      0x1f4 obj/src/sensors.o
+                0x0800ecec                Mag_getADC
  .text.Sonar_init
-                0x0800eaec       0x1c obj/src/sensors.o
-                0x0800eaec                Sonar_init
+                0x0800eee0       0x1c obj/src/sensors.o
+                0x0800eee0                Sonar_init
  .text.Sonar_update
-                0x0800eb08        0xc obj/src/sensors.o
-                0x0800eb08                Sonar_update
+                0x0800eefc        0xc obj/src/sensors.o
+                0x0800eefc                Sonar_update
  .text.serialize32
-                0x0800eb14       0x68 obj/src/serial.o
-                0x0800eb14                serialize32
+                0x0800ef08       0x68 obj/src/serial.o
+                0x0800ef08                serialize32
  .text.serialize16
-                0x0800eb7c       0x40 obj/src/serial.o
-                0x0800eb7c                serialize16
+                0x0800ef70       0x40 obj/src/serial.o
+                0x0800ef70                serialize16
  .text.serialize8
-                0x0800ebbc       0x18 obj/src/serial.o
-                0x0800ebbc                serialize8
- .text.read32   0x0800ebd4       0x40 obj/src/serial.o
-                0x0800ebd4                read32
+                0x0800efb0       0x18 obj/src/serial.o
+                0x0800efb0                serialize8
+ .text.read32   0x0800efc8       0x40 obj/src/serial.o
+                0x0800efc8                read32
  .text.headSerialResponse
-                0x0800ec14       0x40 obj/src/serial.o
-                0x0800ec14                headSerialResponse
+                0x0800f008       0x40 obj/src/serial.o
+                0x0800f008                headSerialResponse
  .text.headSerialReply
-                0x0800ec54        0x8 obj/src/serial.o
-                0x0800ec54                headSerialReply
+                0x0800f048        0x8 obj/src/serial.o
+                0x0800f048                headSerialReply
  .text.headSerialError
-                0x0800ec5c        0x8 obj/src/serial.o
-                0x0800ec5c                headSerialError
+                0x0800f050        0x8 obj/src/serial.o
+                0x0800f050                headSerialError
  .text.tailSerialReply
-                0x0800ec64       0x10 obj/src/serial.o
-                0x0800ec64                tailSerialReply
+                0x0800f058       0x10 obj/src/serial.o
+                0x0800f058                tailSerialReply
  .text.serializeNames
-                0x0800ec74       0x18 obj/src/serial.o
-                0x0800ec74                serializeNames
+                0x0800f068       0x18 obj/src/serial.o
+                0x0800f068                serializeNames
  .text.serializeBoxNamesReply
-                0x0800ec8c       0xcc obj/src/serial.o
-                0x0800ec8c                serializeBoxNamesReply
+                0x0800f080       0xcc obj/src/serial.o
+                0x0800f080                serializeBoxNamesReply
  .text.serialInit
-                0x0800ed58       0xec obj/src/serial.o
-                0x0800ed58                serialInit
+                0x0800f14c       0xec obj/src/serial.o
+                0x0800f14c                serialInit
  .text.serialCom
-                0x0800ee44     0x1294 obj/src/serial.o
-                0x0800ee44                serialCom
+                0x0800f238     0x1298 obj/src/serial.o
+                0x0800f238                serialCom
  .text.spektrumDataReceive
-                0x080100d8       0x70 obj/src/spektrum.o
+                0x080104d0       0x70 obj/src/spektrum.o
  .text.spektrumInit
-                0x08010148       0x40 obj/src/spektrum.o
-                0x08010148                spektrumInit
+                0x08010540       0x40 obj/src/spektrum.o
+                0x08010540                spektrumInit
  .text.spektrumFrameComplete
-                0x08010188        0xc obj/src/spektrum.o
-                0x08010188                spektrumFrameComplete
+                0x08010580        0xc obj/src/spektrum.o
+                0x08010580                spektrumFrameComplete
  .text.spektrumReadRawRC
-                0x08010194      0x158 obj/src/spektrum.o
-                0x08010194                spektrumReadRawRC
+                0x0801058c      0x158 obj/src/spektrum.o
+                0x0801058c                spektrumReadRawRC
  .text.sendDataHead
-                0x080102ec       0x14 obj/src/telemetry.o
+                0x080106e4       0x14 obj/src/telemetry.o
  .text.serializeFrsky
-                0x08010300       0x30 obj/src/telemetry.o
+                0x080106f8       0x30 obj/src/telemetry.o
  .text.serialize16
-                0x08010330       0x18 obj/src/telemetry.o
+                0x08010728       0x18 obj/src/telemetry.o
  .text.initTelemetry
-                0x08010348       0x30 obj/src/telemetry.o
-                0x08010348                initTelemetry
+                0x08010740       0x30 obj/src/telemetry.o
+                0x08010740                initTelemetry
  .text.sendTelemetry
-                0x08010378      0x39c obj/src/telemetry.o
-                0x08010378                sendTelemetry
+                0x08010770      0x39c obj/src/telemetry.o
+                0x08010770                sendTelemetry
  .text.Reset_Handler
-                0x08010714       0xb0 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
-                0x08010714                Reset_Handler
+                0x08010b0c       0xb0 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+                0x08010b0c                Reset_Handler
  .text.Default_Handler
-                0x080107c4        0x4 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
-                0x080107c4                EXTI2_IRQHandler
-                0x080107c4                DebugMon_Handler
-                0x080107c4                PVD_IRQHandler
-                0x080107c4                PendSV_Handler
-                0x080107c4                NMI_Handler
-                0x080107c4                EXTI3_IRQHandler
-                0x080107c4                EXTI0_IRQHandler
-                0x080107c4                UsageFault_Handler
-                0x080107c4                ADC1_2_IRQHandler
-                0x080107c4                SPI1_IRQHandler
-                0x080107c4                TAMPER_IRQHandler
-                0x080107c4                USART3_IRQHandler
-                0x080107c4                RTC_IRQHandler
-                0x080107c4                DMA1_Channel7_IRQHandler
-                0x080107c4                CAN1_RX1_IRQHandler
-                0x080107c4                DMA1_Channel6_IRQHandler
-                0x080107c4                RCC_IRQHandler
-                0x080107c4                TIM1_TRG_COM_IRQHandler
-                0x080107c4                DMA1_Channel1_IRQHandler
-                0x080107c4                Default_Handler
-                0x080107c4                SPI2_IRQHandler
-                0x080107c4                MemManage_Handler
-                0x080107c4                SVC_Handler
-                0x080107c4                DMA1_Channel5_IRQHandler
-                0x080107c4                EXTI4_IRQHandler
-                0x080107c4                USB_LP_CAN1_RX0_IRQHandler
-                0x080107c4                USB_HP_CAN1_TX_IRQHandler
-                0x080107c4                DMA1_Channel3_IRQHandler
-                0x080107c4                TIM1_UP_IRQHandler
-                0x080107c4                WWDG_IRQHandler
-                0x080107c4                TIM1_BRK_IRQHandler
-                0x080107c4                RTCAlarm_IRQHandler
-                0x080107c4                DMA1_Channel2_IRQHandler
-                0x080107c4                CAN1_SCE_IRQHandler
-                0x080107c4                FLASH_IRQHandler
-                0x080107c4                BusFault_Handler
-                0x080107c4                USART1_IRQHandler
-                0x080107c4                USBWakeUp_IRQHandler
- .text.cosf     0x080107c8       0x68 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_cos.o)
-                0x080107c8                cosf
- .text.sinf     0x08010830       0x78 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_sin.o)
-                0x08010830                sinf
- .text.atan2f   0x080108a8        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_atan2.o)
-                0x080108a8                atan2f
- .text.logf     0x080108ac       0xd8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_log.o)
-                0x080108ac                logf
- .text.sqrtf    0x08010984       0x9c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_sqrt.o)
-                0x08010984                sqrtf
+                0x08010bbc        0x4 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+                0x08010bbc                EXTI2_IRQHandler
+                0x08010bbc                DebugMon_Handler
+                0x08010bbc                PVD_IRQHandler
+                0x08010bbc                PendSV_Handler
+                0x08010bbc                NMI_Handler
+                0x08010bbc                EXTI3_IRQHandler
+                0x08010bbc                EXTI0_IRQHandler
+                0x08010bbc                UsageFault_Handler
+                0x08010bbc                ADC1_2_IRQHandler
+                0x08010bbc                SPI1_IRQHandler
+                0x08010bbc                TAMPER_IRQHandler
+                0x08010bbc                USART3_IRQHandler
+                0x08010bbc                RTC_IRQHandler
+                0x08010bbc                DMA1_Channel7_IRQHandler
+                0x08010bbc                CAN1_RX1_IRQHandler
+                0x08010bbc                DMA1_Channel6_IRQHandler
+                0x08010bbc                RCC_IRQHandler
+                0x08010bbc                TIM1_TRG_COM_IRQHandler
+                0x08010bbc                DMA1_Channel1_IRQHandler
+                0x08010bbc                Default_Handler
+                0x08010bbc                SPI2_IRQHandler
+                0x08010bbc                MemManage_Handler
+                0x08010bbc                SVC_Handler
+                0x08010bbc                DMA1_Channel5_IRQHandler
+                0x08010bbc                EXTI4_IRQHandler
+                0x08010bbc                USB_LP_CAN1_RX0_IRQHandler
+                0x08010bbc                USB_HP_CAN1_TX_IRQHandler
+                0x08010bbc                DMA1_Channel3_IRQHandler
+                0x08010bbc                TIM1_UP_IRQHandler
+                0x08010bbc                WWDG_IRQHandler
+                0x08010bbc                TIM1_BRK_IRQHandler
+                0x08010bbc                RTCAlarm_IRQHandler
+                0x08010bbc                DMA1_Channel2_IRQHandler
+                0x08010bbc                CAN1_SCE_IRQHandler
+                0x08010bbc                FLASH_IRQHandler
+                0x08010bbc                BusFault_Handler
+                0x08010bbc                USART1_IRQHandler
+                0x08010bbc                USBWakeUp_IRQHandler
+ .text.cosf     0x08010bc0       0x68 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_cos.o)
+                0x08010bc0                cosf
+ .text.sinf     0x08010c28       0x78 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_sin.o)
+                0x08010c28                sinf
+ .text.atan2f   0x08010ca0        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_atan2.o)
+                0x08010ca0                atan2f
+ .text.logf     0x08010ca4       0xd8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_log.o)
+                0x08010ca4                logf
+ .text.sqrtf    0x08010d7c       0x9c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_sqrt.o)
+                0x08010d7c                sqrtf
  .text.__ieee754_atan2f
-                0x08010a20      0x14c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_atan2.o)
-                0x08010a20                __ieee754_atan2f
+                0x08010e18      0x14c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_atan2.o)
+                0x08010e18                __ieee754_atan2f
  .text.__ieee754_logf
-                0x08010b6c      0x2e0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_log.o)
-                0x08010b6c                __ieee754_logf
+                0x08010f64      0x2e0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_log.o)
+                0x08010f64                __ieee754_logf
  .text.__ieee754_rem_pio2f
-                0x08010e4c      0x358 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
-                0x08010e4c                __ieee754_rem_pio2f
+                0x08011244      0x358 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
+                0x08011244                __ieee754_rem_pio2f
  .text.__ieee754_sqrtf
-                0x080111a4       0xd4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_sqrt.o)
-                0x080111a4                __ieee754_sqrtf
+                0x0801159c       0xd4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_sqrt.o)
+                0x0801159c                __ieee754_sqrtf
  .text.__kernel_cosf
-                0x08011278      0x1b8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_cos.o)
-                0x08011278                __kernel_cosf
+                0x08011670      0x1b8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_cos.o)
+                0x08011670                __kernel_cosf
  .text.__kernel_rem_pio2f
-                0x08011430      0xba0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
-                0x08011430                __kernel_rem_pio2f
+                0x08011828      0xba0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
+                0x08011828                __kernel_rem_pio2f
  .text.__kernel_sinf
-                0x08011fd0      0x100 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_sin.o)
-                0x08011fd0                __kernel_sinf
- .text.matherr  0x080120d0        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_matherr.o)
-                0x080120d0                matherr
- .text.nan      0x080120d4        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_nan.o)
-                0x080120d4                nan
- .text.atanf    0x080120e0      0x258 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
-                0x080120e0                atanf
- .text.fabsf    0x08012338        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fabs.o)
-                0x08012338                fabsf
- .text.floorf   0x08012340       0x94 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_floor.o)
-                0x08012340                floorf
+                0x080123c8      0x100 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_sin.o)
+                0x080123c8                __kernel_sinf
+ .text.matherr  0x080124c8        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_matherr.o)
+                0x080124c8                matherr
+ .text.nan      0x080124cc        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_nan.o)
+                0x080124cc                nan
+ .text.atanf    0x080124d8      0x258 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
+                0x080124d8                atanf
+ .text.fabsf    0x08012730        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fabs.o)
+                0x08012730                fabsf
+ .text.floorf   0x08012738       0x94 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_floor.o)
+                0x08012738                floorf
  .text.__fpclassifyf
-                0x080123d4       0x58 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fpclassify.o)
-                0x080123d4                __fpclassifyf
- .text.scalbnf  0x0801242c       0xc0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_scalbn.o)
-                0x0801242c                scalbnf
+                0x080127cc       0x58 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fpclassify.o)
+                0x080127cc                __fpclassifyf
+ .text.scalbnf  0x08012824       0xc0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_scalbn.o)
+                0x08012824                scalbnf
  .text.copysignf
-                0x080124ec        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_copysign.o)
-                0x080124ec                copysignf
+                0x080128e4        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_copysign.o)
+                0x080128e4                copysignf
  .text.__register_exitproc
-                0x080124f8       0xac d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
-                0x080124f8                __register_exitproc
- .text.atoi     0x080125a4        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atoi.o)
-                0x080125a4                atoi
- .text.bsearch  0x080125ac       0x40 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-bsearch.o)
-                0x080125ac                bsearch
- .text.__errno  0x080125ec        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
-                0x080125ec                __errno
+                0x080128f0       0xac d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+                0x080128f0                __register_exitproc
+ .text.atoi     0x0801299c        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atoi.o)
+                0x0801299c                atoi
+ .text.bsearch  0x080129a4       0x40 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-bsearch.o)
+                0x080129a4                bsearch
+ .text.__errno  0x080129e4        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+                0x080129e4                __errno
  .text.__libc_fini_array
-                0x080125f8       0x50 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
-                0x080125f8                __libc_fini_array
+                0x080129f0       0x50 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+                0x080129f0                __libc_fini_array
  .text.__libc_init_array
-                0x08012648       0x94 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
-                0x08012648                __libc_init_array
- .text.memcpy   0x080126dc      0x15c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
-                0x080126dc                memcpy
- .text.memmove  0x08012838      0x1b0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memmove.o)
-                0x08012838                memmove
- .text.memset   0x080129e8      0x12c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
-                0x080129e8                memset
- .text.strcat   0x08012b14       0x4c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcat.o)
-                0x08012b14                strcat
- .text.strchr   0x08012b60       0xfc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strchr.o)
-                0x08012b60                strchr
- .text.strcpy   0x08012c5c       0xbc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcpy.o)
-                0x08012c5c                strcpy
- .text.strlen   0x08012d18       0x60 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strlen.o)
-                0x08012d18                strlen
+                0x08012a40       0x94 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+                0x08012a40                __libc_init_array
+ .text.memcpy   0x08012ad4      0x15c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+                0x08012ad4                memcpy
+ .text.memmove  0x08012c30      0x1b0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memmove.o)
+                0x08012c30                memmove
+ .text.memset   0x08012de0      0x12c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+                0x08012de0                memset
+ .text.strcat   0x08012f0c       0x4c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcat.o)
+                0x08012f0c                strcat
+ .text.strchr   0x08012f58       0xfc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strchr.o)
+                0x08012f58                strchr
+ .text.strcpy   0x08013054       0xbc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcpy.o)
+                0x08013054                strcpy
+ .text.strlen   0x08013110       0x60 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strlen.o)
+                0x08013110                strlen
  .text.strncasecmp
-                0x08012d78       0xdc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncasecmp.o)
-                0x08012d78                strncasecmp
- .text.strncpy  0x08012e54      0x10c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncpy.o)
-                0x08012e54                strncpy
+                0x08013170       0xdc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncasecmp.o)
+                0x08013170                strncasecmp
+ .text.strncpy  0x0801324c      0x10c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncpy.o)
+                0x0801324c                strncpy
  .text._strtol_r
-                0x08012f60      0x130 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strtol.o)
-                0x08012f60                _strtol_r
- .text.strtol   0x08013090       0x1c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strtol.o)
-                0x08013090                strtol
+                0x08013358      0x130 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strtol.o)
+                0x08013358                _strtol_r
+ .text.strtol   0x08013488       0x1c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strtol.o)
+                0x08013488                strtol
  .text.startup.register_fini
-                0x080130ac       0x14 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
- .text.atexit   0x080130c0        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
-                0x080130c0                atexit
+                0x080134a4       0x14 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .text.atexit   0x080134b8        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+                0x080134b8                atexit
  *(.rodata)
- .rodata        0x080130cc        0xc obj/src/config.o
- .rodata        0x080130d8       0x18 obj/src/drv_system.o
+ .rodata        0x080134c4        0xc obj/src/config.o
+ .rodata        0x080134d0       0x18 obj/src/drv_system.o
  *(.rodata*)
  .rodata.CSWTCH.19
-                0x080130f0       0x18 obj/src/buzzer.o
+                0x080134e8       0x18 obj/src/buzzer.o
  .rodata.featureNames
-                0x08013108       0x3c obj/src/cli.o
-                0x08013108                featureNames
+                0x08013500       0x3c obj/src/cli.o
+                0x08013500                featureNames
  .rodata.mixerNames
-                0x08013144       0x4c obj/src/cli.o
-                0x08013144                mixerNames
+                0x0801353c       0x4c obj/src/cli.o
+                0x0801353c                mixerNames
  .rodata.cmdTable
-                0x08013190       0xa8 obj/src/cli.o
-                0x08013190                cmdTable
+                0x08013588       0xa8 obj/src/cli.o
+                0x08013588                cmdTable
  .rodata.accNames
-                0x08013238       0x14 obj/src/cli.o
-                0x08013238                accNames
+                0x08013630       0x14 obj/src/cli.o
+                0x08013630                accNames
  .rodata.str1.4
-                0x0801324c      0xde3 obj/src/cli.o
-                                0xe0c (size before relaxing)
- *fill*         0x0801402f        0x1 00
+                0x08013644      0xdf3 obj/src/cli.o
+                                0xe1c (size before relaxing)
+ *fill*         0x08014437        0x1 00
  .rodata.sensorNames
-                0x08014030       0x18 obj/src/cli.o
-                0x08014030                sensorNames
+                0x08014438       0x18 obj/src/cli.o
+                0x08014438                sensorNames
  .rodata.valueTable
-                0x08014048      0x820 obj/src/cli.o
-                0x08014048                valueTable
+                0x08014450      0x834 obj/src/cli.o
+                0x08014450                valueTable
  .rodata.rcChannelLetters
-                0x08014868        0xc obj/src/config.o
-                0x08014868                rcChannelLetters
+                0x08014c84        0xc obj/src/config.o
+                0x08014c84                rcChannelLetters
  .rodata.str1.4
-                0x08014874        0x9 obj/src/config.o
+                0x08014c90        0x9 obj/src/config.o
                                   0xc (size before relaxing)
- *fill*         0x0801487d        0x3 00
+ *fill*         0x08014c99        0x3 00
  .rodata.airPPM
-                0x08014880        0xc obj/src/drv_pwm.o
+                0x08014c9c        0xc obj/src/drv_pwm.o
  .rodata.multiPPM
-                0x0801488c        0xc obj/src/drv_pwm.o
+                0x08014ca8        0xc obj/src/drv_pwm.o
  .rodata.airPWM
-                0x08014898       0x10 obj/src/drv_pwm.o
+                0x08014cb4       0x10 obj/src/drv_pwm.o
  .rodata.timerHardware
-                0x080148a8       0xe0 obj/src/drv_pwm.o
+                0x08014cc4       0xe0 obj/src/drv_pwm.o
  .rodata.hardwareMaps
-                0x08014988       0x10 obj/src/drv_pwm.o
+                0x08014da4       0x10 obj/src/drv_pwm.o
  .rodata.multiPWM
-                0x08014998       0x10 obj/src/drv_pwm.o
+                0x08014db4       0x10 obj/src/drv_pwm.o
  .rodata.gpsInitStrings
-                0x080149a8       0x20 obj/src/gps.o
+                0x08014dc4       0x20 obj/src/gps.o
  .rodata.ubloxInit
-                0x080149c8       0x8c obj/src/gps.o
+                0x08014de4       0x8c obj/src/gps.o
  .rodata.str1.4
-                0x08014a54      0x129 obj/src/gps.o
+                0x08014e70      0x129 obj/src/gps.o
                                 0x12c (size before relaxing)
- *fill*         0x08014b7d        0x3 00
+ *fill*         0x08014f99        0x3 00
  .rodata.mixerY6
-                0x08014b80       0x60 obj/src/mixer.o
+                0x08014f9c       0x60 obj/src/mixer.o
  .rodata.mixerTri
-                0x08014be0       0x30 obj/src/mixer.o
+                0x08014ffc       0x30 obj/src/mixer.o
  .rodata.mixerVtail4
-                0x08014c10       0x40 obj/src/mixer.o
+                0x0801502c       0x40 obj/src/mixer.o
  .rodata.mixerQuadP
-                0x08014c50       0x40 obj/src/mixer.o
+                0x0801506c       0x40 obj/src/mixer.o
  .rodata.mixers
-                0x08014c90       0x98 obj/src/mixer.o
-                0x08014c90                mixers
+                0x080150ac       0x98 obj/src/mixer.o
+                0x080150ac                mixers
  .rodata.mixerOctoFlatP
-                0x08014d28       0x80 obj/src/mixer.o
+                0x08015144       0x80 obj/src/mixer.o
  .rodata.mixerHex6P
-                0x08014da8       0x60 obj/src/mixer.o
+                0x080151c4       0x60 obj/src/mixer.o
  .rodata.mixerBi
-                0x08014e08       0x20 obj/src/mixer.o
+                0x08015224       0x20 obj/src/mixer.o
  .rodata.mixerY4
-                0x08014e28       0x40 obj/src/mixer.o
+                0x08015244       0x40 obj/src/mixer.o
  .rodata.mixerQuadX
-                0x08014e68       0x40 obj/src/mixer.o
+                0x08015284       0x40 obj/src/mixer.o
  .rodata.mixerOctoFlatX
-                0x08014ea8       0x80 obj/src/mixer.o
+                0x080152c4       0x80 obj/src/mixer.o
  .rodata.mixerHex6X
-                0x08014f28       0x60 obj/src/mixer.o
+                0x08015344       0x60 obj/src/mixer.o
  .rodata.mixerOctoX8
-                0x08014f88       0x80 obj/src/mixer.o
+                0x080153a4       0x80 obj/src/mixer.o
  .rodata.pidnames
-                0x08015008       0x30 obj/src/serial.o
+                0x08015424       0x30 obj/src/serial.o
  .rodata.str1.4
-                0x08015038       0xc8 obj/src/serial.o
+                0x08015454       0xc8 obj/src/serial.o
  .rodata.str1.4
-                0x08015100        0x5 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_log.o)
+                0x0801551c        0x5 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_log.o)
                                   0xc (size before relaxing)
- *fill*         0x08015105        0x3 00
+ *fill*         0x08015521        0x3 00
  .rodata.str1.4
-                0x08015108        0x6 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_sqrt.o)
+                0x08015524        0x6 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_sqrt.o)
                                   0x8 (size before relaxing)
- *fill*         0x0801510e        0x2 00
+ *fill*         0x0801552a        0x2 00
  .rodata.npio2_hw
-                0x08015110       0x80 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
+                0x0801552c       0x80 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
  .rodata.two_over_pi
-                0x08015190      0x318 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
+                0x080155ac      0x318 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
  .rodata.init_jk
-                0x080154a8        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
- .rodata.PIo2   0x080154b4       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
+                0x080158c4        0xc d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
+ .rodata.PIo2   0x080158d0       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
  .rodata.atanlo
-                0x080154e0       0x10 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
+                0x080158fc       0x10 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
  .rodata.atanhi
-                0x080154f0       0x10 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
+                0x0801590c       0x10 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
  .rodata._ctype_
-                0x08015500      0x104 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
-                0x08015500                _ctype_
+                0x0801591c      0x104 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+                0x0801591c                _ctype_
  .rodata.str1.4
-                0x08015604        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+                0x08015a20        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
  .rodata._global_impure_ptr
-                0x08015608        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
-                0x08015608                _global_impure_ptr
+                0x08015a24        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
+                0x08015a24                _global_impure_ptr
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x0801560c        0x0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
+ .eh_frame      0x08015a28        0x0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
  *(.init)
- .init          0x0801560c        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crti.o
-                0x0801560c                _init
- .init          0x08015610        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
+ .init          0x08015a28        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crti.o
+                0x08015a28                _init
+ .init          0x08015a2c        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
  *(.fini)
- .fini          0x08015618        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crti.o
-                0x08015618                _fini
- .fini          0x0801561c        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
-                0x08015624                . = ALIGN (0x4)
-                0x08015624                _etext = .
+ .fini          0x08015a34        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crti.o
+                0x08015a34                _fini
+ .fini          0x08015a38        0x8 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
+                0x08015a40                . = ALIGN (0x4)
+                0x08015a40                _etext = .
 
-.vfp11_veneer   0x08015624        0x0
+.vfp11_veneer   0x08015a40        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08015624        0x0
+.v4_bx          0x08015a40        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x08015624        0x0
+.iplt           0x08015a40        0x0
  .iplt          0x00000000        0x0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
 
-.rel.dyn        0x08015624        0x0
+.rel.dyn        0x08015a40        0x0
  .rel.iplt      0x00000000        0x0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x08015624        0x0
-                0x08015624                __exidx_start = .
+.ARM            0x08015a40        0x0
+                0x08015a40                __exidx_start = .
  *(.ARM.exidx*)
-                0x08015624                __exidx_end = .
+                0x08015a40                __exidx_end = .
 
-.preinit_array  0x08015624        0x0
-                0x08015624                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x08015a40        0x0
+                0x08015a40                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x08015624                PROVIDE (__preinit_array_end, .)
+                0x08015a40                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x08015624        0x8
-                0x08015624                PROVIDE (__init_array_start, .)
+.init_array     0x08015a40        0x8
+                0x08015a40                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  .init_array.00000
-                0x08015624        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+                0x08015a40        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
  *(.init_array*)
- .init_array    0x08015628        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
-                0x0801562c                PROVIDE (__init_array_end, .)
+ .init_array    0x08015a44        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
+                0x08015a48                PROVIDE (__init_array_end, .)
 
-.fini_array     0x0801562c        0x4
-                0x0801562c                PROVIDE (__fini_array_start, .)
+.fini_array     0x08015a48        0x4
+                0x08015a48                PROVIDE (__fini_array_start, .)
  *(.fini_array*)
- .fini_array    0x0801562c        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
+ .fini_array    0x08015a48        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
  *(SORT(.fini_array.*))
-                0x08015630                PROVIDE (__fini_array_end, .)
-                0x08015630                _sidata = .
+                0x08015a4c                PROVIDE (__fini_array_end, .)
+                0x08015a4c                _sidata = .
 
-.data           0x20000000      0x594 load address 0x08015630
+.data           0x20000000      0x594 load address 0x08015a4c
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _sdata = .
  *(.data)
@@ -2784,28 +2792,30 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
                 0x2000002a        0x2 obj/src/drv_pwm.o
  .data.servo    0x2000002c       0x10 obj/src/mixer.o
                 0x2000002c                servo
- .data.batteryCellCount
+ .data.GPSNavReset.8582
                 0x2000003c        0x1 obj/src/mw.o
-                0x2000003c                batteryCellCount
- .data.GPSNavReset.8540
-                0x2000003d        0x1 obj/src/mw.o
- *fill*         0x2000003e        0x2 00
+ *fill*         0x2000003d        0x3 00
  .data.rcData   0x20000040       0x10 obj/src/mw.o
                 0x20000040                rcData
- .data.magCal   0x20000050        0xc obj/src/sensors.o
- .data.acc_1G   0x2000005c        0x2 obj/src/sensors.o
-                0x2000005c                acc_1G
- *fill*         0x2000005e        0x2 00
- .data.boxes    0x20000060       0xfc obj/src/serial.o
-                0x20000060                boxes
+ .data.pid_controller
+                0x20000050        0x4 obj/src/mw.o
+                0x20000050                pid_controller
+ .data.batteryCellCount
+                0x20000054        0x1 obj/src/mw.o
+                0x20000054                batteryCellCount
+ *fill*         0x20000055        0x1 00
+ .data.acc_1G   0x20000056        0x2 obj/src/sensors.o
+                0x20000056                acc_1G
+ .data.magCal   0x20000058        0xc obj/src/sensors.o
+ .data.boxes    0x20000064       0xfc obj/src/serial.o
+                0x20000064                boxes
  .data.__fdlib_version
-                0x2000015c        0x1 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_lib_ver.o)
-                0x2000015c                __fdlib_version
- *fill*         0x2000015d        0x3 00
+                0x20000160        0x1 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_lib_ver.o)
+                0x20000160                __fdlib_version
+ *fill*         0x20000161        0x3 00
  .data.__ctype_ptr__
-                0x20000160        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
-                0x20000160                __ctype_ptr__
- *fill*         0x20000164        0x4 00
+                0x20000164        0x4 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-ctype_.o)
+                0x20000164                __ctype_ptr__
  .data.impure_data
                 0x20000168      0x428 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-impure.o)
  .data._impure_ptr
@@ -2814,29 +2824,29 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
                 0x20000594                . = ALIGN (0x4)
                 0x20000594                _edata = .
 
-.jcr            0x20000594        0x0 load address 0x08015bc4
+.jcr            0x20000594        0x0 load address 0x08015fe0
  .jcr           0x20000594        0x0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
 
-.igot.plt       0x20000594        0x0 load address 0x08015bc4
+.igot.plt       0x20000594        0x0 load address 0x08015fe0
  .igot.plt      0x00000000        0x0 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
                 0x20000594                . = ALIGN (0x4)
 
-.bss            0x20000594     0x1118 load address 0x08015bc4
+.bss            0x20000594     0x1120 load address 0x08015fe0
                 0x20000594                _sbss = .
                 0x20000594                __bss_start__ = _sbss
  *(.bss)
  .bss           0x20000594       0x1c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtbegin.o
  *(.bss*)
- .bss.beeperOnBox.8405
+ .bss.beeperOnBox.8410
                 0x200005b0        0x1 obj/src/buzzer.o
  .bss.buzzerIsOn
                 0x200005b1        0x1 obj/src/buzzer.o
  .bss.beepDone  0x200005b2        0x1 obj/src/buzzer.o
- .bss.warn_noGPSfix.8406
+ .bss.warn_noGPSfix.8411
                 0x200005b3        0x1 obj/src/buzzer.o
- .bss.icnt.8417
+ .bss.icnt.8422
                 0x200005b4        0x1 obj/src/buzzer.o
- .bss.warn_failsafe.8407
+ .bss.warn_failsafe.8412
                 0x200005b5        0x1 obj/src/buzzer.o
  *fill*         0x200005b6        0x2 00
  .bss.buzzerLastToggleTime
@@ -2868,78 +2878,76 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
                 0x2000062a        0x2 obj/src/drv_bmp085.o
  .bss.last_measurement
                 0x2000062c        0x4 obj/src/drv_hcsr04.o
- .bss.echo_pin  0x20000630        0x2 obj/src/drv_hcsr04.o
+ .bss.timing_start.8407
+                0x20000630        0x4 obj/src/drv_hcsr04.o
+ .bss.echo_pin  0x20000634        0x2 obj/src/drv_hcsr04.o
  .bss.exti_irqn
-                0x20000632        0x1 obj/src/drv_hcsr04.o
+                0x20000636        0x1 obj/src/drv_hcsr04.o
  .bss.exti_pin_source
-                0x20000633        0x1 obj/src/drv_hcsr04.o
+                0x20000637        0x1 obj/src/drv_hcsr04.o
  .bss.exti_line
-                0x20000634        0x4 obj/src/drv_hcsr04.o
- .bss.distance_ptr
                 0x20000638        0x4 obj/src/drv_hcsr04.o
+ .bss.distance_ptr
+                0x2000063c        0x4 obj/src/drv_hcsr04.o
  .bss.trigger_pin
-                0x2000063c        0x2 obj/src/drv_hcsr04.o
- *fill*         0x2000063e        0x2 00
- .bss.timing_start.8402
-                0x20000640        0x4 obj/src/drv_hcsr04.o
+                0x20000640        0x2 obj/src/drv_hcsr04.o
+ *fill*         0x20000642        0x2 00
  .bss.sensor_align
                 0x20000644        0x4 obj/src/drv_hmc5883l.o
- .bss.i2cErrorCount
-                0x20000648        0x2 obj/src/drv_i2c.o
- .bss.writing   0x2000064a        0x1 obj/src/drv_i2c.o
- .bss.index.8088
-                0x2000064b        0x1 obj/src/drv_i2c.o
- .bss.reg       0x2000064c        0x1 obj/src/drv_i2c.o
- .bss.bytes     0x2000064d        0x1 obj/src/drv_i2c.o
- .bss.subaddress_sent.8086
-                0x2000064e        0x1 obj/src/drv_i2c.o
- *fill*         0x2000064f        0x1 00
+ .bss.index.8090
+                0x20000648        0x1 obj/src/drv_i2c.o
+ .bss.writing   0x20000649        0x1 obj/src/drv_i2c.o
+ .bss.reg       0x2000064a        0x1 obj/src/drv_i2c.o
+ .bss.bytes     0x2000064b        0x1 obj/src/drv_i2c.o
+ .bss.subaddress_sent.8088
+                0x2000064c        0x1 obj/src/drv_i2c.o
+ *fill*         0x2000064d        0x3 00
  .bss.read_p    0x20000650        0x4 obj/src/drv_i2c.o
  .bss.error     0x20000654        0x1 obj/src/drv_i2c.o
  *fill*         0x20000655        0x3 00
  .bss.write_p   0x20000658        0x4 obj/src/drv_i2c.o
- .bss.final_stop.8087
-                0x2000065c        0x1 obj/src/drv_i2c.o
- .bss.reading   0x2000065d        0x1 obj/src/drv_i2c.o
- *fill*         0x2000065e        0x2 00
+ .bss.reading   0x2000065c        0x1 obj/src/drv_i2c.o
+ *fill*         0x2000065d        0x3 00
  .bss.I2Cx      0x20000660        0x4 obj/src/drv_i2c.o
- .bss.busy      0x20000664        0x1 obj/src/drv_i2c.o
- .bss.addr      0x20000665        0x1 obj/src/drv_i2c.o
+ .bss.i2cErrorCount
+                0x20000664        0x2 obj/src/drv_i2c.o
+ .bss.final_stop.8089
+                0x20000666        0x1 obj/src/drv_i2c.o
+ .bss.busy      0x20000667        0x1 obj/src/drv_i2c.o
+ .bss.addr      0x20000668        0x1 obj/src/drv_i2c.o
  .bss.mpuLowPassFilter
-                0x20000666        0x1 obj/src/drv_l3g4200d.o
- .bss.state.8401
-                0x20000667        0x1 obj/src/drv_ledring.o
+                0x20000669        0x1 obj/src/drv_l3g4200d.o
+ .bss.state.8406
+                0x2000066a        0x1 obj/src/drv_ledring.o
  .bss.device_id
-                0x20000668        0x1 obj/src/drv_mma845x.o
+                0x2000066b        0x1 obj/src/drv_mma845x.o
  .bss.mpuAccelHalf
-                0x20000669        0x1 obj/src/drv_mpu6050.o
- *fill*         0x2000066a        0x2 00
+                0x2000066c        0x1 obj/src/drv_mpu6050.o
+ *fill*         0x2000066d        0x3 00
  .bss.ms5611_up
-                0x2000066c        0x4 obj/src/drv_ms5611.o
- .bss.ms5611_ut
                 0x20000670        0x4 obj/src/drv_ms5611.o
- .bss.ms5611_c  0x20000674       0x10 obj/src/drv_ms5611.o
- .bss.numMotors
-                0x20000684        0x1 obj/src/drv_pwm.o
- *fill*         0x20000685        0x3 00
+ .bss.ms5611_ut
+                0x20000674        0x4 obj/src/drv_ms5611.o
+ .bss.ms5611_c  0x20000678       0x10 obj/src/drv_ms5611.o
  .bss.captures  0x20000688       0x10 obj/src/drv_pwm.o
  .bss.pwmPorts  0x20000698      0x118 obj/src/drv_pwm.o
  .bss.numInputs
                 0x200007b0        0x1 obj/src/drv_pwm.o
- .bss.GoodPulses.8120
+ .bss.numMotors
                 0x200007b1        0x1 obj/src/drv_pwm.o
- .bss.numServos
+ .bss.GoodPulses.8122
                 0x200007b2        0x1 obj/src/drv_pwm.o
- *fill*         0x200007b3        0x1 00
+ .bss.numServos
+                0x200007b3        0x1 obj/src/drv_pwm.o
  .bss.motors    0x200007b4       0x30 obj/src/drv_pwm.o
- .bss.last.8118
-                0x200007e4        0x2 obj/src/drv_pwm.o
- *fill*         0x200007e6        0x2 00
- .bss.servos    0x200007e8       0x20 obj/src/drv_pwm.o
- .bss.now.8117  0x20000808        0x2 obj/src/drv_pwm.o
- .bss.chan.8119
-                0x2000080a        0x1 obj/src/drv_pwm.o
- *fill*         0x2000080b        0x1 00
+ .bss.servos    0x200007e4       0x20 obj/src/drv_pwm.o
+ .bss.last.8120
+                0x20000804        0x2 obj/src/drv_pwm.o
+ .bss.chan.8121
+                0x20000806        0x1 obj/src/drv_pwm.o
+ *fill*         0x20000807        0x1 00
+ .bss.now.8119  0x20000808        0x2 obj/src/drv_pwm.o
+ *fill*         0x2000080a        0x2 00
  .bss.sysTickUptime
                 0x2000080c        0x4 obj/src/drv_system.o
  .bss.usTicks   0x20000810        0x4 obj/src/drv_system.o
@@ -2964,448 +2972,444 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
  .bss.tx2BufferTail
                 0x2000082c        0x4 obj/src/drv_uart.o
                 0x2000082c                tx2BufferTail
- .bss._init.8024
+ .bss._init.8026
                 0x20000830        0x4 obj/src/filter.o
  .bss.GPS_filter
                 0x20000834       0x28 obj/src/gps.o
- .bss.nav_loopTimer.8543
-                0x2000085c        0x4 obj/src/gps.o
- .bss._msg_id   0x20000860        0x1 obj/src/gps.o
- *fill*         0x20000861        0x3 00
+ .bss.init.8598
+                0x2000085c        0x1 obj/src/gps.o
+ *fill*         0x2000085d        0x3 00
+ .bss.speed_old.8596
+                0x20000860        0x4 obj/src/gps.o
+ .bss._msg_id   0x20000864        0x1 obj/src/gps.o
+ *fill*         0x20000865        0x3 00
+ .bss.nav_loopTimer.8548
+                0x20000868        0x4 obj/src/gps.o
  .bss.poshold_ratePID
-                0x20000864       0x28 obj/src/gps.o
+                0x2000086c       0x28 obj/src/gps.o
+ .bss.offset.8682
+                0x20000894        0x1 obj/src/gps.o
+ *fill*         0x20000895        0x3 00
  .bss.GPS_scaleLonDown
-                0x2000088c        0x4 obj/src/gps.o
+                0x20000898        0x4 obj/src/gps.o
  .bss.GPS_filtered
-                0x20000890        0x8 obj/src/gps.o
+                0x2000089c        0x8 obj/src/gps.o
  .bss.crosstrack_error
-                0x20000898        0x2 obj/src/gps.o
- .bss._payload_length
-                0x2000089a        0x2 obj/src/gps.o
+                0x200008a4        0x2 obj/src/gps.o
+ *fill*         0x200008a6        0x2 00
+ .bss.string.8684
+                0x200008a8       0x10 obj/src/gps.o
  .bss.navPID_PARAM
-                0x2000089c       0x10 obj/src/gps.o
+                0x200008b8       0x10 obj/src/gps.o
  .bss.posholdPID
-                0x200008ac       0x28 obj/src/gps.o
- .bss._buffer   0x200008d4       0xc8 obj/src/gps.o
+                0x200008c8       0x28 obj/src/gps.o
+ .bss._buffer   0x200008f0       0xc8 obj/src/gps.o
  .bss.posholdPID_PARAM
-                0x2000099c       0x10 obj/src/gps.o
- .bss._ck_a     0x200009ac        0x1 obj/src/gps.o
- .bss._ck_b     0x200009ad        0x1 obj/src/gps.o
- *fill*         0x200009ae        0x2 00
- .bss.last.8592
-                0x200009b0        0x8 obj/src/gps.o
+                0x200009b8       0x10 obj/src/gps.o
+ .bss.param.8681
+                0x200009c8        0x1 obj/src/gps.o
+ .bss._ck_b     0x200009c9        0x1 obj/src/gps.o
  .bss._new_position
-                0x200009b8        0x1 obj/src/gps.o
- .bss._step     0x200009b9        0x1 obj/src/gps.o
+                0x200009ca        0x1 obj/src/gps.o
+ .bss._ck_a     0x200009cb        0x1 obj/src/gps.o
+ .bss._payload_length
+                0x200009cc        0x2 obj/src/gps.o
+ *fill*         0x200009ce        0x2 00
+ .bss.last.8597
+                0x200009d0        0x8 obj/src/gps.o
  .bss.nav_takeoff_bearing
-                0x200009ba        0x2 obj/src/gps.o
+                0x200009d8        0x2 obj/src/gps.o
+ *fill*         0x200009da        0x2 00
  .bss.nav_bearing
-                0x200009bc        0x4 obj/src/gps.o
- .bss.parity.8678
-                0x200009c0        0x1 obj/src/gps.o
- *fill*         0x200009c1        0x3 00
- .bss.GPS_WP    0x200009c4        0x8 obj/src/gps.o
+                0x200009dc        0x4 obj/src/gps.o
+ .bss.GPS_WP    0x200009e0        0x8 obj/src/gps.o
  .bss.fraction3
-                0x200009cc        0x4 obj/src/gps.o
+                0x200009e8        0x4 obj/src/gps.o
  .bss.poshold_ratePID_PARAM
-                0x200009d0       0x10 obj/src/gps.o
- .bss.dTnav     0x200009e0        0x4 obj/src/gps.o
+                0x200009ec       0x10 obj/src/gps.o
+ .bss.dTnav     0x200009fc        0x4 obj/src/gps.o
  .bss.GPS_degree
-                0x200009e4        0x8 obj/src/gps.o
- .bss.speed_old.8591
-                0x200009ec        0x4 obj/src/gps.o
- .bss.offset.8677
-                0x200009f0        0x1 obj/src/gps.o
- *fill*         0x200009f1        0x3 00
- .bss.navPID    0x200009f4       0x28 obj/src/gps.o
- .bss.rate_error
-                0x20000a1c        0x4 obj/src/gps.o
- .bss.target_bearing
-                0x20000a20        0x4 obj/src/gps.o
- .bss.GPS_filter_sum
-                0x20000a24        0x8 obj/src/gps.o
- .bss.wp_distance
-                0x20000a2c        0x4 obj/src/gps.o
- .bss._payload_counter
-                0x20000a30        0x2 obj/src/gps.o
- .bss.checksum_param.8680
-                0x20000a32        0x1 obj/src/gps.o
- *fill*         0x20000a33        0x1 00
- .bss.string.8679
-                0x20000a34       0x10 obj/src/gps.o
- .bss.original_target_bearing
-                0x20000a44        0x4 obj/src/gps.o
- .bss._class    0x20000a48        0x1 obj/src/gps.o
- .bss._new_speed
-                0x20000a49        0x1 obj/src/gps.o
- .bss.param.8676
-                0x20000a4a        0x1 obj/src/gps.o
- *fill*         0x20000a4b        0x1 00
- .bss.GPS_read  0x20000a4c        0x8 obj/src/gps.o
- .bss.next_fix  0x20000a54        0x1 obj/src/gps.o
- *fill*         0x20000a55        0x1 00
- .bss.waypoint_speed_gov
-                0x20000a56        0x2 obj/src/gps.o
+                0x20000a00        0x8 obj/src/gps.o
  .bss.actual_speed
-                0x20000a58        0x4 obj/src/gps.o
- .bss.error     0x20000a5c        0x8 obj/src/gps.o
+                0x20000a08        0x4 obj/src/gps.o
+ .bss._step     0x20000a0c        0x1 obj/src/gps.o
+ *fill*         0x20000a0d        0x3 00
+ .bss.navPID    0x20000a10       0x28 obj/src/gps.o
+ .bss.rate_error
+                0x20000a38        0x4 obj/src/gps.o
+ .bss.target_bearing
+                0x20000a3c        0x4 obj/src/gps.o
+ .bss.GPS_filter_sum
+                0x20000a40        0x8 obj/src/gps.o
+ .bss.wp_distance
+                0x20000a48        0x4 obj/src/gps.o
+ .bss._payload_counter
+                0x20000a4c        0x2 obj/src/gps.o
+ *fill*         0x20000a4e        0x2 00
+ .bss.original_target_bearing
+                0x20000a50        0x4 obj/src/gps.o
+ .bss._class    0x20000a54        0x1 obj/src/gps.o
+ .bss.checksum_param.8685
+                0x20000a55        0x1 obj/src/gps.o
+ .bss._new_speed
+                0x20000a56        0x1 obj/src/gps.o
+ .bss.frame.8686
+                0x20000a57        0x1 obj/src/gps.o
+ .bss.GPS_read  0x20000a58        0x8 obj/src/gps.o
+ .bss.next_fix  0x20000a60        0x1 obj/src/gps.o
+ .bss.parity.8683
+                0x20000a61        0x1 obj/src/gps.o
+ .bss.waypoint_speed_gov
+                0x20000a62        0x2 obj/src/gps.o
+ .bss.error     0x20000a64        0x8 obj/src/gps.o
  .bss.GPS_filter_index
-                0x20000a64        0x1 obj/src/gps.o
- .bss.frame.8681
-                0x20000a65        0x1 obj/src/gps.o
- .bss.init.8593
-                0x20000a66        0x1 obj/src/gps.o
- *fill*         0x20000a67        0x1 00
- .bss.previousT.8505
-                0x20000a68        0x4 obj/src/imu.o
- .bss.gyroADCprevious.8421
-                0x20000a6c        0x8 obj/src/imu.o
- .bss.baroTemperature
+                0x20000a6c        0x1 obj/src/gps.o
+ *fill*         0x20000a6d        0x3 00
+ .bss.invG      0x20000a70        0x4 obj/src/imu.o
+ .bss.previousT.8510
                 0x20000a74        0x4 obj/src/imu.o
-                0x20000a74                baroTemperature
- .bss.acc_25deg
-                0x20000a78        0x2 obj/src/imu.o
-                0x20000a78                acc_25deg
- *fill*         0x20000a7a        0x2 00
- .bss.Smoothing.8435
-                0x20000a7c        0x4 obj/src/imu.o
- .bss.accZoffset.8511
-                0x20000a80        0x2 obj/src/imu.o
- *fill*         0x20000a82        0x2 00
- .bss.angle     0x20000a84        0x4 obj/src/imu.o
-                0x20000a84                angle
+ .bss.baroTemperature
+                0x20000a78        0x4 obj/src/imu.o
+                0x20000a78                baroTemperature
+ .bss.gyroADCprevious.8426
+                0x20000a7c        0x8 obj/src/imu.o
+ .bss.Smoothing.8440
+                0x20000a84        0x4 obj/src/imu.o
  .bss.gyroData  0x20000a88        0x8 obj/src/imu.o
                 0x20000a88                gyroData
- .bss.gyroSmooth.8436
-                0x20000a90        0x8 obj/src/imu.o
+ .bss.angle     0x20000a90        0x4 obj/src/imu.o
+                0x20000a90                angle
+ .bss.BaroAlt   0x20000a94        0x4 obj/src/imu.o
+                0x20000a94                BaroAlt
+ .bss.accZoffset.8516
+                0x20000a98        0x2 obj/src/imu.o
+ .bss.acc_25deg
+                0x20000a9a        0x2 obj/src/imu.o
+                0x20000a9a                acc_25deg
+ .bss.gyroSmooth.8441
+                0x20000a9c        0x8 obj/src/imu.o
  .bss.magneticDeclination
-                0x20000a98        0x4 obj/src/imu.o
-                0x20000a98                magneticDeclination
- .bss.BaroAlt   0x20000a9c        0x4 obj/src/imu.o
-                0x20000a9c                BaroAlt
- .bss.lastBaroAlt.8513
-                0x20000aa0        0x4 obj/src/imu.o
- .bss.accLPF.8478
-                0x20000aa4        0xc obj/src/imu.o
+                0x20000aa4        0x4 obj/src/imu.o
+                0x20000aa4                magneticDeclination
+ .bss.baroPressure
+                0x20000aa8        0x4 obj/src/imu.o
+                0x20000aa8                baroPressure
+ .bss.accLPF.8483
+                0x20000aac        0xc obj/src/imu.o
  .bss.errorAltitudeI
-                0x20000ab0        0x2 obj/src/imu.o
-                0x20000ab0                errorAltitudeI
- *fill*         0x20000ab2        0x2 00
- .bss.vel.8512  0x20000ab4        0x4 obj/src/imu.o
- .bss.baroGroundPressure.8504
-                0x20000ab8        0x4 obj/src/imu.o
- .bss.timeInterleave.8424
+                0x20000ab8        0x2 obj/src/imu.o
+                0x20000ab8                errorAltitudeI
+ *fill*         0x20000aba        0x2 00
+ .bss.lastBaroAlt.8518
                 0x20000abc        0x4 obj/src/imu.o
- .bss.gyroZero  0x20000ac0        0x8 obj/src/imu.o
-                0x20000ac0                gyroZero
- .bss.gyroYawSmooth.8425
+ .bss.vel.8517  0x20000ac0        0x4 obj/src/imu.o
+ .bss.baroGroundPressure.8509
+                0x20000ac4        0x4 obj/src/imu.o
+ .bss.gyroYawSmooth.8430
                 0x20000ac8        0x2 obj/src/imu.o
  *fill*         0x20000aca        0x2 00
- .bss.baroPressure
+ .bss.timeInterleave.8429
                 0x20000acc        0x4 obj/src/imu.o
-                0x20000acc                baroPressure
- .bss.previousT.8479
-                0x20000ad0        0x4 obj/src/imu.o
- .bss.EstM.8477
-                0x20000ad4        0xc obj/src/imu.o
- .bss.invG      0x20000ae0        0x4 obj/src/imu.o
- .bss.vario     0x20000ae4        0x2 obj/src/imu.o
-                0x20000ae4                vario
- *fill*         0x20000ae6        0x2 00
+ .bss.EstM.8482
+                0x20000ad0        0xc obj/src/imu.o
+ .bss.previousT.8484
+                0x20000adc        0x4 obj/src/imu.o
+ .bss.gyroZero  0x20000ae0        0x8 obj/src/imu.o
+                0x20000ae0                gyroZero
+ .bss.vario     0x20000ae8        0x2 obj/src/imu.o
+                0x20000ae8                vario
+ *fill*         0x20000aea        0x2 00
  .bss.baroPressureSum
-                0x20000ae8        0x4 obj/src/imu.o
-                0x20000ae8                baroPressureSum
- .bss.BaroPID   0x20000aec        0x2 obj/src/imu.o
-                0x20000aec                BaroPID
+                0x20000aec        0x4 obj/src/imu.o
+                0x20000aec                baroPressureSum
+ .bss.BaroPID   0x20000af0        0x2 obj/src/imu.o
+                0x20000af0                BaroPID
  .bss.numberMotor
-                0x20000aee        0x1 obj/src/mixer.o
- .bss.useServo  0x20000aef        0x1 obj/src/mixer.o
-                0x20000aef                useServo
+                0x20000af2        0x1 obj/src/mixer.o
+ .bss.useServo  0x20000af3        0x1 obj/src/mixer.o
+                0x20000af3                useServo
  .bss.currentMixer
-                0x20000af0       0xc0 obj/src/mixer.o
- .bss.failsafeCnt
-                0x20000bb0        0x2 obj/src/mw.o
-                0x20000bb0                failsafeCnt
- *fill*         0x20000bb2        0x2 00
- .bss.previousTime
+                0x20000af4       0xc0 obj/src/mixer.o
+ .bss.calibratedAccTime.8469
                 0x20000bb4        0x4 obj/src/mw.o
-                0x20000bb4                previousTime
- .bss.AccInflightCalibrationMeasurementDone
-                0x20000bb8        0x2 obj/src/mw.o
-                0x20000bb8                AccInflightCalibrationMeasurementDone
- *fill*         0x20000bba        0x2 00
- .bss.lastGyro.8531
+ .bss.nav_mode  0x20000bb8        0x1 obj/src/mw.o
+                0x20000bb8                nav_mode
+ .bss.rcDelayCommand.8574
+                0x20000bb9        0x1 obj/src/mw.o
+ .bss.buzzerFreq.8472
+                0x20000bba        0x1 obj/src/mw.o
+ *fill*         0x20000bbb        0x1 00
+ .bss.errorAngleI
                 0x20000bbc        0x8 obj/src/mw.o
- .bss.calibratedAccTime.8459
-                0x20000bc4        0x4 obj/src/mw.o
- .bss.delta1.8532
+ .bss.vbatTimer.8473
+                0x20000bc4        0x1 obj/src/mw.o
+ *fill*         0x20000bc5        0x3 00
+ .bss.lastGyro.8537
                 0x20000bc8        0x8 obj/src/mw.o
- .bss.AccInflightCalibrationSavetoEEProm
-                0x20000bd0        0x2 obj/src/mw.o
-                0x20000bd0                AccInflightCalibrationSavetoEEProm
- .bss.rcDelayCommand.8514
-                0x20000bd2        0x1 obj/src/mw.o
- *fill*         0x20000bd3        0x1 00
- .bss.loopTime.8537
-                0x20000bd4        0x4 obj/src/mw.o
- .bss.ind.8467  0x20000bd8        0x1 obj/src/mw.o
- *fill*         0x20000bd9        0x3 00
- .bss.GPSLEDTime.8482
-                0x20000bdc        0x4 obj/src/mw.o
- .bss.errorAngleI.8529
-                0x20000be0        0x4 obj/src/mw.o
- .bss.rcDataMean.8491
-                0x20000be4       0x10 obj/src/mw.o
- .bss.initialThrottleHold.8536
-                0x20000bf4        0x2 obj/src/mw.o
- .bss.isAltHoldChanged.8561
-                0x20000bf6        0x1 obj/src/mw.o
- *fill*         0x20000bf7        0x1 00
- .bss.annex650_overrun_count
-                0x20000bf8        0x2 obj/src/mw.o
-                0x20000bf8                annex650_overrun_count
- .bss.GPS_ground_course
-                0x20000bfa        0x2 obj/src/mw.o
-                0x20000bfa                GPS_ground_course
- .bss.errorGyroI.8528
-                0x20000bfc        0x8 obj/src/mw.o
- .bss.nav_mode  0x20000c04        0x1 obj/src/mw.o
-                0x20000c04                nav_mode
- *fill*         0x20000c05        0x1 00
- .bss.AccInflightCalibrationActive
-                0x20000c06        0x2 obj/src/mw.o
-                0x20000c06                AccInflightCalibrationActive
- .bss.rc4ValuesIndex.8492
-                0x20000c08        0x1 obj/src/mw.o
- *fill*         0x20000c09        0x3 00
- .bss.vbatRawArray.8469
-                0x20000c0c       0x10 obj/src/mw.o
- .bss.failsafeEvents
-                0x20000c1c        0x2 obj/src/mw.o
-                0x20000c1c                failsafeEvents
- .bss.rcSticks.8515
-                0x20000c1e        0x1 obj/src/mw.o
- *fill*         0x20000c1f        0x1 00
- .bss.LEDTime.8481
-                0x20000c20        0x4 obj/src/mw.o
+ .bss.vbatRawArray.8479
+                0x20000bd0       0x10 obj/src/mw.o
+ .bss.delta1.8553
+                0x20000be0        0x8 obj/src/mw.o
+ .bss.currentTime
+                0x20000be8        0x4 obj/src/mw.o
+                0x20000be8                currentTime
  .bss.toggleBeep
-                0x20000c24        0x1 obj/src/mw.o
-                0x20000c24                toggleBeep
- *fill*         0x20000c25        0x3 00
+                0x20000bec        0x1 obj/src/mw.o
+                0x20000bec                toggleBeep
+ *fill*         0x20000bed        0x1 00
+ .bss.AccInflightCalibrationActive
+                0x20000bee        0x2 obj/src/mw.o
+                0x20000bee                AccInflightCalibrationActive
+ .bss.loopTime.8580
+                0x20000bf0        0x4 obj/src/mw.o
+ .bss.taskOrder.8595
+                0x20000bf4        0x4 obj/src/mw.o
+ .bss.GPSLEDTime.8492
+                0x20000bf8        0x4 obj/src/mw.o
+ .bss.GPS_angle
+                0x20000bfc        0x4 obj/src/mw.o
+                0x20000bfc                GPS_angle
+ .bss.failsafeEvents
+                0x20000c00        0x2 obj/src/mw.o
+                0x20000c00                failsafeEvents
+ *fill*         0x20000c02        0x2 00
+ .bss.LEDTime.8491
+                0x20000c04        0x4 obj/src/mw.o
+ .bss.GPS_Present
+                0x20000c08        0x1 obj/src/mw.o
+                0x20000c08                GPS_Present
+ *fill*         0x20000c09        0x3 00
+ .bss.previousTime
+                0x20000c0c        0x4 obj/src/mw.o
+                0x20000c0c                previousTime
+ .bss.annex650_overrun_count
+                0x20000c10        0x2 obj/src/mw.o
+                0x20000c10                annex650_overrun_count
+ .bss.InflightcalibratingA
+                0x20000c12        0x2 obj/src/mw.o
+                0x20000c12                InflightcalibratingA
+ .bss.ind.8477  0x20000c14        0x1 obj/src/mw.o
+ .bss.rc4ValuesIndex.8502
+                0x20000c15        0x1 obj/src/mw.o
+ *fill*         0x20000c16        0x2 00
+ .bss.rcTime.8578
+                0x20000c18        0x4 obj/src/mw.o
+ .bss.cycleTime
+                0x20000c1c        0x2 obj/src/mw.o
+                0x20000c1c                cycleTime
+ .bss.GPS_ground_course
+                0x20000c1e        0x2 obj/src/mw.o
+                0x20000c1e                GPS_ground_course
+ .bss.delta2.8554
+                0x20000c20        0x8 obj/src/mw.o
  .bss.rcReadRawFunc
                 0x20000c28        0x4 obj/src/mw.o
                 0x20000c28                rcReadRawFunc
- .bss.GPS_Present
+ .bss.isAltHoldChanged.8602
                 0x20000c2c        0x1 obj/src/mw.o
-                0x20000c2c                GPS_Present
  *fill*         0x20000c2d        0x3 00
- .bss.rcTime.8535
-                0x20000c30        0x4 obj/src/mw.o
+ .bss.rcData4Values.8500
+                0x20000c30       0x40 obj/src/mw.o
+ .bss.rcSticks.8575
+                0x20000c70        0x1 obj/src/mw.o
+ *fill*         0x20000c71        0x1 00
+ .bss.AltHoldCorr.8603
+                0x20000c72        0x2 obj/src/mw.o
+ .bss.AccInflightCalibrationSavetoEEProm
+                0x20000c74        0x2 obj/src/mw.o
+                0x20000c74                AccInflightCalibrationSavetoEEProm
+ *fill*         0x20000c76        0x2 00
+ .bss.lastError.8558
+                0x20000c78        0x8 obj/src/mw.o
+ .bss.rcDataMean.8501
+                0x20000c80       0x10 obj/src/mw.o
  .bss.GPS_update
-                0x20000c34        0x1 obj/src/mw.o
-                0x20000c34                GPS_update
- *fill*         0x20000c35        0x3 00
- .bss.GPS_angle
-                0x20000c38        0x4 obj/src/mw.o
-                0x20000c38                GPS_angle
- .bss.cycleTime
-                0x20000c3c        0x2 obj/src/mw.o
-                0x20000c3c                cycleTime
- .bss.vbatTimer.8463
-                0x20000c3e        0x1 obj/src/mw.o
- *fill*         0x20000c3f        0x1 00
- .bss.rcData4Values.8490
-                0x20000c40       0x40 obj/src/mw.o
- .bss.InflightcalibratingA
-                0x20000c80        0x2 obj/src/mw.o
-                0x20000c80                InflightcalibratingA
- *fill*         0x20000c82        0x2 00
- .bss.lastDTerm.8513
-                0x20000c84        0xc obj/src/mw.o
- .bss.buzzerFreq.8462
                 0x20000c90        0x1 obj/src/mw.o
- *fill*         0x20000c91        0x3 00
- .bss.delta2.8533
-                0x20000c94        0x8 obj/src/mw.o
- .bss.taskOrder.8554
-                0x20000c9c        0x4 obj/src/mw.o
- .bss.currentTime
-                0x20000ca0        0x4 obj/src/mw.o
-                0x20000ca0                currentTime
- .bss.AltHoldCorr.8562
-                0x20000ca4        0x2 obj/src/mw.o
- *fill*         0x20000ca6        0x2 00
+                0x20000c90                GPS_update
+ *fill*         0x20000c91        0x1 00
+ .bss.initialThrottleHold.8579
+                0x20000c92        0x2 obj/src/mw.o
+ .bss.lastDTerm.8525
+                0x20000c94        0xc obj/src/mw.o
+ .bss.AccInflightCalibrationMeasurementDone
+                0x20000ca0        0x2 obj/src/mw.o
+                0x20000ca0                AccInflightCalibrationMeasurementDone
+ .bss.failsafeCnt
+                0x20000ca2        0x2 obj/src/mw.o
+                0x20000ca2                failsafeCnt
+ .bss.errorGyroI
+                0x20000ca4        0xc obj/src/mw.o
  .bss.stdout_putf
-                0x20000ca8        0x4 obj/src/printf.o
+                0x20000cb0        0x4 obj/src/printf.o
  .bss.stdout_putp
-                0x20000cac        0x4 obj/src/printf.o
- .bss.accZero_saved.8470
-                0x20000cb0        0x8 obj/src/sensors.o
- .bss.state.8488
-                0x20000cb8        0x4 obj/src/sensors.o
- .bss.calibratingA
-                0x20000cbc        0x2 obj/src/sensors.o
-                0x20000cbc                calibratingA
- *fill*         0x20000cbe        0x2 00
- .bss.angleTrim_saved.8471
-                0x20000cc0        0x4 obj/src/sensors.o
- .bss.baroDeadline.8487
-                0x20000cc4        0x4 obj/src/sensors.o
- .bss.var.8515  0x20000cc8       0x3c obj/src/sensors.o
- .bss.t.8538    0x20000d04        0x4 obj/src/sensors.o
+                0x20000cb4        0x4 obj/src/printf.o
+ .bss.magZeroTempMax.8546
+                0x20000cb8        0x8 obj/src/sensors.o
  .bss.calibratingG
-                0x20000d08        0x2 obj/src/sensors.o
-                0x20000d08                calibratingG
- *fill*         0x20000d0a        0x2 00
- .bss.magZeroTempMax.8541
-                0x20000d0c        0x8 obj/src/sensors.o
- .bss.magZeroTempMin.8540
+                0x20000cc0        0x2 obj/src/sensors.o
+                0x20000cc0                calibratingG
+ *fill*         0x20000cc2        0x2 00
+ .bss.baroHistIdx.8487
+                0x20000cc4        0x4 obj/src/sensors.o
+ .bss.calibratingA
+                0x20000cc8        0x2 obj/src/sensors.o
+                0x20000cc8                calibratingA
+ *fill*         0x20000cca        0x2 00
+ .bss.accZero_saved.8475
+                0x20000ccc        0x8 obj/src/sensors.o
+ .bss.baroDeadline.8492
+                0x20000cd4        0x4 obj/src/sensors.o
+ .bss.var.8520  0x20000cd8       0x3c obj/src/sensors.o
+ .bss.magZeroTempMin.8545
                 0x20000d14        0x8 obj/src/sensors.o
- .bss.baroHistIdx.8482
+ .bss.angleTrim_saved.8476
                 0x20000d1c        0x4 obj/src/sensors.o
- .bss.previousGyroADC.8513
-                0x20000d20        0x8 obj/src/sensors.o
- .bss.accHardware
-                0x20000d28        0x1 obj/src/sensors.o
-                0x20000d28                accHardware
- *fill*         0x20000d29        0x3 00
- .bss.baroHistTab.8481
-                0x20000d2c       0xc0 obj/src/sensors.o
+ .bss.g.8519    0x20000d20        0xc obj/src/sensors.o
  .bss.calibratingB
-                0x20000dec        0x2 obj/src/sensors.o
-                0x20000dec                calibratingB
- *fill*         0x20000dee        0x2 00
- .bss.b.8469    0x20000df0        0xc obj/src/sensors.o
- .bss.a.8464    0x20000dfc        0xc obj/src/sensors.o
- .bss.magInit   0x20000e08        0x1 obj/src/sensors.o
- *fill*         0x20000e09        0x3 00
- .bss.g.8514    0x20000e0c        0xc obj/src/sensors.o
- .bss.tCal.8539
-                0x20000e18        0x4 obj/src/sensors.o
- .bss.checksum  0x20000e1c        0x1 obj/src/serial.o
- .bss.indRX     0x20000e1d        0x1 obj/src/serial.o
+                0x20000d2c        0x2 obj/src/sensors.o
+                0x20000d2c                calibratingB
+ *fill*         0x20000d2e        0x2 00
+ .bss.state.8493
+                0x20000d30        0x4 obj/src/sensors.o
+ .bss.accHardware
+                0x20000d34        0x1 obj/src/sensors.o
+                0x20000d34                accHardware
+ *fill*         0x20000d35        0x3 00
+ .bss.t.8543    0x20000d38        0x4 obj/src/sensors.o
+ .bss.magInit   0x20000d3c        0x1 obj/src/sensors.o
+ *fill*         0x20000d3d        0x3 00
+ .bss.b.8474    0x20000d40        0xc obj/src/sensors.o
+ .bss.previousGyroADC.8518
+                0x20000d4c        0x8 obj/src/sensors.o
+ .bss.baroHistTab.8486
+                0x20000d54       0xc0 obj/src/sensors.o
+ .bss.tCal.8544
+                0x20000e14        0x4 obj/src/sensors.o
+ .bss.a.8469    0x20000e18        0xc obj/src/sensors.o
+ .bss.checksum  0x20000e24        0x1 obj/src/serial.o
+ .bss.indRX     0x20000e25        0x1 obj/src/serial.o
  .bss.numberBoxItems
-                0x20000e1e        0x1 obj/src/serial.o
- .bss.dataSize.8594
-                0x20000e1f        0x1 obj/src/serial.o
- .bss.c_state.8602
-                0x20000e20        0x1 obj/src/serial.o
- .bss.guiConnected
-                0x20000e21        0x1 obj/src/serial.o
- .bss.t.8411    0x20000e22        0x1 obj/src/serial.o
- .bss.t.8415    0x20000e23        0x1 obj/src/serial.o
- .bss.cmdMSP    0x20000e24        0x1 obj/src/serial.o
- *fill*         0x20000e25        0x3 00
+                0x20000e26        0x1 obj/src/serial.o
+ .bss.offset.8598
+                0x20000e27        0x1 obj/src/serial.o
+ .bss.dataSize.8599
+                0x20000e28        0x1 obj/src/serial.o
+ .bss.c_state.8607
+                0x20000e29        0x1 obj/src/serial.o
+ .bss.t.8420    0x20000e2a        0x1 obj/src/serial.o
+ .bss.t.8416    0x20000e2b        0x1 obj/src/serial.o
  .bss.availableBoxes
-                0x20000e28       0x14 obj/src/serial.o
- .bss.inBuf     0x20000e3c       0x40 obj/src/serial.o
- .bss.cliMode   0x20000e7c        0x1 obj/src/serial.o
-                0x20000e7c                cliMode
- .bss.offset.8593
-                0x20000e7d        0x1 obj/src/serial.o
+                0x20000e2c       0x14 obj/src/serial.o
+ .bss.guiConnected
+                0x20000e40        0x1 obj/src/serial.o
+ *fill*         0x20000e41        0x3 00
+ .bss.inBuf     0x20000e44       0x40 obj/src/serial.o
+ .bss.cmdMSP    0x20000e84        0x1 obj/src/serial.o
+ .bss.cliMode   0x20000e85        0x1 obj/src/serial.o
+                0x20000e85                cliMode
  .bss.spek_chan_shift
-                0x20000e7e        0x1 obj/src/spektrum.o
+                0x20000e86        0x1 obj/src/spektrum.o
  .bss.rcFrameComplete
-                0x20000e7f        0x1 obj/src/spektrum.o
- .bss.spekTimeLast.8407
-                0x20000e80        0x4 obj/src/spektrum.o
- .bss.spekDataIncoming
-                0x20000e84        0x1 obj/src/spektrum.o
- .bss.spek_chan_mask
-                0x20000e85        0x1 obj/src/spektrum.o
- *fill*         0x20000e86        0x2 00
- .bss.spekTimeInterval.8408
+                0x20000e87        0x1 obj/src/spektrum.o
+ .bss.spekTimeLast.8412
                 0x20000e88        0x4 obj/src/spektrum.o
- .bss.spekFramePosition.8409
+ .bss.spekDataIncoming
                 0x20000e8c        0x1 obj/src/spektrum.o
- *fill*         0x20000e8d        0x3 00
- .bss.spekChannelData.8417
-                0x20000e90       0x1c obj/src/spektrum.o
- .bss.cycleNum  0x20000eac        0x1 obj/src/telemetry.o
- *fill*         0x20000ead        0x1 00
- .bss.currentCell.8430
-                0x20000eae        0x2 obj/src/telemetry.o
+ .bss.spek_chan_mask
+                0x20000e8d        0x1 obj/src/spektrum.o
+ *fill*         0x20000e8e        0x2 00
+ .bss.spekTimeInterval.8413
+                0x20000e90        0x4 obj/src/spektrum.o
+ .bss.spekFramePosition.8414
+                0x20000e94        0x1 obj/src/spektrum.o
+ *fill*         0x20000e95        0x3 00
+ .bss.spekChannelData.8422
+                0x20000e98       0x1c obj/src/spektrum.o
+ .bss.cycleNum  0x20000eb4        0x1 obj/src/telemetry.o
+ *fill*         0x20000eb5        0x1 00
+ .bss.currentCell.8435
+                0x20000eb6        0x2 obj/src/telemetry.o
  .bss.telemetryEnabled
-                0x20000eb0        0x1 obj/src/telemetry.o
- *fill*         0x20000eb1        0x3 00
+                0x20000eb8        0x1 obj/src/telemetry.o
+ *fill*         0x20000eb9        0x3 00
  .bss.lastCycleTime
-                0x20000eb4        0x4 obj/src/telemetry.o
+                0x20000ebc        0x4 obj/src/telemetry.o
  *(COMMON)
- COMMON         0x20000eb8      0x3a0 obj/src/config.o
-                0x20000eb8                cfg
-                0x20000f58                mcfg
- COMMON         0x20001258      0x280 obj/src/drv_uart.o
-                0x20001258                tx2Buffer
-                0x200012d8                rxBuffer
-                0x200013d8                txBuffer
- COMMON         0x200014d8       0x3c obj/src/filter.o
-                0x200014d8                firstOrderFilters
- COMMON         0x20001514       0x3c obj/src/imu.o
-                0x20001514                sonarAlt
-                0x20001518                gyroADC
-                0x20001520                accVelScale
-                0x20001524                accADC
-                0x2000152c                EstAlt
-                0x20001530                magADC
-                0x20001538                AltHold
-                0x2000153c                accSmooth
-                0x20001544                EstG
- COMMON         0x20001550       0x18 obj/src/mixer.o
-                0x20001550                motor
- COMMON         0x20001568       0xec obj/src/mw.o
-                0x20001568                GPS_svinfo_chn
-                0x20001578                telemTemperature1
-                0x2000157c                f
-                0x2000158c                GPS_altitude
-                0x20001590                nav_rated
-                0x20001594                lookupThrottleRC
-                0x200015ac                nav
-                0x200015b0                GPS_speed
-                0x200015b4                GPS_hold
-                0x200015bc                debug
-                0x200015c4                rcCommand
-                0x200015cc                vbat
-                0x200015ce                batteryWarningVoltage
-                0x200015d0                axisPID
-                0x200015d6                GPS_distanceToHome
-                0x200015d8                GPS_home
-                0x200015e0                GPS_directionToHome
-                0x200015e4                rcOptions
-                0x200015f8                GPS_svinfo_svid
-                0x20001608                GPS_coord
-                0x20001610                GPS_svinfo_quality
-                0x20001620                dynI8
-                0x20001624                rssi
-                0x20001626                GPS_numSat
-                0x20001627                GPS_numCh
-                0x20001628                headFreeModeHold
-                0x2000162c                dynD8
-                0x20001630                dynP8
-                0x20001634                GPS_svinfo_cno
-                0x20001644                AccInflightCalibrationArmed
-                0x20001648                lookupPitchRollRC
- COMMON         0x20001654       0x46 obj/src/sensors.o
-                0x20001654                acc
-                0x20001668                magHold
-                0x2000166c                gyro
-                0x20001680                baro
-                0x20001698                heading
- *fill*         0x2000169a        0x2 00
- COMMON         0x2000169c       0x10 obj/src/spektrum.o
-                0x2000169c                spekFrame
-                0x200016ac                . = ALIGN (0x4)
-                0x200016ac                _ebss = .
-                0x200016ac                __bss_end__ = _ebss
+ COMMON         0x20000ec0      0x3a0 obj/src/config.o
+                0x20000ec0                cfg
+                0x20000f60                mcfg
+ COMMON         0x20001260      0x280 obj/src/drv_uart.o
+                0x20001260                tx2Buffer
+                0x200012e0                rxBuffer
+                0x200013e0                txBuffer
+ COMMON         0x200014e0       0x3c obj/src/filter.o
+                0x200014e0                firstOrderFilters
+ COMMON         0x2000151c       0x3c obj/src/imu.o
+                0x2000151c                sonarAlt
+                0x20001520                gyroADC
+                0x20001528                accVelScale
+                0x2000152c                accADC
+                0x20001534                EstAlt
+                0x20001538                magADC
+                0x20001540                AltHold
+                0x20001544                accSmooth
+                0x2000154c                EstG
+ COMMON         0x20001558       0x18 obj/src/mixer.o
+                0x20001558                motor
+ COMMON         0x20001570       0xec obj/src/mw.o
+                0x20001570                GPS_svinfo_chn
+                0x20001580                telemTemperature1
+                0x20001584                f
+                0x20001594                GPS_altitude
+                0x20001598                nav_rated
+                0x2000159c                lookupThrottleRC
+                0x200015b4                nav
+                0x200015b8                GPS_speed
+                0x200015bc                GPS_hold
+                0x200015c4                debug
+                0x200015cc                rcCommand
+                0x200015d4                vbat
+                0x200015d6                batteryWarningVoltage
+                0x200015d8                axisPID
+                0x200015de                GPS_distanceToHome
+                0x200015e0                GPS_home
+                0x200015e8                GPS_directionToHome
+                0x200015ec                rcOptions
+                0x20001600                GPS_svinfo_svid
+                0x20001610                GPS_coord
+                0x20001618                GPS_svinfo_quality
+                0x20001628                dynI8
+                0x2000162c                rssi
+                0x2000162e                GPS_numSat
+                0x2000162f                GPS_numCh
+                0x20001630                headFreeModeHold
+                0x20001634                dynD8
+                0x20001638                dynP8
+                0x2000163c                GPS_svinfo_cno
+                0x2000164c                AccInflightCalibrationArmed
+                0x20001650                lookupPitchRollRC
+ COMMON         0x2000165c       0x46 obj/src/sensors.o
+                0x2000165c                acc
+                0x20001670                magHold
+                0x20001674                gyro
+                0x20001688                baro
+                0x200016a0                heading
+ *fill*         0x200016a2        0x2 00
+ COMMON         0x200016a4       0x10 obj/src/spektrum.o
+                0x200016a4                spekFrame
+                0x200016b4                . = ALIGN (0x4)
+                0x200016b4                _ebss = .
+                0x200016b4                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x200016ac      0x400 load address 0x08015bc4
-                0x200016ac                . = ALIGN (0x4)
-                0x200016ac                PROVIDE (end, .)
-                0x200016ac                PROVIDE (_end, .)
-                0x200016ac                . = (. + _Min_Heap_Size)
-                0x20001aac                . = (. + _Min_Stack_Size)
- *fill*         0x200016ac      0x400 00
-                0x20001aac                . = ALIGN (0x4)
+                0x200016b4      0x400 load address 0x08015fe0
+                0x200016b4                . = ALIGN (0x4)
+                0x200016b4                PROVIDE (end, .)
+                0x200016b4                PROVIDE (_end, .)
+                0x200016b4                . = (. + _Min_Heap_Size)
+                0x20001ab4                . = (. + _Min_Stack_Size)
+ *fill*         0x200016b4      0x400 00
+                0x20001ab4                . = ALIGN (0x4)
 
 .memory_b1_text
  *(.mb1text)
@@ -3609,7 +3613,7 @@ LOAD d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
                 0x00001080       0x1d d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7-m/crtn.o
 OUTPUT(obj/baseflight.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x2421a
+.debug_info     0x00000000    0x244b9
  .debug_info    0x00000000      0x49a obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_info    0x0000049a      0x54a obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
  .debug_info    0x000009e4      0xce7 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.o
@@ -3621,38 +3625,38 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_info    0x00003ef1      0x9ae obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.o
  .debug_info    0x0000489f     0x25b6 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_tim.o
  .debug_info    0x00006e55      0xbe2 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
- .debug_info    0x00007a37      0xae4 obj/src/buzzer.o
- .debug_info    0x0000851b     0x381e obj/src/cli.o
- .debug_info    0x0000bd39     0x1152 obj/src/config.o
- .debug_info    0x0000ce8b      0x6e2 obj/src/drv_adc.o
- .debug_info    0x0000d56d      0x4ba obj/src/drv_adxl345.o
- .debug_info    0x0000da27      0xc8b obj/src/drv_bmp085.o
- .debug_info    0x0000e6b2      0x9c0 obj/src/drv_hcsr04.o
- .debug_info    0x0000f072      0xb7c obj/src/drv_hmc5883l.o
- .debug_info    0x0000fbee     0x1057 obj/src/drv_i2c.o
- .debug_info    0x00010c45      0x39e obj/src/drv_l3g4200d.o
- .debug_info    0x00010fe3      0x3eb obj/src/drv_ledring.o
- .debug_info    0x000113ce      0x54e obj/src/drv_mma845x.o
- .debug_info    0x0001191c      0x44e obj/src/drv_mpu3050.o
- .debug_info    0x00011d6a      0x723 obj/src/drv_mpu6050.o
- .debug_info    0x0001248d      0x8a5 obj/src/drv_ms5611.o
- .debug_info    0x00012d32     0x1941 obj/src/drv_pwm.o
- .debug_info    0x00014673      0xd8b obj/src/drv_system.o
- .debug_info    0x000153fe      0xea7 obj/src/drv_uart.o
- .debug_info    0x000162a5      0x2da obj/src/filter.o
- .debug_info    0x0001657f     0x27d0 obj/src/gps.o
- .debug_info    0x00018d4f     0x15a9 obj/src/imu.o
- .debug_info    0x0001a2f8     0x112a obj/src/main.o
- .debug_info    0x0001b422     0x10c8 obj/src/mixer.o
- .debug_info    0x0001c4ea     0x1d70 obj/src/mw.o
- .debug_info    0x0001e25a      0x7eb obj/src/printf.o
- .debug_info    0x0001ea45     0x1a81 obj/src/sensors.o
- .debug_info    0x000204c6     0x221a obj/src/serial.o
- .debug_info    0x000226e0      0xa41 obj/src/spektrum.o
- .debug_info    0x00023121     0x107b obj/src/telemetry.o
- .debug_info    0x0002419c       0x7e obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+ .debug_info    0x00007a37      0xaf2 obj/src/buzzer.o
+ .debug_info    0x00008529     0x390e obj/src/cli.o
+ .debug_info    0x0000be37     0x117f obj/src/config.o
+ .debug_info    0x0000cfb6      0x6e2 obj/src/drv_adc.o
+ .debug_info    0x0000d698      0x4ba obj/src/drv_adxl345.o
+ .debug_info    0x0000db52      0xc8b obj/src/drv_bmp085.o
+ .debug_info    0x0000e7dd      0x9c0 obj/src/drv_hcsr04.o
+ .debug_info    0x0000f19d      0xb7c obj/src/drv_hmc5883l.o
+ .debug_info    0x0000fd19     0x1057 obj/src/drv_i2c.o
+ .debug_info    0x00010d70      0x39e obj/src/drv_l3g4200d.o
+ .debug_info    0x0001110e      0x3eb obj/src/drv_ledring.o
+ .debug_info    0x000114f9      0x54e obj/src/drv_mma845x.o
+ .debug_info    0x00011a47      0x44e obj/src/drv_mpu3050.o
+ .debug_info    0x00011e95      0x723 obj/src/drv_mpu6050.o
+ .debug_info    0x000125b8      0x8a5 obj/src/drv_ms5611.o
+ .debug_info    0x00012e5d     0x1941 obj/src/drv_pwm.o
+ .debug_info    0x0001479e      0xd8b obj/src/drv_system.o
+ .debug_info    0x00015529      0xea7 obj/src/drv_uart.o
+ .debug_info    0x000163d0      0x2da obj/src/filter.o
+ .debug_info    0x000166aa     0x27de obj/src/gps.o
+ .debug_info    0x00018e88     0x15b7 obj/src/imu.o
+ .debug_info    0x0001a43f     0x1138 obj/src/main.o
+ .debug_info    0x0001b577     0x10d6 obj/src/mixer.o
+ .debug_info    0x0001c64d     0x1e74 obj/src/mw.o
+ .debug_info    0x0001e4c1      0x7eb obj/src/printf.o
+ .debug_info    0x0001ecac     0x1a8f obj/src/sensors.o
+ .debug_info    0x0002073b     0x2228 obj/src/serial.o
+ .debug_info    0x00022963      0xa4f obj/src/spektrum.o
+ .debug_info    0x000233b2     0x1089 obj/src/telemetry.o
+ .debug_info    0x0002443b       0x7e obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
 
-.debug_abbrev   0x00000000     0x6a9f
+.debug_abbrev   0x00000000     0x6ae8
  .debug_abbrev  0x00000000      0x197 obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_abbrev  0x00000197      0x163 obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
  .debug_abbrev  0x000002fa      0x225 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.o
@@ -3666,36 +3670,36 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_abbrev  0x00001407      0x232 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
  .debug_abbrev  0x00001639      0x251 obj/src/buzzer.o
  .debug_abbrev  0x0000188a      0x4ba obj/src/cli.o
- .debug_abbrev  0x00001d44      0x3e8 obj/src/config.o
- .debug_abbrev  0x0000212c      0x1b1 obj/src/drv_adc.o
- .debug_abbrev  0x000022dd      0x1f4 obj/src/drv_adxl345.o
- .debug_abbrev  0x000024d1      0x329 obj/src/drv_bmp085.o
- .debug_abbrev  0x000027fa      0x253 obj/src/drv_hcsr04.o
- .debug_abbrev  0x00002a4d      0x1f3 obj/src/drv_hmc5883l.o
- .debug_abbrev  0x00002c40      0x2e5 obj/src/drv_i2c.o
- .debug_abbrev  0x00002f25      0x1c1 obj/src/drv_l3g4200d.o
- .debug_abbrev  0x000030e6      0x178 obj/src/drv_ledring.o
- .debug_abbrev  0x0000325e      0x212 obj/src/drv_mma845x.o
- .debug_abbrev  0x00003470      0x1b2 obj/src/drv_mpu3050.o
- .debug_abbrev  0x00003622      0x2bd obj/src/drv_mpu6050.o
- .debug_abbrev  0x000038df      0x2e0 obj/src/drv_ms5611.o
- .debug_abbrev  0x00003bbf      0x446 obj/src/drv_pwm.o
- .debug_abbrev  0x00004005      0x37a obj/src/drv_system.o
- .debug_abbrev  0x0000437f      0x2e5 obj/src/drv_uart.o
- .debug_abbrev  0x00004664      0x19c obj/src/filter.o
- .debug_abbrev  0x00004800      0x575 obj/src/gps.o
- .debug_abbrev  0x00004d75      0x36c obj/src/imu.o
- .debug_abbrev  0x000050e1      0x29b obj/src/main.o
- .debug_abbrev  0x0000537c      0x2b0 obj/src/mixer.o
- .debug_abbrev  0x0000562c      0x3e5 obj/src/mw.o
- .debug_abbrev  0x00005a11      0x2b5 obj/src/printf.o
- .debug_abbrev  0x00005cc6      0x488 obj/src/sensors.o
- .debug_abbrev  0x0000614e      0x432 obj/src/serial.o
- .debug_abbrev  0x00006580      0x21e obj/src/spektrum.o
- .debug_abbrev  0x0000679e      0x2ef obj/src/telemetry.o
- .debug_abbrev  0x00006a8d       0x12 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+ .debug_abbrev  0x00001d44      0x3f6 obj/src/config.o
+ .debug_abbrev  0x0000213a      0x1b1 obj/src/drv_adc.o
+ .debug_abbrev  0x000022eb      0x1f4 obj/src/drv_adxl345.o
+ .debug_abbrev  0x000024df      0x329 obj/src/drv_bmp085.o
+ .debug_abbrev  0x00002808      0x253 obj/src/drv_hcsr04.o
+ .debug_abbrev  0x00002a5b      0x1f3 obj/src/drv_hmc5883l.o
+ .debug_abbrev  0x00002c4e      0x2e5 obj/src/drv_i2c.o
+ .debug_abbrev  0x00002f33      0x1c1 obj/src/drv_l3g4200d.o
+ .debug_abbrev  0x000030f4      0x178 obj/src/drv_ledring.o
+ .debug_abbrev  0x0000326c      0x212 obj/src/drv_mma845x.o
+ .debug_abbrev  0x0000347e      0x1b2 obj/src/drv_mpu3050.o
+ .debug_abbrev  0x00003630      0x2bd obj/src/drv_mpu6050.o
+ .debug_abbrev  0x000038ed      0x2e0 obj/src/drv_ms5611.o
+ .debug_abbrev  0x00003bcd      0x446 obj/src/drv_pwm.o
+ .debug_abbrev  0x00004013      0x37a obj/src/drv_system.o
+ .debug_abbrev  0x0000438d      0x2e5 obj/src/drv_uart.o
+ .debug_abbrev  0x00004672      0x19c obj/src/filter.o
+ .debug_abbrev  0x0000480e      0x575 obj/src/gps.o
+ .debug_abbrev  0x00004d83      0x36c obj/src/imu.o
+ .debug_abbrev  0x000050ef      0x29b obj/src/main.o
+ .debug_abbrev  0x0000538a      0x2b0 obj/src/mixer.o
+ .debug_abbrev  0x0000563a      0x420 obj/src/mw.o
+ .debug_abbrev  0x00005a5a      0x2b5 obj/src/printf.o
+ .debug_abbrev  0x00005d0f      0x488 obj/src/sensors.o
+ .debug_abbrev  0x00006197      0x432 obj/src/serial.o
+ .debug_abbrev  0x000065c9      0x21e obj/src/spektrum.o
+ .debug_abbrev  0x000067e7      0x2ef obj/src/telemetry.o
+ .debug_abbrev  0x00006ad6       0x12 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
 
-.debug_loc      0x00000000    0x129be
+.debug_loc      0x00000000    0x12c67
  .debug_loc     0x00000000      0x19a obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_loc     0x0000019a      0x1bb obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
  .debug_loc     0x00000355      0xc5f obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.o
@@ -3708,36 +3712,36 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_loc     0x000043ae     0x22ac obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_tim.o
  .debug_loc     0x0000665a      0xa3a obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
  .debug_loc     0x00007094      0x185 obj/src/buzzer.o
- .debug_loc     0x00007219     0x1cb3 obj/src/cli.o
- .debug_loc     0x00008ecc      0x6d8 obj/src/config.o
- .debug_loc     0x000095a4       0x6c obj/src/drv_adc.o
- .debug_loc     0x00009610      0x158 obj/src/drv_adxl345.o
- .debug_loc     0x00009768      0x72f obj/src/drv_bmp085.o
- .debug_loc     0x00009e97      0x130 obj/src/drv_hcsr04.o
- .debug_loc     0x00009fc7      0x9ac obj/src/drv_hmc5883l.o
- .debug_loc     0x0000a973      0x574 obj/src/drv_i2c.o
- .debug_loc     0x0000aee7      0x107 obj/src/drv_l3g4200d.o
- .debug_loc     0x0000afee       0x58 obj/src/drv_ledring.o
- .debug_loc     0x0000b046      0x10a obj/src/drv_mma845x.o
- .debug_loc     0x0000b150      0x139 obj/src/drv_mpu3050.o
- .debug_loc     0x0000b289      0x27e obj/src/drv_mpu6050.o
- .debug_loc     0x0000b507      0x502 obj/src/drv_ms5611.o
- .debug_loc     0x0000ba09      0x68d obj/src/drv_pwm.o
- .debug_loc     0x0000c096      0x196 obj/src/drv_system.o
- .debug_loc     0x0000c22c      0x2c2 obj/src/drv_uart.o
- .debug_loc     0x0000c4ee      0x1f5 obj/src/filter.o
- .debug_loc     0x0000c6e3     0x19cc obj/src/gps.o
- .debug_loc     0x0000e0af      0x7f4 obj/src/imu.o
- .debug_loc     0x0000e8a3      0x126 obj/src/main.o
- .debug_loc     0x0000e9c9      0x497 obj/src/mixer.o
- .debug_loc     0x0000ee60     0x17d0 obj/src/mw.o
- .debug_loc     0x00010630      0x8f2 obj/src/printf.o
- .debug_loc     0x00010f22      0x866 obj/src/sensors.o
- .debug_loc     0x00011788      0xdd5 obj/src/serial.o
- .debug_loc     0x0001255d      0x1d2 obj/src/spektrum.o
- .debug_loc     0x0001272f      0x28f obj/src/telemetry.o
+ .debug_loc     0x00007219     0x1cdf obj/src/cli.o
+ .debug_loc     0x00008ef8      0x6d8 obj/src/config.o
+ .debug_loc     0x000095d0       0x6c obj/src/drv_adc.o
+ .debug_loc     0x0000963c      0x158 obj/src/drv_adxl345.o
+ .debug_loc     0x00009794      0x72f obj/src/drv_bmp085.o
+ .debug_loc     0x00009ec3      0x130 obj/src/drv_hcsr04.o
+ .debug_loc     0x00009ff3      0x9ac obj/src/drv_hmc5883l.o
+ .debug_loc     0x0000a99f      0x574 obj/src/drv_i2c.o
+ .debug_loc     0x0000af13      0x107 obj/src/drv_l3g4200d.o
+ .debug_loc     0x0000b01a       0x58 obj/src/drv_ledring.o
+ .debug_loc     0x0000b072      0x10a obj/src/drv_mma845x.o
+ .debug_loc     0x0000b17c      0x139 obj/src/drv_mpu3050.o
+ .debug_loc     0x0000b2b5      0x27e obj/src/drv_mpu6050.o
+ .debug_loc     0x0000b533      0x502 obj/src/drv_ms5611.o
+ .debug_loc     0x0000ba35      0x68d obj/src/drv_pwm.o
+ .debug_loc     0x0000c0c2      0x196 obj/src/drv_system.o
+ .debug_loc     0x0000c258      0x2c2 obj/src/drv_uart.o
+ .debug_loc     0x0000c51a      0x1f5 obj/src/filter.o
+ .debug_loc     0x0000c70f     0x19cc obj/src/gps.o
+ .debug_loc     0x0000e0db      0x7f4 obj/src/imu.o
+ .debug_loc     0x0000e8cf      0x126 obj/src/main.o
+ .debug_loc     0x0000e9f5      0x497 obj/src/mixer.o
+ .debug_loc     0x0000ee8c     0x1a4d obj/src/mw.o
+ .debug_loc     0x000108d9      0x8f2 obj/src/printf.o
+ .debug_loc     0x000111cb      0x866 obj/src/sensors.o
+ .debug_loc     0x00011a31      0xdd5 obj/src/serial.o
+ .debug_loc     0x00012806      0x1d2 obj/src/spektrum.o
+ .debug_loc     0x000129d8      0x28f obj/src/telemetry.o
 
-.debug_aranges  0x00000000     0x13e0
+.debug_aranges  0x00000000     0x13f8
  .debug_aranges
                 0x00000000       0x28 obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_aranges
@@ -3807,21 +3811,21 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_aranges
                 0x00001158       0x48 obj/src/mixer.o
  .debug_aranges
-                0x000011a0       0x48 obj/src/mw.o
+                0x000011a0       0x60 obj/src/mw.o
  .debug_aranges
-                0x000011e8       0x58 obj/src/printf.o
+                0x00001200       0x58 obj/src/printf.o
  .debug_aranges
-                0x00001240       0x78 obj/src/sensors.o
+                0x00001258       0x78 obj/src/sensors.o
  .debug_aranges
-                0x000012b8       0x88 obj/src/serial.o
+                0x000012d0       0x88 obj/src/serial.o
  .debug_aranges
-                0x00001340       0x38 obj/src/spektrum.o
+                0x00001358       0x38 obj/src/spektrum.o
  .debug_aranges
-                0x00001378       0x40 obj/src/telemetry.o
+                0x00001390       0x40 obj/src/telemetry.o
  .debug_aranges
-                0x000013b8       0x28 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+                0x000013d0       0x28 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
 
-.debug_ranges   0x00000000     0x3668
+.debug_ranges   0x00000000     0x3638
  .debug_ranges  0x00000000       0x68 obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_ranges  0x00000068       0x30 obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
  .debug_ranges  0x00000098      0x128 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.o
@@ -3834,37 +3838,37 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_ranges  0x00000670      0x440 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_tim.o
  .debug_ranges  0x00000ab0       0xf0 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
  .debug_ranges  0x00000ba0       0x20 obj/src/buzzer.o
- .debug_ranges  0x00000bc0      0x3c0 obj/src/cli.o
- .debug_ranges  0x00000f80       0xc8 obj/src/config.o
- .debug_ranges  0x00001048       0x18 obj/src/drv_adc.o
- .debug_ranges  0x00001060       0x60 obj/src/drv_adxl345.o
- .debug_ranges  0x000010c0      0x110 obj/src/drv_bmp085.o
- .debug_ranges  0x000011d0       0x30 obj/src/drv_hcsr04.o
- .debug_ranges  0x00001200       0x50 obj/src/drv_hmc5883l.o
- .debug_ranges  0x00001250       0xb0 obj/src/drv_i2c.o
- .debug_ranges  0x00001300       0x28 obj/src/drv_l3g4200d.o
- .debug_ranges  0x00001328       0x20 obj/src/drv_ledring.o
- .debug_ranges  0x00001348       0x28 obj/src/drv_mma845x.o
- .debug_ranges  0x00001370       0x30 obj/src/drv_mpu3050.o
- .debug_ranges  0x000013a0       0x50 obj/src/drv_mpu6050.o
- .debug_ranges  0x000013f0      0x170 obj/src/drv_ms5611.o
- .debug_ranges  0x00001560      0x1e0 obj/src/drv_pwm.o
- .debug_ranges  0x00001740       0xf0 obj/src/drv_system.o
- .debug_ranges  0x00001830       0x80 obj/src/drv_uart.o
- .debug_ranges  0x000018b0       0xb0 obj/src/filter.o
- .debug_ranges  0x00001960      0x968 obj/src/gps.o
- .debug_ranges  0x000022c8       0x98 obj/src/imu.o
- .debug_ranges  0x00002360       0x20 obj/src/main.o
- .debug_ranges  0x00002380       0x78 obj/src/mixer.o
- .debug_ranges  0x000023f8      0x148 obj/src/mw.o
- .debug_ranges  0x00002540       0xf0 obj/src/printf.o
- .debug_ranges  0x00002630      0x2b0 obj/src/sensors.o
- .debug_ranges  0x000028e0      0xbf0 obj/src/serial.o
- .debug_ranges  0x000034d0       0x40 obj/src/spektrum.o
- .debug_ranges  0x00003510      0x138 obj/src/telemetry.o
- .debug_ranges  0x00003648       0x20 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+ .debug_ranges  0x00000bc0      0x3d8 obj/src/cli.o
+ .debug_ranges  0x00000f98       0xc8 obj/src/config.o
+ .debug_ranges  0x00001060       0x18 obj/src/drv_adc.o
+ .debug_ranges  0x00001078       0x60 obj/src/drv_adxl345.o
+ .debug_ranges  0x000010d8      0x110 obj/src/drv_bmp085.o
+ .debug_ranges  0x000011e8       0x30 obj/src/drv_hcsr04.o
+ .debug_ranges  0x00001218       0x50 obj/src/drv_hmc5883l.o
+ .debug_ranges  0x00001268       0xb0 obj/src/drv_i2c.o
+ .debug_ranges  0x00001318       0x28 obj/src/drv_l3g4200d.o
+ .debug_ranges  0x00001340       0x20 obj/src/drv_ledring.o
+ .debug_ranges  0x00001360       0x28 obj/src/drv_mma845x.o
+ .debug_ranges  0x00001388       0x30 obj/src/drv_mpu3050.o
+ .debug_ranges  0x000013b8       0x50 obj/src/drv_mpu6050.o
+ .debug_ranges  0x00001408      0x170 obj/src/drv_ms5611.o
+ .debug_ranges  0x00001578      0x1e0 obj/src/drv_pwm.o
+ .debug_ranges  0x00001758       0xf0 obj/src/drv_system.o
+ .debug_ranges  0x00001848       0x80 obj/src/drv_uart.o
+ .debug_ranges  0x000018c8       0xb0 obj/src/filter.o
+ .debug_ranges  0x00001978      0x968 obj/src/gps.o
+ .debug_ranges  0x000022e0       0x98 obj/src/imu.o
+ .debug_ranges  0x00002378       0x20 obj/src/main.o
+ .debug_ranges  0x00002398       0x78 obj/src/mixer.o
+ .debug_ranges  0x00002410      0x100 obj/src/mw.o
+ .debug_ranges  0x00002510       0xf0 obj/src/printf.o
+ .debug_ranges  0x00002600      0x2b0 obj/src/sensors.o
+ .debug_ranges  0x000028b0      0xbf0 obj/src/serial.o
+ .debug_ranges  0x000034a0       0x40 obj/src/spektrum.o
+ .debug_ranges  0x000034e0      0x138 obj/src/telemetry.o
+ .debug_ranges  0x00003618       0x20 obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
 
-.debug_line     0x00000000     0x9511
+.debug_line     0x00000000     0x96dc
  .debug_line    0x00000000      0x18b obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_line    0x0000018b      0x1a7 obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
  .debug_line    0x00000332      0x4d1 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.o
@@ -3877,37 +3881,37 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_line    0x00001de0      0xc11 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_tim.o
  .debug_line    0x000029f1      0x446 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
  .debug_line    0x00002e37      0x210 obj/src/buzzer.o
- .debug_line    0x00003047      0x8cf obj/src/cli.o
- .debug_line    0x00003916      0x447 obj/src/config.o
- .debug_line    0x00003d5d      0x20c obj/src/drv_adc.o
- .debug_line    0x00003f69      0x214 obj/src/drv_adxl345.o
- .debug_line    0x0000417d      0x317 obj/src/drv_bmp085.o
- .debug_line    0x00004494      0x21a obj/src/drv_hcsr04.o
- .debug_line    0x000046ae      0x38a obj/src/drv_hmc5883l.o
- .debug_line    0x00004a38      0x424 obj/src/drv_i2c.o
- .debug_line    0x00004e5c      0x167 obj/src/drv_l3g4200d.o
- .debug_line    0x00004fc3      0x167 obj/src/drv_ledring.o
- .debug_line    0x0000512a      0x1bd obj/src/drv_mma845x.o
- .debug_line    0x000052e7      0x185 obj/src/drv_mpu3050.o
- .debug_line    0x0000546c      0x282 obj/src/drv_mpu6050.o
- .debug_line    0x000056ee      0x2e0 obj/src/drv_ms5611.o
- .debug_line    0x000059ce      0x41a obj/src/drv_pwm.o
- .debug_line    0x00005de8      0x2d6 obj/src/drv_system.o
- .debug_line    0x000060be      0x372 obj/src/drv_uart.o
- .debug_line    0x00006430      0x17d obj/src/filter.o
- .debug_line    0x000065ad      0x85d obj/src/gps.o
- .debug_line    0x00006e0a      0x376 obj/src/imu.o
- .debug_line    0x00007180      0x2b4 obj/src/main.o
- .debug_line    0x00007434      0x447 obj/src/mixer.o
- .debug_line    0x0000787b      0x895 obj/src/mw.o
- .debug_line    0x00008110      0x25d obj/src/printf.o
- .debug_line    0x0000836d      0x567 obj/src/sensors.o
- .debug_line    0x000088d4      0x81a obj/src/serial.o
- .debug_line    0x000090ee      0x179 obj/src/spektrum.o
- .debug_line    0x00009267      0x1f0 obj/src/telemetry.o
- .debug_line    0x00009457       0xba obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
+ .debug_line    0x00003047      0x918 obj/src/cli.o
+ .debug_line    0x0000395f      0x451 obj/src/config.o
+ .debug_line    0x00003db0      0x20c obj/src/drv_adc.o
+ .debug_line    0x00003fbc      0x214 obj/src/drv_adxl345.o
+ .debug_line    0x000041d0      0x317 obj/src/drv_bmp085.o
+ .debug_line    0x000044e7      0x21a obj/src/drv_hcsr04.o
+ .debug_line    0x00004701      0x38a obj/src/drv_hmc5883l.o
+ .debug_line    0x00004a8b      0x424 obj/src/drv_i2c.o
+ .debug_line    0x00004eaf      0x167 obj/src/drv_l3g4200d.o
+ .debug_line    0x00005016      0x167 obj/src/drv_ledring.o
+ .debug_line    0x0000517d      0x1bd obj/src/drv_mma845x.o
+ .debug_line    0x0000533a      0x185 obj/src/drv_mpu3050.o
+ .debug_line    0x000054bf      0x282 obj/src/drv_mpu6050.o
+ .debug_line    0x00005741      0x2e0 obj/src/drv_ms5611.o
+ .debug_line    0x00005a21      0x41a obj/src/drv_pwm.o
+ .debug_line    0x00005e3b      0x2d6 obj/src/drv_system.o
+ .debug_line    0x00006111      0x372 obj/src/drv_uart.o
+ .debug_line    0x00006483      0x17d obj/src/filter.o
+ .debug_line    0x00006600      0x85d obj/src/gps.o
+ .debug_line    0x00006e5d      0x376 obj/src/imu.o
+ .debug_line    0x000071d3      0x2b4 obj/src/main.o
+ .debug_line    0x00007487      0x447 obj/src/mixer.o
+ .debug_line    0x000078ce      0xa0d obj/src/mw.o
+ .debug_line    0x000082db      0x25d obj/src/printf.o
+ .debug_line    0x00008538      0x567 obj/src/sensors.o
+ .debug_line    0x00008a9f      0x81a obj/src/serial.o
+ .debug_line    0x000092b9      0x179 obj/src/spektrum.o
+ .debug_line    0x00009432      0x1f0 obj/src/telemetry.o
+ .debug_line    0x00009622       0xba obj/src/baseflight_startups/startup_stm32f10x_md_gcc.o
 
-.debug_str      0x00000000     0x65b5
+.debug_str      0x00000000     0x6613
  .debug_str     0x00000000      0x24f obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
                                 0x29c (size before relaxing)
  .debug_str     0x0000024f      0x209 obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
@@ -3930,64 +3934,64 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
                                 0xdc7 (size before relaxing)
  .debug_str     0x000027ec      0x41a obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
                                 0x68c (size before relaxing)
- .debug_str     0x00002c06      0x71e obj/src/buzzer.o
-                                0x886 (size before relaxing)
- .debug_str     0x00003324      0x5ff obj/src/cli.o
-                                0xc4d (size before relaxing)
- .debug_str     0x00003923      0x2b6 obj/src/config.o
-                                0xcd1 (size before relaxing)
- .debug_str     0x00003bd9       0x80 obj/src/drv_adc.o
+ .debug_str     0x00002c06      0x72c obj/src/buzzer.o
+                                0x894 (size before relaxing)
+ .debug_str     0x00003332      0x5ff obj/src/cli.o
+                                0xc5b (size before relaxing)
+ .debug_str     0x00003931      0x2c7 obj/src/config.o
+                                0xcf0 (size before relaxing)
+ .debug_str     0x00003bf8       0x80 obj/src/drv_adc.o
                                 0x47a (size before relaxing)
- .debug_str     0x00003c59       0xea obj/src/drv_adxl345.o
+ .debug_str     0x00003c78       0xea obj/src/drv_adxl345.o
                                 0x25b (size before relaxing)
- .debug_str     0x00003d43      0x4bc obj/src/drv_bmp085.o
+ .debug_str     0x00003d62      0x4bc obj/src/drv_bmp085.o
                                 0x97d (size before relaxing)
- .debug_str     0x000041ff      0x15e obj/src/drv_hcsr04.o
+ .debug_str     0x0000421e      0x15e obj/src/drv_hcsr04.o
                                 0x9a8 (size before relaxing)
- .debug_str     0x0000435d       0x84 obj/src/drv_hmc5883l.o
+ .debug_str     0x0000437c       0x84 obj/src/drv_hmc5883l.o
                                 0x33a (size before relaxing)
- .debug_str     0x000043e1      0x136 obj/src/drv_i2c.o
+ .debug_str     0x00004400      0x136 obj/src/drv_i2c.o
                                 0x95e (size before relaxing)
- .debug_str     0x00004517       0x72 obj/src/drv_l3g4200d.o
+ .debug_str     0x00004536       0x72 obj/src/drv_l3g4200d.o
                                 0x234 (size before relaxing)
- .debug_str     0x00004589       0x3a obj/src/drv_ledring.o
+ .debug_str     0x000045a8       0x3a obj/src/drv_ledring.o
                                 0x294 (size before relaxing)
- .debug_str     0x000045c3       0x4f obj/src/drv_mma845x.o
+ .debug_str     0x000045e2       0x4f obj/src/drv_mma845x.o
                                 0x34a (size before relaxing)
- .debug_str     0x00004612       0x5e obj/src/drv_mpu3050.o
+ .debug_str     0x00004631       0x5e obj/src/drv_mpu3050.o
                                 0x247 (size before relaxing)
- .debug_str     0x00004670       0xaf obj/src/drv_mpu6050.o
+ .debug_str     0x0000468f       0xaf obj/src/drv_mpu6050.o
                                 0x3de (size before relaxing)
- .debug_str     0x0000471f       0xf8 obj/src/drv_ms5611.o
+ .debug_str     0x0000473e       0xf8 obj/src/drv_ms5611.o
                                 0x446 (size before relaxing)
- .debug_str     0x00004817      0x32f obj/src/drv_pwm.o
+ .debug_str     0x00004836      0x32f obj/src/drv_pwm.o
                                 0xd75 (size before relaxing)
- .debug_str     0x00004b46       0xac obj/src/drv_system.o
+ .debug_str     0x00004b65       0xac obj/src/drv_system.o
                                 0x89a (size before relaxing)
- .debug_str     0x00004bf2      0x148 obj/src/drv_uart.o
+ .debug_str     0x00004c11      0x148 obj/src/drv_uart.o
                                 0xa00 (size before relaxing)
- .debug_str     0x00004d3a       0xb6 obj/src/filter.o
+ .debug_str     0x00004d59       0xb6 obj/src/filter.o
                                 0x208 (size before relaxing)
- .debug_str     0x00004df0      0x9db obj/src/gps.o
-                               0x13f1 (size before relaxing)
- .debug_str     0x000057cb      0x2bf obj/src/imu.o
-                                0xe94 (size before relaxing)
- .debug_str     0x00005a8a       0xeb obj/src/main.o
-                                0xc81 (size before relaxing)
- .debug_str     0x00005b75      0x141 obj/src/mixer.o
-                                0xcdc (size before relaxing)
- .debug_str     0x00005cb6      0x3a5 obj/src/mw.o
-                               0x127d (size before relaxing)
- .debug_str     0x0000605b       0x89 obj/src/printf.o
+ .debug_str     0x00004e0f      0x9db obj/src/gps.o
+                               0x13ff (size before relaxing)
+ .debug_str     0x000057ea      0x2c5 obj/src/imu.o
+                                0xea2 (size before relaxing)
+ .debug_str     0x00005aaf       0xeb obj/src/main.o
+                                0xc8f (size before relaxing)
+ .debug_str     0x00005b9a      0x141 obj/src/mixer.o
+                                0xcea (size before relaxing)
+ .debug_str     0x00005cdb      0x3de obj/src/mw.o
+                               0x12da (size before relaxing)
+ .debug_str     0x000060b9       0x89 obj/src/printf.o
                                 0x1fc (size before relaxing)
- .debug_str     0x000060e4      0x147 obj/src/sensors.o
-                                0xfe2 (size before relaxing)
- .debug_str     0x0000622b      0x1c1 obj/src/serial.o
-                                0xf43 (size before relaxing)
- .debug_str     0x000063ec       0xd4 obj/src/spektrum.o
-                                0x8bb (size before relaxing)
- .debug_str     0x000064c0       0xf5 obj/src/telemetry.o
-                                0xa6e (size before relaxing)
+ .debug_str     0x00006142      0x147 obj/src/sensors.o
+                                0xff0 (size before relaxing)
+ .debug_str     0x00006289      0x1c1 obj/src/serial.o
+                                0xf51 (size before relaxing)
+ .debug_str     0x0000644a       0xd4 obj/src/spektrum.o
+                                0x8c9 (size before relaxing)
+ .debug_str     0x0000651e       0xf5 obj/src/telemetry.o
+                                0xa7c (size before relaxing)
 
 .comment        0x00000000       0x70
  .comment       0x00000000       0x70 obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
@@ -4032,7 +4036,7 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .comment       0x00000000       0x71 obj/src/spektrum.o
  .comment       0x00000000       0x71 obj/src/telemetry.o
 
-.debug_frame    0x00000000     0x34a4
+.debug_frame    0x00000000     0x3508
  .debug_frame   0x00000000       0x38 obj/lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.o
  .debug_frame   0x00000038       0x68 obj/lib/STM32F10x_StdPeriph_Driver/src/misc.o
  .debug_frame   0x000000a0      0x284 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.o
@@ -4045,72 +4049,72 @@ OUTPUT(obj/baseflight.elf elf32-littlearm)
  .debug_frame   0x00000ca4      0x660 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_tim.o
  .debug_frame   0x00001304      0x210 obj/lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.o
  .debug_frame   0x00001514       0x6c obj/src/buzzer.o
- .debug_frame   0x00001580      0x29c obj/src/cli.o
- .debug_frame   0x0000181c      0x14c obj/src/config.o
- .debug_frame   0x00001968       0x44 obj/src/drv_adc.o
- .debug_frame   0x000019ac       0x80 obj/src/drv_adxl345.o
- .debug_frame   0x00001a2c       0xd4 obj/src/drv_bmp085.o
- .debug_frame   0x00001b00       0x88 obj/src/drv_hcsr04.o
- .debug_frame   0x00001b88       0x74 obj/src/drv_hmc5883l.o
- .debug_frame   0x00001bfc      0x124 obj/src/drv_i2c.o
- .debug_frame   0x00001d20       0x70 obj/src/drv_l3g4200d.o
- .debug_frame   0x00001d90       0x5c obj/src/drv_ledring.o
- .debug_frame   0x00001dec       0x74 obj/src/drv_mma845x.o
- .debug_frame   0x00001e60       0x8c obj/src/drv_mpu3050.o
- .debug_frame   0x00001eec       0xd8 obj/src/drv_mpu6050.o
- .debug_frame   0x00001fc4       0xbc obj/src/drv_ms5611.o
- .debug_frame   0x00002080      0x190 obj/src/drv_pwm.o
- .debug_frame   0x00002210       0xd4 obj/src/drv_system.o
- .debug_frame   0x000022e4      0x178 obj/src/drv_uart.o
- .debug_frame   0x0000245c       0x68 obj/src/filter.o
- .debug_frame   0x000024c4      0x194 obj/src/gps.o
- .debug_frame   0x00002658       0xac obj/src/imu.o
- .debug_frame   0x00002704       0x5c obj/src/main.o
- .debug_frame   0x00002760       0xbc obj/src/mixer.o
- .debug_frame   0x0000281c       0xd4 obj/src/mw.o
- .debug_frame   0x000028f0      0x100 obj/src/printf.o
- .debug_frame   0x000029f0      0x17c obj/src/sensors.o
- .debug_frame   0x00002b6c      0x17c obj/src/serial.o
- .debug_frame   0x00002ce8       0x68 obj/src/spektrum.o
- .debug_frame   0x00002d50       0x98 obj/src/telemetry.o
- .debug_frame   0x00002de8       0x28 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_cos.o)
- .debug_frame   0x00002e10       0x28 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_sin.o)
- .debug_frame   0x00002e38       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_atan2.o)
- .debug_frame   0x00002e58       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_log.o)
- .debug_frame   0x00002e88       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_sqrt.o)
- .debug_frame   0x00002eb8       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_atan2.o)
- .debug_frame   0x00002ee8       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_log.o)
- .debug_frame   0x00002f1c       0x38 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
- .debug_frame   0x00002f54       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_sqrt.o)
- .debug_frame   0x00002f84       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_cos.o)
- .debug_frame   0x00002fb8       0x3c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
- .debug_frame   0x00002ff4       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_sin.o)
- .debug_frame   0x00003028       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_matherr.o)
- .debug_frame   0x00003048       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_nan.o)
- .debug_frame   0x00003068       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
- .debug_frame   0x00003098       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fabs.o)
- .debug_frame   0x000030b8       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_floor.o)
- .debug_frame   0x000030e8       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fpclassify.o)
- .debug_frame   0x00003108       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_scalbn.o)
- .debug_frame   0x00003134       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_copysign.o)
- .debug_frame   0x00003154       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
- .debug_frame   0x00003188       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atoi.o)
- .debug_frame   0x000031b8       0x38 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-bsearch.o)
- .debug_frame   0x000031f0       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
- .debug_frame   0x00003210       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
- .debug_frame   0x0000323c       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
- .debug_frame   0x0000326c       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
- .debug_frame   0x0000329c       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memmove.o)
- .debug_frame   0x000032cc       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
- .debug_frame   0x000032f8       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcat.o)
- .debug_frame   0x00003324       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strchr.o)
- .debug_frame   0x00003350       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcpy.o)
- .debug_frame   0x00003370       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strlen.o)
- .debug_frame   0x00003390       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncasecmp.o)
- .debug_frame   0x000033bc       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncpy.o)
- .debug_frame   0x000033e8       0x54 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strtol.o)
- .debug_frame   0x0000343c       0x48 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
- .debug_frame   0x00003484       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
+ .debug_frame   0x00001580      0x2a0 obj/src/cli.o
+ .debug_frame   0x00001820      0x14c obj/src/config.o
+ .debug_frame   0x0000196c       0x44 obj/src/drv_adc.o
+ .debug_frame   0x000019b0       0x80 obj/src/drv_adxl345.o
+ .debug_frame   0x00001a30       0xd4 obj/src/drv_bmp085.o
+ .debug_frame   0x00001b04       0x88 obj/src/drv_hcsr04.o
+ .debug_frame   0x00001b8c       0x74 obj/src/drv_hmc5883l.o
+ .debug_frame   0x00001c00      0x124 obj/src/drv_i2c.o
+ .debug_frame   0x00001d24       0x70 obj/src/drv_l3g4200d.o
+ .debug_frame   0x00001d94       0x5c obj/src/drv_ledring.o
+ .debug_frame   0x00001df0       0x74 obj/src/drv_mma845x.o
+ .debug_frame   0x00001e64       0x8c obj/src/drv_mpu3050.o
+ .debug_frame   0x00001ef0       0xd8 obj/src/drv_mpu6050.o
+ .debug_frame   0x00001fc8       0xbc obj/src/drv_ms5611.o
+ .debug_frame   0x00002084      0x190 obj/src/drv_pwm.o
+ .debug_frame   0x00002214       0xd4 obj/src/drv_system.o
+ .debug_frame   0x000022e8      0x178 obj/src/drv_uart.o
+ .debug_frame   0x00002460       0x68 obj/src/filter.o
+ .debug_frame   0x000024c8      0x194 obj/src/gps.o
+ .debug_frame   0x0000265c       0xac obj/src/imu.o
+ .debug_frame   0x00002708       0x5c obj/src/main.o
+ .debug_frame   0x00002764       0xbc obj/src/mixer.o
+ .debug_frame   0x00002820      0x134 obj/src/mw.o
+ .debug_frame   0x00002954      0x100 obj/src/printf.o
+ .debug_frame   0x00002a54      0x17c obj/src/sensors.o
+ .debug_frame   0x00002bd0      0x17c obj/src/serial.o
+ .debug_frame   0x00002d4c       0x68 obj/src/spektrum.o
+ .debug_frame   0x00002db4       0x98 obj/src/telemetry.o
+ .debug_frame   0x00002e4c       0x28 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_cos.o)
+ .debug_frame   0x00002e74       0x28 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_sin.o)
+ .debug_frame   0x00002e9c       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_atan2.o)
+ .debug_frame   0x00002ebc       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_log.o)
+ .debug_frame   0x00002eec       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-wf_sqrt.o)
+ .debug_frame   0x00002f1c       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_atan2.o)
+ .debug_frame   0x00002f4c       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_log.o)
+ .debug_frame   0x00002f80       0x38 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_rem_pio2.o)
+ .debug_frame   0x00002fb8       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-ef_sqrt.o)
+ .debug_frame   0x00002fe8       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_cos.o)
+ .debug_frame   0x0000301c       0x3c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_rem_pio2.o)
+ .debug_frame   0x00003058       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-kf_sin.o)
+ .debug_frame   0x0000308c       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_matherr.o)
+ .debug_frame   0x000030ac       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_nan.o)
+ .debug_frame   0x000030cc       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_atan.o)
+ .debug_frame   0x000030fc       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fabs.o)
+ .debug_frame   0x0000311c       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_floor.o)
+ .debug_frame   0x0000314c       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_fpclassify.o)
+ .debug_frame   0x0000316c       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_scalbn.o)
+ .debug_frame   0x00003198       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_copysign.o)
+ .debug_frame   0x000031b8       0x34 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__atexit.o)
+ .debug_frame   0x000031ec       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atoi.o)
+ .debug_frame   0x0000321c       0x38 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-bsearch.o)
+ .debug_frame   0x00003254       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-errno.o)
+ .debug_frame   0x00003274       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-fini.o)
+ .debug_frame   0x000032a0       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-init.o)
+ .debug_frame   0x000032d0       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memcpy.o)
+ .debug_frame   0x00003300       0x30 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memmove.o)
+ .debug_frame   0x00003330       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-memset.o)
+ .debug_frame   0x0000335c       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcat.o)
+ .debug_frame   0x00003388       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strchr.o)
+ .debug_frame   0x000033b4       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strcpy.o)
+ .debug_frame   0x000033d4       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strlen.o)
+ .debug_frame   0x000033f4       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncasecmp.o)
+ .debug_frame   0x00003420       0x2c d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strncpy.o)
+ .debug_frame   0x0000344c       0x54 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-strtol.o)
+ .debug_frame   0x000034a0       0x48 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-__call_atexit.o)
+ .debug_frame   0x000034e8       0x20 d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-atexit.o)
 
 Cross Reference Table
 
@@ -5498,6 +5502,7 @@ nav_rated                                         obj/src/mw.o
                                                   obj/src/gps.o
 parseRcChannels                                   obj/src/config.o
                                                   obj/src/cli.o
+pid_controller                                    obj/src/mw.o
 previousTime                                      obj/src/mw.o
                                                   obj/src/main.o
 pwmInit                                           obj/src/drv_pwm.o
@@ -5568,6 +5573,8 @@ serializeBoxNamesReply                            obj/src/serial.o
 serializeNames                                    obj/src/serial.o
 servo                                             obj/src/mixer.o
                                                   obj/src/serial.o
+setPIDController                                  obj/src/mw.o
+                                                  obj/src/config.o
 sinf                                              d:/armm4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-sf_sin.o)
                                                   obj/src/mw.o
                                                   obj/src/imu.o

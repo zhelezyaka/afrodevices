@@ -290,6 +290,7 @@ static void airplaneMixer(void)
 #endif
 }
 
+
 void mixTable(void)
 {
 	int delta = 0;
@@ -403,6 +404,7 @@ void mixTable(void)
 
         motor[i] = constrain(motor[i], mcfg.minthrottle, mcfg.maxthrottle);
         if ((rcData[THROTTLE]) < mcfg.mincheck) {
+
             if (!feature(FEATURE_MOTOR_STOP))
                 motor[i] = mcfg.minthrottle;
             else
