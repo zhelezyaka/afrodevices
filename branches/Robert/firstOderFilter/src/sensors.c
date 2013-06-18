@@ -386,7 +386,7 @@ static void GYRO_Common(void)
     for (axis = 0; axis < 3; axis++) {
         gyroADC[axis] -= gyroZero[axis];
         //anti gyro glitch, limit the variation between two consecutive readings
-        gyroADC[axis] = constrain(gyroADC[axis], previousGyroADC[axis] - 800, previousGyroADC[axis] + 800);
+        //gyroADC[axis] = constrain(gyroADC[axis], previousGyroADC[axis] - 800, previousGyroADC[axis] + 800);
         previousGyroADC[axis] = gyroADC[axis];
     }
 }
