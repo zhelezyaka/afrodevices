@@ -1,10 +1,11 @@
 #summary ATmega8-based brushless motor controller
+#labels AfroESC
 
 = Introduction =
 
 Low-cost brushless motor controller for R/C (multi-rotor) use.
-Fast PWM response, optional throttle response by I2C.
+Fast response to PWM throttle, optional control by I2C (MikroKopter-compatible), or UART. Jitter-free ICP PWM input. Designed for SimonK firmware.
 
-http://i.imgur.com/moy3r.png
+= Availability =
 
-If anyone feels like wasting time manufacturing these, the design files are available at the Downloads page.
+Available at hobbyking real soon now.
