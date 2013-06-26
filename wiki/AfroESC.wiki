@@ -8,4 +8,4 @@ Fast response to PWM throttle, optional control by I2C (MikroKopter-compatible),
 
 = Availability =
 
-Available at hobbyking real soon now.
+http://www.hobbyking.com/hobbyking/store/__869__710__Multi_Rotors_Parts-Afro_ESC_Series.html
