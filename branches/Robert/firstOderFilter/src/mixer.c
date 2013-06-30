@@ -402,13 +402,20 @@ void mixTable(void)
     		motor[i] -= delta;
     	}
 
-        motor[i] = constrain(motor[i], mcfg.minthrottle, mcfg.maxthrottle);
-        if ((rcData[THROTTLE]) < mcfg.mincheck) {
-
-            if (!feature(FEATURE_MOTOR_STOP))
-                motor[i] = mcfg.minthrottle;
-            else
-                motor[i] = mcfg.mincommand;
+        if (feature(FEATURE_3D)) {
+            if ((rcData[THROTTLE]) > 1500) {
+                motor[i] = constrain(motor[i], mcfg.deadband3d_high, mcfg.maxthrottle);
+            } else {
+                motor[i] = constrain(motor[i], mcfg.mincommand, mcfg.deadband3d_low);
+            }
+        } else {
+            motor[i] = constrain(motor[i], mcfg.minthrottle, mcfg.maxthrottle);
+            if ((rcData[THROTTLE]) < mcfg.mincheck) {
+                if (!feature(FEATURE_MOTOR_STOP))
+                    motor[i] = mcfg.minthrottle;
+                else
+                    motor[i] = mcfg.mincommand;
+            }
         }
         if (!f.ARMED)
             motor[i] = mcfg.mincommand;

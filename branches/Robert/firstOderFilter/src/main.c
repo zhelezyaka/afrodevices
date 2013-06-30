@@ -22,6 +22,8 @@ static void _putc(void *p, char c)
 // keil/armcc version
 int fputc(int c, FILE *f)
 {
+    // let DMA catch up a bit when using set or dump, we're too fast.
+    while (!isUartTransmitDMAEmpty());
     uartWrite(c);
     return c;
 }
@@ -72,6 +74,7 @@ int main(void)
     mcfg.acc_hardware = ACC_MPU6050;
 	mcfg.mixerConfiguration = MULTITYPE_QUADP;
     cfg.acc_lpf_factor = 0;
+	mcfg.looptime = 2000;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
 #endif

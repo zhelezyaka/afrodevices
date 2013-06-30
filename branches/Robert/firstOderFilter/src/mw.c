@@ -30,6 +30,10 @@ static void pidMultiWii(void);
 static void pidRewrite(void);
 pidControllerFuncPtr pid_controller = pidMultiWii; // which pid controller are we using, defaultMultiWii
 
+static int16_t  maxRollPitchStick = 0;
+#define Limit1(i,l) (((i) < -(l)) ? -(l) : (((i) > (l)) ? (l) : (i)))
+#define ACROTRAINER_MODE 1000
+
 uint8_t dynP8[3], dynI8[3], dynD8[3];
 uint8_t rcOptions[CHECKBOXITEMS];
 
@@ -280,9 +284,23 @@ static void mwVario(void)
     
 }
 
-static int32_t errorGyroI[3] = { 0, 0, 0 };
-static int32_t errorAngleI[2] = { 0, 0 };
-static float lastDTerm[3] = { 0.0, 0.0, 0.0 };
+
+int16_t Threshold(int16_t v, int16_t t)
+{
+
+  if (v > t)
+    v -= t;
+  else if (v < -t)
+    v += t;
+  else
+    v = 0;
+
+  return (v);
+} // Threshold
+
+static float	lastDTerm[3] = { 0.0, 0.0, 0.0 };
+static int32_t	errorGyroI[3] = { 0, 0, 0 };
+static int32_t	errorAngleI[2] = { 0, 0 };
 
 static void pidMultiWii(void)
 {
@@ -315,7 +333,7 @@ static void pidMultiWii(void)
             PTermGYRO = rcCommand[axis];
 
             errorGyroI[axis] = constrain(errorGyroI[axis] + error, -16000, +16000); // WindUp
-            if (abs(gyroData[axis]) > 640) 
+            if (abs(gyroData[axis]) > 640)
                 errorGyroI[axis] = 0;
             ITermGYRO = (errorGyroI[axis] / 125 * cfg.I8[axis]) >> 6;
         }
@@ -447,6 +465,7 @@ void loop(void)
     static uint32_t loopTime;
     uint16_t auxState = 0;
     static uint8_t GPSNavReset = 1;
+    bool isThrottleLow = false;
 
     // this will return false if spektrum is disabled. shrug.
     if (spektrumFrameComplete())
@@ -457,6 +476,12 @@ void loop(void)
         // TODO clean this up. computeRC should handle this check
         if (!feature(FEATURE_SPEKTRUM))
             computeRC();
+
+        // in 3D mode, we need to be able to disarm by switch at any time
+        if (feature(FEATURE_3D)) {
+            if (!rcOptions[BOXARM])
+                mwDisarm();
+        }
 
         // Failsafe routine
         if (feature(FEATURE_FAILSAFE)) {
@@ -495,7 +520,11 @@ void loop(void)
         rcSticks = stTmp;
 
         // perform actions
-        if (rcData[THROTTLE] < mcfg.mincheck) {
+        if (feature(FEATURE_3D) && (rcData[THROTTLE] > (mcfg.midrc - mcfg.deadband3d_throttle) && rcData[THROTTLE] < (mcfg.midrc + mcfg.deadband3d_throttle)))
+            isThrottleLow = true;
+        else if (!feature(FEATURE_3D) && (rcData[THROTTLE] < mcfg.mincheck))
+            isThrottleLow = true;
+        if (isThrottleLow) {
             errorGyroI[ROLL] = 0;
             errorGyroI[PITCH] = 0;
             errorGyroI[YAW] = 0;
@@ -583,7 +612,7 @@ void loop(void)
                     i = 1;
                 }
                 if (i) {
-                    writeEEPROM(1, false);
+                    writeEEPROM(1, true);
                     rcDelayCommand = 0; // allow autorepetition
                 }
             }
@@ -855,6 +884,20 @@ void loop(void)
                     GPS_angle[PITCH] = (nav[LON] * sin_yaw_y + nav[LAT] * cos_yaw_x) / 10;
                 }
             }
+        }
+
+        // dada ante portas
+        bool upside_down = angle[ROLL] > 900 || angle[ROLL] < -900;
+        if (upside_down)
+        {
+        	int16_t roll_delta, pitch_delta, delta;
+        	roll_delta = abs(angle[ROLL]) - 900;
+        	pitch_delta = abs(abs(angle[PITCH]) - 900);
+        	delta = min(roll_delta, pitch_delta);
+        	delta *= 2;
+        	rcCommand[3] -= delta;
+        	if (rcCommand[3] < 1100)
+        		rcCommand[3] = 1100;
         }
 
         // PID - note this is function pointer set by setPIDController()

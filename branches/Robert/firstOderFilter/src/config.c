@@ -194,6 +194,10 @@ static void resetConf(void)
     mcfg.minthrottle = 1150;
     mcfg.maxthrottle = 1850;
     mcfg.mincommand = 1000;
+    mcfg.deadband3d_low = 1406;
+    mcfg.deadband3d_high = 1514;
+    mcfg.neutral3d = 1460;
+    mcfg.deadband3d_throttle = 50;
     mcfg.motor_pwm_rate = 400;
     mcfg.servo_pwm_rate = 50;
     // gps/nav stuff
@@ -239,6 +243,7 @@ static void resetConf(void)
     cfg.dynThrPID = 0;
     cfg.thrMid8 = 50;
     cfg.thrExpo8 = 0;
+
     // for (i = 0; i < CHECKBOXITEMS; i++)
     //     cfg.activate[i] = 0;
     cfg.angleTrim[0] = 0;

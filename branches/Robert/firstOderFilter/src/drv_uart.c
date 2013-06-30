@@ -8,10 +8,11 @@
 
 // Receive buffer, circular DMA
 volatile uint8_t rxBuffer[UART_BUFFER_SIZE];
-uint32_t rxDMAPos = 0;
+volatile uint32_t rxDMAPos = 0;
 volatile uint8_t txBuffer[UART_BUFFER_SIZE];
-uint32_t txBufferTail = 0;
-uint32_t txBufferHead = 0;
+volatile uint32_t txBufferTail = 0;
+volatile uint32_t txBufferHead = 0;
+volatile bool txDMAEmpty = false;
 
 static void uartTxDMA(void)
 {
@@ -23,7 +24,7 @@ static void uartTxDMA(void)
         DMA1_Channel4->CNDTR = UART_BUFFER_SIZE - txBufferTail;
         txBufferTail = 0;
     }
-
+    txDMAEmpty = false;
     DMA_Cmd(DMA1_Channel4, ENABLE);
 }
 
@@ -34,24 +35,26 @@ void DMA1_Channel4_IRQHandler(void)
 
     if (txBufferHead != txBufferTail)
         uartTxDMA();
+    else
+        txDMAEmpty = true;
 }
 
 void uartInit(uint32_t speed)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
+    gpio_config_t gpio;
     USART_InitTypeDef USART_InitStructure;
     DMA_InitTypeDef DMA_InitStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
 
     // USART1_TX    PA9
     // USART1_RX    PA10
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    gpio.pin = Pin_9;
+    gpio.speed = Speed_2MHz;
+    gpio.mode = Mode_AF_PP;
+    gpioInit(GPIOA, &gpio);
+    gpio.pin = Pin_10;
+    gpio.mode = Mode_IPU;
+    gpioInit(GPIOA, &gpio);
 
     // DMA TX Interrupt
     NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel4_IRQn;
@@ -104,12 +107,17 @@ void uartInit(uint32_t speed)
     USART_Cmd(USART1, ENABLE);
 }
 
-uint16_t uartAvailable(void)
+bool isUartAvailable(void)
 {
     return (DMA_GetCurrDataCounter(DMA1_Channel5) != rxDMAPos) ? true : false;
 }
 
-bool uartTransmitEmpty(void)
+bool isUartTransmitDMAEmpty(void)
+{
+    return txDMAEmpty;
+}
+
+bool isUartTransmitEmpty(void)
 {
     return (txBufferTail == txBufferHead);
 }
@@ -128,7 +136,7 @@ uint8_t uartRead(void)
 
 uint8_t uartReadPoll(void)
 {
-    while (!uartAvailable()); // wait for some bytes
+    while (!isUartAvailable()); // wait for some bytes
     return uartRead();
 }
 
@@ -175,7 +183,7 @@ static void uart2Open(uint32_t speed)
 void uart2Init(uint32_t speed, uartReceiveCallbackPtr func, bool rxOnly)
 {
     NVIC_InitTypeDef NVIC_InitStructure;
-    GPIO_InitTypeDef GPIO_InitStructure;
+    gpio_config_t gpio;
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
@@ -189,14 +197,14 @@ void uart2Init(uint32_t speed, uartReceiveCallbackPtr func, bool rxOnly)
 
     // USART2_TX    PA2
     // USART2_RX    PA3
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    gpio.pin = GPIO_Pin_2;
+    gpio.speed = Speed_2MHz;
+    gpio.mode = Mode_AF_PP;
     if (!rxOnly)
-        GPIO_Init(GPIOA, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+        gpioInit(GPIOA, &gpio);
+    gpio.pin = Pin_3;
+    gpio.mode = Mode_IPU;
+    gpioInit(GPIOA, &gpio);
 
     uart2Open(speed);
     USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
@@ -221,7 +229,7 @@ void uart2Write(uint8_t ch)
     USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
 }
 
-bool uart2TransmitEmpty(void)
+bool isUart2TransmitEmpty(void)
 {
     return tx2BufferTail == tx2BufferHead;
 }
