@@ -9,3 +9,11 @@ Fast response to PWM throttle, optional control by I2C (MikroKopter-compatible),
 = Availability =
 
 http://www.hobbyking.com/hobbyking/store/__869__710__Multi_Rotors_Parts-Afro_ESC_Series.html
+
+= MikroKopter I2C assignment =
+
+Default firmware ships for motor #1 only. User needs to build and flash firmware for other motor index.
+
+https://github.com/sim-/tgy/blob/master/tgy.asm#L173
+
+Change I2C_ADDR to next in sequence, 0x50, 0x52, 0x54... etc, as well as MOTOR_ID, rebuild firmware, and flash afro_nfet.hex using USB linker.
