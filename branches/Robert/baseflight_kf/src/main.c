@@ -1,6 +1,10 @@
 #include "board.h"
 #include "mw.h"
 
+// my 'very' own settings
+#define ROBERT
+#undef	ROBERT
+
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
 
@@ -59,6 +63,22 @@ int main(void)
 
     checkFirstTime(false);
     readEEPROM();
+
+#ifdef ROBERT
+    // futaba
+    mcfg.midrc = 1538;
+    mcfg.mincheck = 1150;
+    mcfg.maxcheck = 1850;
+    featureSet(FEATURE_PPM);
+    pwm_params.usePPM = true; //  feature(FEATURE_PPM);
+    mcfg.acc_hardware = ACC_MPU6050;
+	mcfg.mixerConfiguration = MULTITYPE_QUADX;
+    cfg.acc_lpf_factor = 0;
+	mcfg.looptime = 2000;
+	mcfg.motor_pwm_rate = 500;
+#else
+    pwm_params.usePPM = feature(FEATURE_PPM);
+#endif
 
     // configure power ADC
     if (mcfg.power_adc_channel > 0 && (mcfg.power_adc_channel == 1 || mcfg.power_adc_channel == 9))

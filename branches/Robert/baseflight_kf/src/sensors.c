@@ -408,7 +408,7 @@ void Gyro_getADC(void)
 
     if (!calibratingG) {
     	// filter is active when not calibrating
-    	//gyroKalmanfilterStep(gyroADC);
+    	gyroKalmanfilterStep(gyroADC);
     }
 }
 

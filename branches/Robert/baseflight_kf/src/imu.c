@@ -183,7 +183,8 @@ void rotateV(struct fp_vector *v, float *delta)
 static int16_t _atan2f(float y, float x)
 {
     // no need for aidsy inaccurate shortcuts on a proper platform
-    return (int16_t)(atan2f(y, x) * (180.0f / M_PI * 10.0f));
+	// correct possible rounding issue
+    return (int16_t)(atan2f(y, x) * (180.0f / M_PI * 10.0f) + 0.5);
 }
 
 // Use original baseflight angle calculation
