@@ -56,7 +56,7 @@ int16_t kalman_filter_step(KalmanFilter *f, int16_t val)
 		update(f);
 		// the position will be returned
 		// correct possible rounding issue
-		return (int16_t) (f->state_estimate.data[0][0] + 0.5);
+		return (int16_t) (f->state_estimate.data[0][0] + 0.5f);
 }
 
 

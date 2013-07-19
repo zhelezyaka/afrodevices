@@ -184,7 +184,7 @@ static int16_t _atan2f(float y, float x)
 {
     // no need for aidsy inaccurate shortcuts on a proper platform
 	// correct possible rounding issue
-    return (int16_t)(atan2f(y, x) * (180.0f / M_PI * 10.0f) + 0.5);
+    return (int16_t)(atan2f(y, x) * (180.0f / M_PI * 10.0f) + 0.5f);
 }
 
 // Use original baseflight angle calculation
