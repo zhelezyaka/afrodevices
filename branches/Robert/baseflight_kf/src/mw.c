@@ -2,6 +2,8 @@
 #include "mw.h"
 
 // June 2013     V2.2-dev
+#define F_CUT   17.0f
+#define RC      0.5f / (M_PI * F_CUT)
 
 flags_t f;
 int16_t debug[4];
@@ -278,20 +280,22 @@ static void mwVario(void)
     
 }
 
-static int32_t errorGyroI[3] = { 0, 0, 0 };
-static int32_t errorAngleI[2] = { 0, 0 };
+static float	lastDTerm[3] = { 0.0, 0.0, 0.0 };
+static int32_t	errorGyroI[3] = { 0, 0, 0 };
+static int32_t	errorAngleI[2] = { 0, 0 };
 
 static void pidMultiWii(void)
 {
     int axis, prop;
     int32_t error, errorAngle;
-    int32_t PTerm, ITerm, PTermACC, ITermACC = 0, PTermGYRO = 0, ITermGYRO = 0, DTerm;
+    float PTerm, ITerm, PTermACC, ITermACC = 0, PTermGYRO = 0, ITermGYRO = 0, DTerm;
     static int16_t lastGyro[3] = { 0, 0, 0 };
     static int32_t delta1[3], delta2[3];
     int32_t deltaSum;
     int32_t delta;
 
     // **** PITCH & ROLL & YAW PID ****
+    float dT = cycleTime * 1e-6;
     prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
     for (axis = 0; axis < 3; axis++) {
         if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
@@ -333,6 +337,11 @@ static void pidMultiWii(void)
         deltaSum = delta1[axis] + delta2[axis] + delta;
         delta2[axis] = delta1[axis];
         delta1[axis] = delta;
+
+        // calculate PT1 element on deltaSum
+		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
+		lastDTerm[axis] = deltaSum;
+
         DTerm = (deltaSum * dynD8[axis]) / 32;
         axisPID[axis] = PTerm + ITerm - DTerm;
     }
@@ -351,6 +360,7 @@ static void pidRewrite(void)
     int32_t AngleRateTmp, RateError;
 
     // ----------PID controller----------
+    float dT = cycleTime * 1e-6;
     for (axis = 0; axis < 3; axis++) {
         // -----Get the desired angle rate depending on flight mode
         if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2 ) { // MODE relying on ACC
@@ -402,6 +412,11 @@ static void pidRewrite(void)
         deltaSum = delta1[axis] + delta2[axis] + delta;
         delta2[axis] = delta1[axis];
         delta1[axis] = delta;
+
+        // calculate PT1 element on deltaSum
+		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
+		lastDTerm[axis] = deltaSum;
+
         DTerm = (deltaSum * cfg.D8[axis]) >> 8;
 
         // -----calculate total PID output     
@@ -852,6 +867,20 @@ void loop(void)
                     GPS_angle[PITCH] = (nav[LON] * sin_yaw_y + nav[LAT] * cos_yaw_x) / 10;
                 }
             }
+        }
+
+        // dada ante portas
+        bool upside_down = angle[ROLL] > 900 || angle[ROLL] < -900;
+        if (upside_down)
+        {
+        	int16_t roll_delta, pitch_delta, delta;
+        	roll_delta = abs(angle[ROLL]) - 900;
+        	pitch_delta = abs(abs(angle[PITCH]) - 900);
+        	delta = min(roll_delta, pitch_delta);
+        	delta *= 2;
+        	rcCommand[3] -= delta;
+        	if (rcCommand[3] < 1100)
+        		rcCommand[3] = 1100;
         }
 
         // PID - note this is function pointer set by setPIDController()
