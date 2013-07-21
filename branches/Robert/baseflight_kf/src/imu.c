@@ -4,8 +4,11 @@
 #include "moving_average_filter.h"
 #include "barofilter.h"
 
+
+#define	F_CUT_BARO     2.0f
 maf_t pressureFilter;
 maf_t temperatureFilter;
+float fc_baro;
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 int16_t acc_25deg = 0;
@@ -42,6 +45,7 @@ void imuInit(void)
         Mag_init();
 #endif
 
+    fc_baro = 0.5f / (M_PI * F_CUT_BARO);
     // init moving average filter
     initFilterChannel(&pressureFilter);
     initFilterChannel(&temperatureFilter);
@@ -323,6 +327,7 @@ int16_t applyDeadband(int16_t value, int16_t deadband)
 
 int getEstimatedAltitude(void)
 {
+	static float dTerm = 0.0f;
     static uint32_t previousT;
     uint32_t currentT = micros();
     uint32_t dTime;
@@ -334,12 +339,21 @@ int getEstimatedAltitude(void)
     static int32_t lastBaroAlt;
     int16_t vel_tmp;
 
-    float climbRate;
+    float climbRate, dt;
 
     dTime = currentT - previousT;
     if (dTime < UPDATE_INTERVAL)
         return 0;
     previousT = currentT;
+
+    // PT1 element for the baro pressure
+    dt = dTime * 1e-6f;
+    baroPressure = dTerm + (dt / (fc_baro + dt)) * (baroPressure - dTerm);
+	dTerm = baroPressure;
+
+    // initial sampling
+    addSample(&pressureFilter, baroPressure);
+    addSample(&temperatureFilter, baroTemperature);
 
     if (calibratingB > 0) {
 //    	baroGroundPressure = getMovingAverage(&pressureFilter);
@@ -347,7 +361,6 @@ int getEstimatedAltitude(void)
         calibratingB--;
         return 0;
     }
-    else
 
     // pressure relative to ground pressure with temperature compensation (fast!)
     // baroGroundPressure is not supposed to be 0 here

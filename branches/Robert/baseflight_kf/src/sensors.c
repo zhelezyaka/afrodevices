@@ -3,9 +3,6 @@
 
 #include "moving_average_filter.h"
 
-extern maf_t pressureFilter;
-extern maf_t temperatureFilter;
-
 uint16_t calibratingA = 0;      // the calibration is done is the main loop. Calibrating decreases at each cycle down to 0, then we enter in a normal mode.
 uint16_t calibratingB = 0;      // baro calibration = get new ground pressure value
 uint16_t calibratingG = 0;
@@ -291,9 +288,6 @@ int Baro_update(void)
         baro.start_ut();
         baroDeadline += baro.ut_delay;
         baro.calculate(&baroPressure, &baroTemperature);
-        // initial sampling
-        addSample(&pressureFilter, baroPressure);
-        addSample(&temperatureFilter, baroTemperature);
         state = 0;
         return 2;
     } else {
