@@ -404,7 +404,7 @@ int getEstimatedAltitude(void)
     debug[0] = (int16_t) climbRate;
     debug[1] = (int16_t) vel;
 
-    baroVel = climbRate;
+    baroVel = climbRate  * 1000000.0f / dTime;
 //    baroVel = (EstAlt - lastBaroAlt) * 1000000.0f / dTime;
 //    lastBaroAlt = EstAlt;
 
