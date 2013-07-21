@@ -32,7 +32,7 @@ KalmanFilter alloc_filter_1d(float P, float Q, float R)
 
 	/* We observe (x) in each time step */
 	{
-		const float values[] = { 1.0, 1.0, 0.0 };
+		const float values[] = { 1.0f, 1.0f, 0.0f };
 		set_matrix(&f.observation_model, sizeof(values) / sizeof(values[0]), values);
 	}
 
@@ -52,7 +52,7 @@ KalmanFilter alloc_filter_1d(float P, float Q, float R)
 int16_t kalman_filter_step(KalmanFilter *f, int16_t val)
 {
 		const float values[] = { val};
-		set_matrix(&f->observation, sizeof(values) / sizeof(values[0]), values);
+		set_matrix(&f->observation, 1, values);
 		update(f);
 		// the position will be returned
 		// correct possible rounding issue
@@ -72,9 +72,9 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define	R 0.01	// measurement noise covariance
 //#define P 0.22	// estimation error covariance
 
-	const float p = 0.22;
-	const float q = 10.0;
-	const float r = 0.1;
+	const float p = 0.22f;
+	const float q = 10.0f;
+	const float r = 0.1f;
 
 	kgx = alloc_filter_1d(p, q, r);
 	kgy = alloc_filter_1d(p, q, r);
@@ -87,9 +87,9 @@ static void initKalmanAccel(int16_t acc[3])
 //#define Q 0.0625		// process noise covariance
 //#define	R 1.0		// measurement noise covariance
 //#define P 0.22		// estimation error covariance
-	const float p = 0.22;
-	const float q = 0.1;
-	const float r = 10.0;
+	const float p = 0.22f;
+	const float q = 0.1f;
+	const float r = 10.0f;
 
 	kax = alloc_filter_1d(p, q, r);
 	kay = alloc_filter_1d(p, q, r);

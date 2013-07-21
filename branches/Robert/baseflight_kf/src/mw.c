@@ -10,7 +10,7 @@ int16_t debug[4];
 uint8_t toggleBeep = 0;
 uint32_t currentTime = 0;
 uint32_t previousTime = 0;
-uint16_t cycleTime = 0;         // this is the number in micro second to achieve a full loop, it can differ a little and is taken into account in the PID loop
+uint32_t cycleTime = 0;         // this is the number in micro second to achieve a full loop, it can differ a little and is taken into account in the PID loop
 int16_t headFreeModeHold;
 
 int16_t annex650_overrun_count = 0;
@@ -280,7 +280,7 @@ static void mwVario(void)
     
 }
 
-static float	lastDTerm[3] = { 0.0, 0.0, 0.0 };
+static float	lastDTerm[3] = { 0.0f, 0.0f, 0.0f };
 static int32_t	errorGyroI[3] = { 0, 0, 0 };
 static int32_t	errorAngleI[2] = { 0, 0 };
 
@@ -288,14 +288,14 @@ static void pidMultiWii(void)
 {
     int axis, prop;
     int32_t error, errorAngle;
-    float PTerm, ITerm, PTermACC, ITermACC = 0, PTermGYRO = 0, ITermGYRO = 0, DTerm;
+    float PTerm, ITerm, PTermACC, ITermACC = 0.0f, PTermGYRO = 0.0f, ITermGYRO = 0.0f, DTerm;
     static int16_t lastGyro[3] = { 0, 0, 0 };
     static int32_t delta1[3], delta2[3];
     int32_t deltaSum;
     int32_t delta;
 
     // **** PITCH & ROLL & YAW PID ****
-    float dT = cycleTime * 1e-6;
+    float dT = cycleTime * 1e-6f;
     prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
     for (axis = 0; axis < 3; axis++) {
         if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
@@ -342,7 +342,7 @@ static void pidMultiWii(void)
 		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
 		lastDTerm[axis] = deltaSum;
 
-        DTerm = (deltaSum * dynD8[axis]) / 32;
+        DTerm = (deltaSum * dynD8[axis]) / 32.0f;
         axisPID[axis] = PTerm + ITerm - DTerm;
     }
 }
@@ -360,7 +360,7 @@ static void pidRewrite(void)
     int32_t AngleRateTmp, RateError;
 
     // ----------PID controller----------
-    float dT = cycleTime * 1e-6;
+    float dT = cycleTime * 1e-6f;
     for (axis = 0; axis < 3; axis++) {
         // -----Get the desired angle rate depending on flight mode
         if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2 ) { // MODE relying on ACC
@@ -407,7 +407,7 @@ static void pidRewrite(void)
 
         // Correct difference by cycle time. Cycle time is jittery (can be different 2 times), so calculated difference
         // would be scaled by different dt each time. Division by dT fixes that.
-        delta = (delta * ((uint16_t)0xFFFF / (cycleTime >> 4))) >> 6;
+        delta = (delta * ((uint32_t)0xFFFF / (cycleTime >> 4))) >> 6;
         // add moving average here to reduce noise
         deltaSum = delta1[axis] + delta2[axis] + delta;
         delta2[axis] = delta1[axis];
@@ -793,7 +793,7 @@ void loop(void)
         computeIMU();
         // Measure loop rate just afer reading the sensors
         currentTime = micros();
-        cycleTime = (int32_t)(currentTime - previousTime);
+        cycleTime = currentTime - previousTime;
         previousTime = currentTime;
 #ifdef MPU6050_DMP
         mpu6050DmpLoop();
@@ -828,6 +828,7 @@ void loop(void)
                     } else {
                         if (isAltHoldChanged) {
                             AltHold = EstAlt;
+                            errorAltitudeI = 0;	// rob: reset integrator
                             isAltHoldChanged = 0;
                         }
                         rcCommand[THROTTLE] = initialThrottleHold + BaroPID;
@@ -845,6 +846,7 @@ void loop(void)
                         isAltHoldChanged = 1;
                     } else if (isAltHoldChanged) {
                         AltHold = EstAlt;
+                        errorAltitudeI = 0;	// rob: reset integrator
                         isAltHoldChanged = 0;
                     }
                     rcCommand[THROTTLE] = initialThrottleHold + BaroPID;

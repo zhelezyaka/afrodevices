@@ -12,6 +12,5 @@ void initKalmanfilters();
 
 void accelKalmanfilterStep(int16_t acc[3]);
 void gyroKalmanfilterStep(int16_t gyros[3]);
-void baroKalmanfilterStep(int32_t *baro);
 
 #endif /* KALMAN_H_ */

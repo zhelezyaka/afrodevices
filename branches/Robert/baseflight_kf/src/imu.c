@@ -1,11 +1,17 @@
 #include "board.h"
 #include "mw.h"
 
+#include "moving_average_filter.h"
+#include "barofilter.h"
+
+maf_t pressureFilter;
+maf_t temperatureFilter;
+
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 int16_t acc_25deg = 0;
 int32_t baroPressure = 0;
 int32_t baroTemperature = 0;
-int32_t baroPressureSum = 0;
+//int32_t baroPressureSum = 0;
 int32_t BaroAlt = 0;
 int16_t sonarAlt;              // to think about the unit
 int32_t EstAlt;                // in cm
@@ -35,6 +41,11 @@ void imuInit(void)
     if (sensors(SENSOR_MAG))
         Mag_init();
 #endif
+
+    // init moving average filter
+    initFilterChannel(&pressureFilter);
+    initFilterChannel(&temperatureFilter);
+    initBarofilter();
 }
 
 
@@ -312,7 +323,6 @@ int16_t applyDeadband(int16_t value, int16_t deadband)
 
 int getEstimatedAltitude(void)
 {
-    static int32_t baroGroundPressure;
     static uint32_t previousT;
     uint32_t currentT = micros();
     uint32_t dTime;
@@ -324,20 +334,30 @@ int getEstimatedAltitude(void)
     static int32_t lastBaroAlt;
     int16_t vel_tmp;
 
+    float climbRate;
+
     dTime = currentT - previousT;
     if (dTime < UPDATE_INTERVAL)
         return 0;
     previousT = currentT;
 
     if (calibratingB > 0) {
-        baroGroundPressure = baroPressureSum / (cfg.baro_tab_size - 1);
+//    	baroGroundPressure = getMovingAverage(&pressureFilter);
+//    	baroGroundTemperature = getMovingAverage(&temperatureFilter);
         calibratingB--;
+        return 0;
     }
+    else
 
     // pressure relative to ground pressure with temperature compensation (fast!)
     // baroGroundPressure is not supposed to be 0 here
     // see: https://code.google.com/p/ardupilot-mega/source/browse/libraries/AP_Baro/AP_Baro.cpp
-    BaroAlt = logf(baroGroundPressure * (cfg.baro_tab_size - 1) / (float)baroPressureSum) * (baroTemperature + 27315) * 29.271267f; // in cemtimeter 
+    //BaroAlt = logf(baroGroundPressure * (cfg.baro_tab_size - 1) / (float)baroPressureSum) * (baroTemperature + 27315) * 29.271267f; // in cemtimeter
+    BaroAlt = (1.0f - pow(getMovingAverage(&pressureFilter) / 101325.0f, 0.190295f)) * 4433000.0f; // centimeter
+    //BaroAlt = (1.0f - pow(baroPressure / 101325.0f, 0.190295f)) * 4433000.0f; // centimeter
+    //EstAlt = (EstAlt * 6 + BaroAlt * 2) >> 3;   // additional LPF to reduce baro noise
+
+    baroKalmanfilterStep(&BaroAlt);
     EstAlt = (EstAlt * 6 + BaroAlt * 2) >> 3;   // additional LPF to reduce baro noise
 
     //P
@@ -350,11 +370,15 @@ int getEstimatedAltitude(void)
     errorAltitudeI = constrain(errorAltitudeI, -30000, 30000);
     BaroPID += errorAltitudeI >> 9;     // I in range +/-60
 
+    // the climbrate replace the old velocity shit - or should i use the normal term f*** - pronounced "eff stärnli"
+    climbRate = getClimbRate();
+
     // projection of ACC vector to global Z, with 1G subtructed
     // Math: accZ = A * G / |G| - 1G (invG is calculated in getEstimatedAttitude)
     accZ = (accSmooth[ROLL] * EstG.V.X + accSmooth[PITCH] * EstG.V.Y + accSmooth[YAW] * EstG.V.Z) * invG;
 
-    if (!f.ARMED) {
+    if (!f.ARMED)
+    {
         accZoffset -= accZoffset >> 3;
         accZoffset += accZ;
     }
@@ -364,13 +388,17 @@ int getEstimatedAltitude(void)
     // Integrator - velocity, cm/sec
     vel += accZ * accVelScale * dTime;
 
-    baroVel = (EstAlt - lastBaroAlt) * 1000000.0f / dTime;
-    lastBaroAlt = EstAlt;
+    debug[0] = (int16_t) climbRate;
+    debug[1] = (int16_t) vel;
+
+    baroVel = climbRate;
+//    baroVel = (EstAlt - lastBaroAlt) * 1000000.0f / dTime;
+//    lastBaroAlt = EstAlt;
 
     baroVel = constrain(baroVel, -300, 300);    // constrain baro velocity +/- 300cm/s
     baroVel = applyDeadband(baroVel, 10); // to reduce noise near zero
 
-    // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity). 
+    // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity).
     // By using CF it's possible to correct the drift of integrated accZ (velocity) without loosing the phase, i.e without delay
     vel = vel * 0.985f + baroVel * 0.015f;
 

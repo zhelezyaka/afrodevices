@@ -3,7 +3,7 @@
 
 // my 'very' own settings
 #define ROBERT
-//#undef	ROBERT
+#undef	ROBERT
 
 extern uint8_t useServo;
 extern rcReadRawDataPtr rcReadRawFunc;
@@ -72,7 +72,7 @@ int main(void)
     featureSet(FEATURE_PPM);
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
     mcfg.acc_hardware = ACC_MPU6050;
-	mcfg.mixerConfiguration = MULTITYPE_QUADP;
+	mcfg.mixerConfiguration = MULTITYPE_QUADX;
     cfg.acc_lpf_factor = 0;
 	mcfg.looptime = 2000;
 	mcfg.motor_pwm_rate = 500;
