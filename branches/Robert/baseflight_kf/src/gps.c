@@ -1,5 +1,6 @@
 #include "board.h"
 #include "mw.h"
+#include "gpsFilter.h"
 
 #ifndef sq
 #define sq(x) ((x)*(x))
@@ -85,7 +86,10 @@ void gpsInit(uint32_t baudrate)
     // catch some GPS frames. TODO check this
     delay(1000);
     if (GPS_Present)
+    {
         sensorsSet(SENSOR_GPS);
+    }
+    alloc_filter_velocity2d(1.0f);
 }
 
 static void gpsPrint(const char *str)
@@ -267,13 +271,14 @@ static int16_t waypoint_speed_gov;
 //
 #define GPS_FILTER_VECTOR_LENGTH 5
 
-static uint8_t GPS_filter_index = 0;
-static int32_t GPS_filter[2][GPS_FILTER_VECTOR_LENGTH];
-static int32_t GPS_filter_sum[2];
-static int32_t GPS_read[2];
-static int32_t GPS_filtered[2];
-static int32_t GPS_degree[2];   //the lat lon degree without any decimals (lat/10 000 000)
-static uint16_t fraction3[2];
+//static uint8_t GPS_filter_index = 0;
+//static int32_t GPS_filter[2][GPS_FILTER_VECTOR_LENGTH];
+//static int32_t GPS_filter_sum[2];
+static float GPS_read[2];
+//static int32_t GPS_read[2];
+//static int32_t GPS_filtered[2];
+//static int32_t GPS_degree[2];   //the lat lon degree without any decimals (lat/10 000 000)
+//static uint16_t fraction3[2];
 
 // This is the angle from the copter to the "next_WP" location
 // with the addition of Crosstrack error in degrees * 100
@@ -299,31 +304,25 @@ void GPS_NewData(uint16_t c)
                 f.GPS_FIX_HOME = 0;
             if (!f.GPS_FIX_HOME && f.ARMED)
                 GPS_reset_home_position();
-            // Apply moving average filter to GPS data
-#if defined(GPS_FILTERING)
-            GPS_filter_index = (GPS_filter_index + 1) % GPS_FILTER_VECTOR_LENGTH;
-            for (axis = 0; axis < 2; axis++) {
-                GPS_read[axis] = GPS_coord[axis];               // latest unfiltered data is in GPS_latitude and GPS_longitude
-                GPS_degree[axis] = GPS_read[axis] / 10000000;   // get the degree to assure the sum fits to the int32_t
 
-                // How close we are to a degree line ? its the first three digits from the fractions of degree
-                // later we use it to Check if we are close to a degree line, if yes, disable averaging,
-                fraction3[axis] = (GPS_read[axis] - GPS_degree[axis] * 10000000) / 10000;
-
-                GPS_filter_sum[axis] -= GPS_filter[axis][GPS_filter_index];
-                GPS_filter[axis][GPS_filter_index] = GPS_read[axis] - (GPS_degree[axis] * 10000000);
-                GPS_filter_sum[axis] += GPS_filter[axis][GPS_filter_index];
-                GPS_filtered[axis] = GPS_filter_sum[axis] / GPS_FILTER_VECTOR_LENGTH + (GPS_degree[axis] * 10000000);
-                if (nav_mode == NAV_MODE_POSHOLD) {             // we use gps averaging only in poshold mode...
-                    if (fraction3[axis] > 1 && fraction3[axis] < 999)
-                        GPS_coord[axis] = GPS_filtered[axis];
-                }
-            }
-#endif
             // dTnav calculation
             // Time for calculating x,y speed and navigation pids
             dTnav = (float) (millis() - nav_loopTimer) / 1000.0f;
             nav_loopTimer = millis();
+            // Apply moving average filter to GPS data
+#if defined(GPS_FILTERING)
+            float seconds_since_last_update = dTnav * 0.0001f;
+            for (axis = 0; axis < 2; axis++) {
+                GPS_read[axis] = GPS_coord[axis] / 10000000;
+            }
+            // call the filter
+            update_velocity2d(GPS_read[LAT], GPS_read[LON], seconds_since_last_update);
+            // get filtered value
+            get_velocity(&GPS_read[LAT], &GPS_read[LON]);
+            for (axis = 0; axis < 2; axis++) {
+               	GPS_coord[axis] = GPS_read[axis] * 10000000;
+            }
+#endif
             // prevent runup from bad GPS
             dTnav = min(dTnav, 1.0f);
 
@@ -475,6 +474,7 @@ static bool check_missed_wp(void)
 // Get bearing from pos1 to pos2, returns an 1deg = 100 precision
 static void GPS_distance_cm_bearing(int32_t * lat1, int32_t * lon1, int32_t * lat2, int32_t * lon2, uint32_t * dist, int32_t * bearing)
 {
+	// old
     float dLat = *lat2 - *lat1; // difference of latitude in 1/10 000 000 degrees
     float dLon = (float) (*lon2 - *lon1) * GPS_scaleLonDown;
     *dist = sqrtf(sq(dLat) + sq(dLon)) * 1.113195f;
@@ -482,6 +482,31 @@ static void GPS_distance_cm_bearing(int32_t * lat1, int32_t * lon1, int32_t * la
     *bearing = 9000.0f + atan2f(-dLat, dLon) * 5729.57795f;      // Convert the output radians to 100xdeg
     if (*bearing < 0)
         *bearing += 36000;
+
+//    float dLatRAW, dLonRAW, x, y, lat1RAD, lat2RAD, Coslat2RAD;
+//    if (*lat2 != 0 && *lat1 != 0 && *lon2 != 0 && *lon1 != 0)                   // Crashpilot Errorcheck
+//    {
+//        if (CosLatScaleLon == 0.0f) GPS_calc_longitude_scaling();
+//        dLatRAW    = (float)(*lat2 - *lat1);                                    // difference of latitude in 1/10 000 000 degrees
+//        dLonRAW    = (float)(*lon2 - *lon1);
+//        x          = dLonRAW * CosLatScaleLon;
+//        *dist      = sqrtf(dLatRAW * dLatRAW + x * x) * MagicEarthNumber;       // dist in cm
+//        dLatRAW    = dLatRAW * GPSRAWtoRAD;                                     // 10^7 DEGdelta to Rad
+//        dLonRAW    = dLonRAW * GPSRAWtoRAD;
+//        lat1RAD    = *lat1   * GPSRAWtoRAD;
+//        lat2RAD    = *lat2   * GPSRAWtoRAD;
+//        Coslat2RAD = cosf(lat2RAD);
+//        y          = sinf(dLonRAW) * Coslat2RAD;
+//        x          = cosf(lat1RAD) * sinf(lat2RAD) - sinf(lat1RAD) * Coslat2RAD * cos(dLonRAW);
+//        *bearing   = constrain((int32_t)(atan2f(y, x) * RADtoDEG100), -18000, 18000);
+//        if (*bearing < 0) *bearing += 36000;
+//    }
+//    else                                                                        // Error!
+//    {
+//        *dist = 0;
+//        *bearing = 0;
+//    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

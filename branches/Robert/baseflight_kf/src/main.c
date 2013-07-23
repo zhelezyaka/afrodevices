@@ -76,6 +76,8 @@ int main(void)
     cfg.acc_lpf_factor = 0;
 	mcfg.looptime = 2000;
 	mcfg.motor_pwm_rate = 500;
+	mcfg.gyro_lpf = 188;
+	cfg.mag_declination = 138;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
 #endif

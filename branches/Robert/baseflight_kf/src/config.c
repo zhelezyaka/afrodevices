@@ -13,7 +13,7 @@ master_t mcfg;  // master config struct with data independent from profiles
 config_t cfg;   // profile config struct
 const char rcChannelLetters[] = "AERT1234";
 
-static uint8_t EEPROM_CONF_VERSION = 48;
+static uint8_t EEPROM_CONF_VERSION = 49;
 static uint32_t enabledSensors = 0;
 static void resetConf(void);
 
@@ -173,7 +173,7 @@ static void resetConf(void)
     mcfg.current_profile = 0;       // default profile
     mcfg.gyro_cmpf_factor = 600;    // default MWC
     mcfg.gyro_cmpfm_factor = 250;   // default MWC
-    mcfg.gyro_lpf = 42;             // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
+    mcfg.gyro_lpf = 188;             // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
     mcfg.accZero[0] = 0;
     mcfg.accZero[1] = 0;
     mcfg.accZero[2] = 0;
@@ -201,11 +201,11 @@ static void resetConf(void)
     mcfg.motor_pwm_rate = 400;
     mcfg.servo_pwm_rate = 50;
     // gps/nav stuff
-    mcfg.gps_type = GPS_NMEA;
+    mcfg.gps_type = GPS_UBLOX;
     mcfg.gps_baudrate = 115200;
     // serial (USART1) baudrate
     mcfg.serial_baudrate = 115200;
-    mcfg.looptime = 3500;
+    mcfg.looptime = 2000;
 
     cfg.pidController = 0;
     cfg.P8[ROLL] = 40;

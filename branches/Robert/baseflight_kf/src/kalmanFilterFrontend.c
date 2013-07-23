@@ -72,9 +72,9 @@ static void initKalmanGyro(int16_t gyros[3])
 //#define	R 0.01	// measurement noise covariance
 //#define P 0.22	// estimation error covariance
 
-	const float p = 0.22f;
-	const float q = 10.0f;
-	const float r = 0.1f;
+	const float p = 0.22069559f;
+	const float q = 1e1f;
+	const float r = 1.0f;
 
 	kgx = alloc_filter_1d(p, q, r);
 	kgy = alloc_filter_1d(p, q, r);
@@ -87,9 +87,9 @@ static void initKalmanAccel(int16_t acc[3])
 //#define Q 0.0625		// process noise covariance
 //#define	R 1.0		// measurement noise covariance
 //#define P 0.22		// estimation error covariance
-	const float p = 0.22f;
-	const float q = 0.1f;
-	const float r = 10.0f;
+	const float p = 0.22069559f;
+	const float q = 0.0625;
+	const float r = 1.0f;
 
 	kax = alloc_filter_1d(p, q, r);
 	kay = alloc_filter_1d(p, q, r);
