@@ -16,8 +16,5 @@ Default firmware ships for motor #1 only. User needs to build and flash firmware
 
 https://github.com/sim-/tgy/blob/master/tgy.asm#L173
 
-Set I2C_ADDR to 0x50 (default motor start number I think??).
-Then change MOTOR_ID to 0, 1, 2, 3,... etc to match motor index, rebuild firmware, and flash afro_nfet.hex using USB linker.
-
-THESE INSTRUCTIONS ARE STILL NOT TESTED!!! Follow at your own risk.
-I2C_ADDR might need to be 0x52, and MOTOR_ID might need to start from 1, not 0. Try both if original instructions fail.
+Set I2C_ADDR to 0x50 (default motor start address).
+Then change MOTOR_ID to 1, 2, 3, 4,... etc to match motor index, rebuild firmware, and flash afro_nfet.hex using USB linker.
