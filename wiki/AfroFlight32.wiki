@@ -14,16 +14,19 @@ Several available firmware choices:
   * 36x36mm 2 layer pcb, 30.5mm mounting pattern
   * STM32F103CxT6 CPU (32bit ARM Cortex M3, 72MHz, 64K/128K flash. Pin compatible with upcoming STM32F3 Cortex M4)
   * Invensense MPU3050 3-axis gyro (rev0 to rev3)
-  * Invensense MPU6050 3-axis gyro (rev4)
+  * Invensense MPU6050 3-axis gyro (rev4+)
   * Analog ADXL345 digital accelerometer (rev0 to rev3, removed in rev4)
-  * FreeScale MMA8452Q digital accelerometer (rev3 to rev4)
+  * FreeScale MMA8452Q digital accelerometer (rev3 to rev4, removed in rev5)
   * Honeywell HMC5883L digital compass
-  * Bosch-Sensortec BMP085 pressure sensor (rev0 to rev3, removed in rev4)
-  * MEAS-SPEC MS5611-01BA03 pressure sensor (rev4)
+  * Bosch-Sensortec BMP085 pressure sensor (rev0 to rev3, removed in rev4+)
+  * MEAS-SPEC MS5611-01BA03 pressure sensor (rev4, rev5)
   * 6 + 8 PWM I/O can remap as input or output for RC/CPPM/Motors/Servos
   * second UART accessible for Spektrum Satellite RX or GPS
+  * 16Mbit SPI flash memory (rev5)
+  * Built in FrSky Telemetry converter (rev5)
   * CPPM (up to 12 channels) RC input
   * 8 channel standard PWM RC input
+  * Through-hole MiniB USB connector (rev0-rev4), through-hole microUSB connector (rev5)
   * PWM (50..1kHz) motor output for up to 6 motors, can be remapped with other pins for 8 motors + camera stabilization
   * Onboard USB connector for telemetry and firmware update
   * Battery voltage monitoring and low-voltage alarm
@@ -46,6 +49,10 @@ Manual:
 http://www.abusemark.com/downloads/naze32_rev2.pdf
 
 == Board revisions ==
+
+AfroFlight32 rev5 (currently available limited quantity)
+
+http://i.imgur.com/tZ7uQMF.jpg
 
 AfroFlight32 rev4 (current production version)
 
