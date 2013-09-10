@@ -15,10 +15,10 @@ Several available firmware choices:
   * STM32F103CxT6 CPU (32bit ARM Cortex M3, 72MHz, 64K/128K flash. Pin compatible with upcoming STM32F3 Cortex M4)
   * Invensense MPU3050 3-axis gyro (rev0 to rev3)
   * Invensense MPU6050 3-axis gyro (rev4+)
-  * Analog ADXL345 digital accelerometer (rev0 to rev3, removed in rev4)
-  * FreeScale MMA8452Q digital accelerometer (rev3 to rev4, removed in rev5)
+  * Analog ADXL345 digital accelerometer (rev0 to rev3)
+  * FreeScale MMA8452Q digital accelerometer (rev3 to rev4)
   * Honeywell HMC5883L digital compass
-  * Bosch-Sensortec BMP085 pressure sensor (rev0 to rev3, removed in rev4+)
+  * Bosch-Sensortec BMP085 pressure sensor (rev0 to rev3)
   * MEAS-SPEC MS5611-01BA03 pressure sensor (rev4, rev5)
   * 6 + 8 PWM I/O can remap as input or output for RC/CPPM/Motors/Servos
   * second UART accessible for Spektrum Satellite RX or GPS
@@ -32,7 +32,8 @@ Several available firmware choices:
   * Onboard USB connector 
   * Battery voltage monitoring and low-voltage alarm
   * Buzzer for alarm/user notification
-  * Status LEDs
+  * Max 5.5V power via servo connector (rev0-4, rev5acro), Max 16V power via servo connector (rev5)
+  * 2 programmable status LEDs, 1 constant power LED.
 
 == Status ==
 
