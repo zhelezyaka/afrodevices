@@ -2,6 +2,8 @@
 #include "mw.h"
 
 // June 2013     V2.2-dev
+#define F_CUT   17.0f
+#define RC      0.5f / (M_PI * F_CUT)
 
 flags_t f;
 int16_t debug[4];
@@ -277,6 +279,7 @@ static void mwVario(void)
 
 }
 
+static float	lastDTerm[3] = { 0.0f, 0.0f, 0.0f };
 static int32_t errorGyroI[3] = { 0, 0, 0 };
 static int32_t errorAngleI[2] = { 0, 0 };
 
@@ -291,6 +294,7 @@ static void pidMultiWii(void)
     int32_t delta;
 
     // **** PITCH & ROLL & YAW PID ****
+    float dT = cycleTime * 1e-6f;
     prop = max(abs(rcCommand[PITCH]), abs(rcCommand[ROLL])); // range [0;500]
     for (axis = 0; axis < 3; axis++) {
         if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2) { // MODE relying on ACC
@@ -332,6 +336,11 @@ static void pidMultiWii(void)
         deltaSum = delta1[axis] + delta2[axis] + delta;
         delta2[axis] = delta1[axis];
         delta1[axis] = delta;
+
+        // calculate PT1 element on deltaSum
+		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
+		lastDTerm[axis] = deltaSum;
+
         DTerm = (deltaSum * dynD8[axis]) / 32;
         axisPID[axis] = PTerm + ITerm - DTerm;
     }
@@ -350,6 +359,7 @@ static void pidRewrite(void)
     int32_t AngleRateTmp, RateError;
 
     // ----------PID controller----------
+    float dT = cycleTime * 1e-6f;
     for (axis = 0; axis < 3; axis++) {
         // -----Get the desired angle rate depending on flight mode
         if ((f.ANGLE_MODE || f.HORIZON_MODE) && axis < 2 ) { // MODE relying on ACC
@@ -401,7 +411,12 @@ static void pidRewrite(void)
         deltaSum = delta1[axis] + delta2[axis] + delta;
         delta2[axis] = delta1[axis];
         delta1[axis] = delta;
-        DTerm = (deltaSum * cfg.D8[axis]) >> 8;
+
+        // calculate PT1 element on deltaSum
+		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
+		lastDTerm[axis] = deltaSum;
+
+       DTerm = (deltaSum * cfg.D8[axis]) >> 8;
 
         // -----calculate total PID output
         axisPID[axis] = PTerm + ITerm + DTerm;
@@ -823,17 +838,16 @@ void loop(void)
                     if (abs(rcCommand[THROTTLE] - initialThrottleHold) > cfg.alt_hold_throttle_neutral) {
                         // Slowly increase/decrease AltHold proportional to stick movement ( +100 throttle gives ~ +50 cm in 1 second with cycle time about 3-4ms)
                         AltHoldCorr += rcCommand[THROTTLE] - initialThrottleHold;
-                        if (abs(AltHoldCorr) > 500) {
-                            AltHold += AltHoldCorr / 500;
-                            AltHoldCorr %= 500;
-                        }
-                        errorAltitudeI = 0;
+                        AltHold += AltHoldCorr / 2000;
+                        AltHoldCorr %= 2000;
                         isAltHoldChanged = 1;
                     } else if (isAltHoldChanged) {
                         AltHold = EstAlt;
+                        AltHoldCorr = 0;
                         isAltHoldChanged = 0;
                     }
                     rcCommand[THROTTLE] = initialThrottleHold + BaroPID;
+                    rcCommand[THROTTLE] = constrain(rcCommand[THROTTLE], mcfg.minthrottle + 150, mcfg.maxthrottle);
                 }
             }
         }
