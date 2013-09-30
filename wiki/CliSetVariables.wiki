@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary baseflight configuration parameters avaulable by 'set'
 #labels baseflight,cli,config
 
 = Introduction =
