@@ -52,11 +52,11 @@ http://www.abusemark.com/downloads/naze32_rev2.pdf
 
 == Board revisions ==
 
-AfroFlight32 rev5 (currently available limited quantity)
+AfroFlight32 rev5 (current production version)
 
 http://i.imgur.com/tZ7uQMF.jpg
 
-AfroFlight32 rev4 (current production version)
+AfroFlight32 rev4 (limited qty available by request)
 
 http://i.imgur.com/m231K.jpg
 
