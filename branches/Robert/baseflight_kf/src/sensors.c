@@ -1,6 +1,5 @@
 #include "board.h"
 #include "mw.h"
-#include "kalman_simple.h"
 
 uint16_t calibratingA = 0;      // the calibration is done is the main loop. Calibrating decreases at each cycle down to 0, then we enter in a normal mode.
 uint16_t calibratingB = 0;      // baro calibration = get new ground pressure value
@@ -78,6 +77,13 @@ retry:
                 if (mcfg.acc_hardware == ACC_MMA8452)
                     break;
             }
+            ; // fallthrough
+        case ACC_BMA280: // BMA280
+            if (bma280Detect(&acc)) {
+                accHardware = ACC_BMA280;
+                if (mcfg.acc_hardware == ACC_BMA280)
+                    break;
+            }
 #endif
     }
 
@@ -118,7 +124,10 @@ retry:
     // calculate magnetic declination
     deg = cfg.mag_declination / 100;
     min = cfg.mag_declination % 100;
-    magneticDeclination = (deg + ((float)min * (1.0f / 60.0f))) * 10; // heading is in 0.1deg units
+    if (sensors(SENSOR_MAG))
+        magneticDeclination = (deg + ((float)min * (1.0f / 60.0f))) * 10; // heading is in 0.1deg units
+    else
+        magneticDeclination = 0.0f;
 }
 #endif
 
@@ -159,9 +168,9 @@ static void ACC_Common(void)
     if (calibratingA > 0) {
         for (axis = 0; axis < 3; axis++) {
             // Reset a[axis] at start of calibration
-            if (calibratingA == 400)
+            if (calibratingA == CALIBRATING_ACC_CYCLES)
                 a[axis] = 0;
-            // Sum up 400 readings
+            // Sum up CALIBRATING_ACC_CYCLES readings
             a[axis] += accADC[axis];
             // Clear global variables for next reading
             accADC[axis] = 0;
@@ -169,9 +178,9 @@ static void ACC_Common(void)
         }
         // Calculate average, shift Z down by acc_1G and store values in EEPROM at end of calibration
         if (calibratingA == 1) {
-            mcfg.accZero[ROLL] = a[ROLL] / 400;
-            mcfg.accZero[PITCH] = a[PITCH] / 400;
-            mcfg.accZero[YAW] = a[YAW] / 400 - acc_1G;       // for nunchuk 200=1G
+            mcfg.accZero[ROLL] = (a[ROLL] + (CALIBRATING_ACC_CYCLES / 2)) / CALIBRATING_ACC_CYCLES;
+            mcfg.accZero[PITCH] = (a[PITCH] + (CALIBRATING_ACC_CYCLES / 2))  / CALIBRATING_ACC_CYCLES;
+            mcfg.accZero[YAW] = (a[YAW] + (CALIBRATING_ACC_CYCLES / 2))  / CALIBRATING_ACC_CYCLES - acc_1G;
             cfg.angleTrim[ROLL] = 0;
             cfg.angleTrim[PITCH] = 0;
             writeEEPROM(1, true);      // write accZero in EEPROM
@@ -231,13 +240,11 @@ static void ACC_Common(void)
     accADC[ROLL] -= mcfg.accZero[ROLL];
     accADC[PITCH] -= mcfg.accZero[PITCH];
     accADC[YAW] -= mcfg.accZero[YAW];
-
-    accKalmanFilterStep(accADC);
 }
 
 void ACC_getADC(void)
 {
-    acc.read(accADC);
+    // acc.read(accADC);
     ACC_Common();
 }
 
@@ -330,7 +337,7 @@ static void GYRO_Common(void)
     if (calibratingG > 0) {
         for (axis = 0; axis < 3; axis++) {
             // Reset g[axis] at start of calibration
-            if (calibratingG == 1000) {
+            if (calibratingG == CALIBRATING_GYRO_CYCLES) {
                 g[axis] = 0;
                 devClear(&var[axis]);
             }
@@ -344,14 +351,14 @@ static void GYRO_Common(void)
                 float dev = devStandardDeviation(&var[axis]);
                 // check deviation and startover if idiot was moving the model
                 if (mcfg.moron_threshold && dev > mcfg.moron_threshold) {
-                    calibratingG = 1000;
+                    calibratingG = CALIBRATING_GYRO_CYCLES;
                     devClear(&var[0]);
                     devClear(&var[1]);
                     devClear(&var[2]);
                     g[0] = g[1] = g[2] = 0;
                     continue;
                 }
-                gyroZero[axis] = g[axis] / 1000;
+                gyroZero[axis] = (g[axis] + (CALIBRATING_GYRO_CYCLES / 2)) / CALIBRATING_GYRO_CYCLES;
                 blinkLED(10, 15, 1);
             }
         }
@@ -364,10 +371,8 @@ static void GYRO_Common(void)
 void Gyro_getADC(void)
 {
     // range: +/- 8192; +/- 2000 deg/sec
-    gyro.read(gyroADC);
+    // gyro.read(gyroADC);
     GYRO_Common();
-
-    gyroKalmanFilterStep(gyroADC);
 }
 
 #ifdef MAG

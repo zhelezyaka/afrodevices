@@ -3,9 +3,8 @@
 
 int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 int32_t accSum[3];
-uint32_t accTimeSum = 0;        // keep track for integration of acc
 int accSumCount = 0;
-int16_t acc_25deg = 0;
+int16_t accZ_25deg = 0;
 int32_t baroPressure = 0;
 int32_t baroTemperature = 0;
 uint32_t baroPressureSum = 0;
@@ -26,13 +25,13 @@ float accVelScale;
 int16_t gyroData[3] = { 0, 0, 0 };
 int16_t gyroZero[3] = { 0, 0, 0 };
 int16_t angle[2] = { 0, 0 };     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
-float anglerad[2] = { 0, 0 };    // absolute angle inclination in radians
+float anglerad[2] = { 0.0f, 0.0f };    // absolute angle inclination in radians
 
 static void getEstimatedAttitude(void);
 
 void imuInit(void)
 {
-    acc_25deg = acc_1G * 0.423f;
+    accZ_25deg = acc_1G * cosf(RAD * 25.0f);
     accVelScale = 9.80665f / acc_1G / 10000.0f;
 
 #ifdef MAG
@@ -87,9 +86,6 @@ void computeIMU(void)
 //
 // The following ideas was used in this project:
 // 1) Rotation matrix: http://en.wikipedia.org/wiki/Rotation_matrix
-// 2) Small-angle approximation: http://en.wikipedia.org/wiki/Small-angle_approximation
-// 3) C. Hastings approximation for atan2()
-// 4) Optimization tricks: http://www.hackersdelight.org/
 //
 // Currently Magnetometer uses separate CF which is used only
 // for heading approximation.
@@ -208,7 +204,6 @@ void acc_calc(uint32_t deltaT)
     accel_ned.V.Y = applyDeadband(accel_ned.V.Y, cfg.accxy_deadband);
 
     // sum up Values for later integration to get velocity and distance
-    accTimeSum += deltaT;
     accSumCount++;
 
     accSum[0] += accel_ned.V.X;
@@ -221,8 +216,25 @@ void accSum_reset(void)
     accSum[0] = 0;
     accSum[1] = 0;
     accSum[2] = 0;
-    accSumCount = 0;
-    accTimeSum = 0;
+}
+
+// baseflight calculation by Luggi09 originates from arducopter
+static int16_t calculateHeading(t_fp_vector *vec)
+{
+    int16_t head;
+
+    float cosineRoll = cosf(anglerad[ROLL]);
+    float sineRoll = sinf(anglerad[ROLL]);
+    float cosinePitch = cosf(anglerad[PITCH]);
+    float sinePitch = sinf(anglerad[PITCH]);
+    float Xh = vec->A[X] * cosinePitch + vec->A[Y] * sineRoll * sinePitch + vec->A[Z] * sinePitch * cosineRoll;
+    float Yh = vec->A[Y] * cosineRoll - vec->A[Z] * sineRoll;
+    float hd = (atan2f(Yh, Xh) * 1800.0f / M_PI + magneticDeclination) / 10.0f;
+    head = lrintf(hd);
+    if (head < 0)
+        head += 360;
+
+    return head;
 }
 
 static void getEstimatedAttitude(void)
@@ -230,6 +242,7 @@ static void getEstimatedAttitude(void)
     uint32_t axis;
     int32_t accMag = 0;
     static t_fp_vector EstM;
+    static t_fp_vector EstN = { .A = { 1000.0f, 0.0f, 0.0f } };
     static float accLPF[3];
     static uint32_t previousT;
     uint32_t currentT = micros();
@@ -255,11 +268,8 @@ static void getEstimatedAttitude(void)
     rotateV(&EstG.V, deltaGyroAngle);
     if (sensors(SENSOR_MAG))
         rotateV(&EstM.V, deltaGyroAngle);
-
-    if (abs(accSmooth[ROLL]) < acc_25deg && abs(accSmooth[PITCH]) < acc_25deg && accSmooth[YAW] > 0)
-        f.SMALL_ANGLES_25 = 1;
     else
-        f.SMALL_ANGLES_25 = 0;
+        rotateV(&EstN.V, deltaGyroAngle);
 
     // Apply complimentary filter (Gyro drift correction)
     // If accel magnitude >1.15G or <0.85G and ACC vector outside of the limit range => we neutralize the effect of accelerometers in the angle estimation.
@@ -274,36 +284,27 @@ static void getEstimatedAttitude(void)
             EstM.A[axis] = (EstM.A[axis] * (float)mcfg.gyro_cmpfm_factor + magADC[axis]) * INV_GYR_CMPFM_FACTOR;
     }
 
+   if (EstG.A[Z] > accZ_25deg)
+        f.SMALL_ANGLES_25 = 1;
+    else
+        f.SMALL_ANGLES_25 = 0;
+
     // Attitude of the estimated vector
     anglerad[ROLL] = atan2f(EstG.V.Y, EstG.V.Z);
     anglerad[PITCH] = atan2f(-EstG.V.X, sqrtf(EstG.V.Y * EstG.V.Y + EstG.V.Z * EstG.V.Z));
-    angle[ROLL] = anglerad[ROLL] * (1800.0f / M_PI);   // roll angle in 0.1 deg steps
-    angle[PITCH] = anglerad[PITCH] * (1800.0f / M_PI); // pitch angle in 0.1 deg steps
+    angle[ROLL] = lrintf(anglerad[ROLL] * (1800.0f / M_PI));
+    angle[PITCH] = lrintf(anglerad[PITCH] * (1800.0f / M_PI));
 
-#ifdef MAG
-    if (sensors(SENSOR_MAG)) {
-        // baseflight calculation by Luggi09
-        float cosineRoll = cosf(anglerad[ROLL]);
-        float sineRoll = sinf(anglerad[ROLL]);
-        float cosinePitch = cosf(anglerad[PITCH]);
-        float sinePitch = sinf(anglerad[PITCH]);
-        float Xh = EstM.A[X] * cosinePitch + EstM.A[Z] * sinePitch;
-        float Yh = EstM.A[X] * sinePitch * sineRoll + EstM.A[Y] * cosineRoll - EstM.A[Z] * sineRoll * cosinePitch;
-        float hd = (atan2f(Yh, Xh) * 1800.0f / M_PI + magneticDeclination) / 10.0f;
-        heading = hd;
-        if (heading > 180)
-            heading = heading - 360;
-        else if (heading < -180)
-            heading = heading + 360;
-    }
-#endif
+    if (sensors(SENSOR_MAG))
+        heading = calculateHeading(&EstM);
+    else
+        heading = calculateHeading(&EstN);
 
     acc_calc(deltaT); // rotate acc vector into earth frame
 
     if (cfg.throttle_angle_correction) {
         int cosZ = EstG.V.Z / acc_1G * 100.0f;
         throttleAngleCorrection = cfg.throttle_angle_correction * constrain(100 - cosZ, 0, 100) / 8;
-
     }
 }
 
@@ -345,10 +346,10 @@ int getEstimatedAltitude(void)
     BaroAlt_tmp = 153.8462f * (baroTemperature + 27315) * (1.0f - expf(0.190259f * logf(PressureScaling))); // in cm
     BaroAlt = (float)BaroAlt * cfg.baro_noise_lpf + (float)BaroAlt_tmp * (1.0f - cfg.baro_noise_lpf); // additional LPF to reduce baro noise
 
-    dt = accTimeSum * 1e-6; // delta acc reading time in seconds
+    dt = dTime * 1e-6f; // delta acc reading time in seconds
 
     // Integrator - velocity, cm/sec
-    vel_acc = (float)accSum[2] * accVelScale * (float)accTimeSum / (float)accSumCount;
+    vel_acc = (float)accSum[2] * accVelScale * (float)dTime / (float)accSumCount;
 
     // Integrator - Altitude in cm
     accAlt += (vel_acc * 0.5f) * dt  + vel * dt;                                        // integrate velocity to get distance (x= a/2 * t^2)
@@ -383,7 +384,7 @@ int getEstimatedAltitude(void)
     // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity).
     // By using CF it's possible to correct the drift of integrated accZ (velocity) without loosing the phase, i.e without delay
     vel = vel * cfg.baro_cf_vel + baroVel * (1 - cfg.baro_cf_vel);
-    constrain(vel, -1000, 1000);                // limit max velocity to +/- 10m/s (36km/h)
+    vel = constrain(vel, -1000, 1000);                // limit max velocity to +/- 10m/s (36km/h)
 
     // D
     vel_tmp = vel;

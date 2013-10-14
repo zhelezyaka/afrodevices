@@ -22,12 +22,14 @@
 
 #include "drv_system.h"         // timers, delays, etc
 #include "drv_gpio.h"
+#include "drv_serial.h"
 
 #ifndef M_PI
 #define M_PI       3.14159265358979323846f
 #endif /* M_PI */
 
 #define RADX10 (M_PI / 1800.0f)                  // 0.001745329252f
+#define RAD    (M_PI / 180.0f)
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
@@ -53,14 +55,15 @@ typedef enum AccelSensors {
     ACC_ADXL345 = 1,
     ACC_MPU6050 = 2,
     ACC_MMA8452 = 3,
-    ACC_NONE = 4
+    ACC_BMA280 = 4,
+    ACC_NONE = 5
 } AccelSensors;
 
 typedef enum {
     FEATURE_PPM = 1 << 0,
     FEATURE_VBAT = 1 << 1,
     FEATURE_INFLIGHT_ACC_CAL = 1 << 2,
-    FEATURE_SPEKTRUM = 1 << 3,
+    FEATURE_SERIALRX = 1 << 3,
     FEATURE_MOTOR_STOP = 1 << 4,
     FEATURE_SERVO_TILT = 1 << 5,
     FEATURE_GYRO_SMOOTHING = 1 << 6,
@@ -72,12 +75,20 @@ typedef enum {
     FEATURE_POWERMETER = 1 << 12,
     FEATURE_VARIO = 1 << 13,
     FEATURE_3D = 1 << 14,
+    FEATURE_SOFTSERIAL = 1 << 15,
 } AvailableFeatures;
+
+typedef enum {
+    SERIALRX_SPEKTRUM1024 = 0,
+    SERIALRX_SPEKTRUM2048 = 1,
+    SERIALRX_SBUS = 2,
+} SerialRXType;
 
 typedef enum {
     GPS_NMEA = 0,
     GPS_UBLOX,
-    GPS_MTK,
+    GPS_MTK_NMEA,
+    GPS_MTK_BINARY,
 } GPSHardware;
 
 typedef enum {
@@ -118,7 +129,7 @@ typedef void (* sensorInitFuncPtr)(sensor_align_e align);   // sensor init proto
 typedef void (* sensorReadFuncPtr)(int16_t *data);          // sensor read and align prototype
 typedef void (* baroOpFuncPtr)(void);                       // baro start operation
 typedef void (* baroCalculateFuncPtr)(int32_t *pressure, int32_t *temperature);             // baro calculation (filled params are pressure and temperature)
-typedef void (* uartReceiveCallbackPtr)(uint16_t data);     // used by uart2 driver to return frames to app
+//typedef void (* serialReceiveCallbackPtr)(uint16_t data);   // used by serial drivers to return frames to app
 typedef uint16_t (* rcReadRawDataPtr)(uint8_t chan);        // used by receiver driver to return channel data
 typedef void (* pidControllerFuncPtr)(void);                // pid controller function prototype
 
@@ -205,8 +216,8 @@ typedef struct baro_t
 
 #ifdef BEEP_GPIO
 #define BEEP_TOGGLE              digitalToggle(BEEP_GPIO, BEEP_PIN);
-#define BEEP_OFF                 digitalHi(BEEP_GPIO, BEEP_PIN);
-#define BEEP_ON                  digitalLo(BEEP_GPIO, BEEP_PIN);
+#define BEEP_OFF                 systemBeep(false);
+#define BEEP_ON                  systemBeep(true);
 #else
 #define BEEP_TOGGLE              ;
 #define BEEP_OFF                 ;
@@ -236,6 +247,7 @@ typedef struct baro_t
 #include "drv_l3g4200d.h"
 #include "drv_pwm.h"
 #include "drv_timer.h"
+#include "drv_serial.h"
 #include "drv_uart.h"
 #include "drv_softserial.h"
 #else
@@ -243,6 +255,7 @@ typedef struct baro_t
  // AfroFlight32
 #include "drv_adc.h"
 #include "drv_adxl345.h"
+#include "drv_bma280.h"
 #include "drv_bmp085.h"
 #include "drv_ms5611.h"
 #include "drv_hmc5883l.h"
@@ -255,6 +268,7 @@ typedef struct baro_t
 #include "drv_l3g4200d.h"
 #include "drv_pwm.h"
 #include "drv_timer.h"
+#include "drv_serial.h"
 #include "drv_uart.h"
 #include "drv_softserial.h"
 #include "drv_hcsr04.h"

@@ -4,10 +4,12 @@
 #define VBATFREQ 6        // to read battery voltage - nth number of loop iterations
 #define BARO_TAB_SIZE_MAX   48
 
-#define  VERSION  220
+#define  VERSION  230
 
 #define LAT  0
 #define LON  1
+
+#define RC_CHANS    (18)
 
 // Serial GPS only variables
 // navigation mode
@@ -44,10 +46,8 @@ typedef enum MultiType
 
 typedef enum GimbalFlags {
     GIMBAL_NORMAL = 1 << 0,
-    GIMBAL_TILTONLY = 1 << 1,
-    GIMBAL_DISABLEAUX34 = 1 << 2,
-    GIMBAL_FORWARDAUX = 1 << 3,
-    GIMBAL_MIXTILT = 1 << 4,
+    GIMBAL_MIXTILT = 1 << 1,
+    GIMBAL_FORWARDAUX = 1 << 2,
 } GimbalFlags;
 
 /*********** RC alias *****************/
@@ -113,9 +113,6 @@ enum {
 #define THR_CE (3 << (2 * THROTTLE))
 #define THR_HI (2 << (2 * THROTTLE))
 
-#define SERVO_NORMAL    (1)
-#define SERVO_REVERSE   (-1)
-
 // Custom mixer data per motor
 typedef struct motorMixer_t {
     float throttle;
@@ -132,10 +129,10 @@ typedef struct mixer_t {
 } mixer_t;
 
 typedef struct servoParam_t {
-    int8_t direction;                   // servo direction
-    uint16_t middle;                    // servo middle
-    uint16_t min;                       // servo min
-    uint16_t max;                       // servo max
+    int16_t min;                            // servo min
+    int16_t max;                            // servo max
+    int16_t middle;                         // servo middle
+    int8_t rate;                            // range [-100;+100] ; can be used to ajust a rate 0-100% and a direction
 } servoParam_t;
 
 enum {
@@ -143,6 +140,10 @@ enum {
     ALIGN_ACCEL = 1,
     ALIGN_MAG = 2
 };
+
+#define CALIBRATING_GYRO_CYCLES             1000
+#define CALIBRATING_ACC_CYCLES              400
+#define CALIBRATING_BARO_CYCLES             200
 
 typedef struct config_t {
     uint8_t pidController;                  // 0 = multiwii original, 1 = rewrite from http://www.multiwii.com/forum/viewtopic.php?f=8&t=3671
@@ -181,6 +182,9 @@ typedef struct config_t {
     uint8_t alt_hold_fast_change;           // when disabled, turn off the althold when throttle stick is out of deadband defined with alt_hold_throttle_neutral; when enabled, altitude changes slowly proportional to stick movement
     uint8_t throttle_angle_correction;      //
 
+    // Servo-related stuff
+    servoParam_t servoConf[8];              // servo configuration
+
     // Failsafe related configuration
     uint8_t failsafe_delay;                 // Guard time for failsafe activation after signal lost. 1 step = 0.1sec - 1sec in example (10)
     uint8_t failsafe_off_delay;             // Time for Landing before motors stop in 0.1sec. 1 step = 0.1sec - 20sec in example (200)
@@ -190,33 +194,9 @@ typedef struct config_t {
     // mixer-related configuration
     int8_t yaw_direction;
     uint8_t tri_unarmed_servo;              // send tail servo correction pulses even when unarmed
-    uint16_t tri_yaw_middle;                // tail servo center pos. - use this for initial trim
-    uint16_t tri_yaw_min;                   // tail servo min
-    uint16_t tri_yaw_max;                   // tail servo max
-
-    // flying wing related configuration
-    uint16_t wing_left_min;                 // min/mid/max servo travel
-    uint16_t wing_left_mid;
-    uint16_t wing_left_max;
-    uint16_t wing_right_min;
-    uint16_t wing_right_mid;
-    uint16_t wing_right_max;
-
-    int8_t pitch_direction_l;               // left servo - pitch orientation
-    int8_t pitch_direction_r;               // right servo - pitch orientation (opposite sign to pitch_direction_l if servos are mounted mirrored)
-    int8_t roll_direction_l;                // left servo - roll orientation
-    int8_t roll_direction_r;                // right servo - roll orientation  (same sign as ROLL_DIRECTION_L, if servos are mounted in mirrored orientation)
 
     // gimbal-related configuration
-    int8_t gimbal_pitch_gain;               // gimbal pitch servo gain (tied to angle) can be negative to invert movement
-    int8_t gimbal_roll_gain;                // gimbal roll servo gain (tied to angle) can be negative to invert movement
     uint8_t gimbal_flags;                   // in servotilt mode, various things that affect stuff
-    uint16_t gimbal_pitch_min;              // gimbal pitch servo min travel
-    uint16_t gimbal_pitch_max;              // gimbal pitch servo max travel
-    uint16_t gimbal_pitch_mid;              // gimbal pitch servo neutral value
-    uint16_t gimbal_roll_min;               // gimbal roll servo min travel
-    uint16_t gimbal_roll_max;               // gimbal roll servo max travel
-    uint16_t gimbal_roll_mid;               // gimbal roll servo neutral value
 
     // gps-related stuff
     uint16_t gps_wp_radius;                 // if we are within this distance to a waypoint then we consider it reached (distance is in cm)
@@ -273,18 +253,22 @@ typedef struct master_t {
 
     // Radio/ESC-related configuration
     uint8_t rcmap[8];                       // mapping of radio channels to internal RPYTA+ order
-    uint8_t spektrum_hires;                 // spektrum high-resolution y/n (1024/2048bit)
+    uint8_t serialrx_type;                  // type of UART-based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by FEATURE_SERIALRX first.
     uint16_t midrc;                         // Some radios have not a neutral point centered on 1500. can be changed here
     uint16_t mincheck;                      // minimum rc end
     uint16_t maxcheck;                      // maximum rc end
     uint8_t retarded_arm;                   // allow disarsm/arm on throttle down + roll left/right
 
-    // gps-related stuff
-    uint8_t gps_type;                       // Type of GPS hardware. 0: NMEA 1: UBX 2+ ??
-    uint32_t gps_baudrate;                  // GPS baudrate
+    uint8_t rssi_aux_channel;               // Read rssi from channel. 1+ = AUX1+, 0 to disable.
 
-    // serial(uart1) baudrate
+    // gps-related stuff
+    uint8_t gps_type;                       // Type of GPS hardware. 0: NMEA 1: UBX 2: MTK
+    int8_t gps_baudrate;                    // GPS baudrate, -1: autodetect (NMEA only), 0: 115200, 1: 57600, 2: 38400, 3: 19200, 4: 9600
+
     uint32_t serial_baudrate;
+    
+    uint32_t softserial_baudrate;
+    uint8_t softserial_inverted;           // use inverted softserial input and output signals
 
     config_t profile[3];                    // 3 separate profiles
     uint8_t current_profile;                // currently loaded profile
@@ -300,6 +284,7 @@ typedef struct core_t {
     serialPort_t *telemport;
     serialPort_t *rcvrport;
     bool useServo;
+    uint8_t numRCChannels;
 
 } core_t;
 
@@ -334,7 +319,6 @@ extern int16_t debug[4];
 extern int16_t gyroADC[3], accADC[3], accSmooth[3], magADC[3];
 extern int32_t accSum[3];
 extern uint16_t acc_1G;
-extern uint32_t accTimeSum;
 extern int accSumCount;
 extern uint32_t currentTime;
 extern uint32_t previousTime;
@@ -357,8 +341,8 @@ extern int16_t throttleAngleCorrection;
 extern int16_t headFreeModeHold;
 extern int16_t heading, magHold;
 extern int16_t motor[MAX_MOTORS];
-extern int16_t servo[8];
-extern int16_t rcData[8];
+extern int16_t servo[MAX_SERVOS];
+extern int16_t rcData[RC_CHANS];
 extern uint16_t rssi;                  // range: [0;1023]
 extern uint8_t vbat;
 extern int16_t telemTemperature1;      // gyro sensor temperature
@@ -377,8 +361,6 @@ extern uint16_t GPS_altitude,GPS_speed;                      // altitude in 0.1m
 extern uint8_t  GPS_update;                                  // it's a binary toogle to distinct a GPS position update
 extern int16_t  GPS_angle[2];                                // it's the angles that must be applied for GPS correction
 extern uint16_t GPS_ground_course;                           // degrees*10
-extern uint8_t  GPS_Present;                                 // Checksum from Gps serial
-extern uint8_t  GPS_Enable;
 extern int16_t  nav[2];
 extern int8_t   nav_mode;                                    // Navigation mode
 extern int16_t  nav_rated[2];                                // Adding a rate controller to the navigation to make it smoother
@@ -447,20 +429,26 @@ void featureClearAll(void);
 uint32_t featureMask(void);
 
 // spektrum
-void spektrumInit(void);
+void spektrumInit(rcReadRawDataPtr *callback);
 bool spektrumFrameComplete(void);
+
+// sbus
+void sbusInit(rcReadRawDataPtr *callback);
+bool sbusFrameComplete(void);
 
 // buzzer
 void buzzer(uint8_t warn_vbat);
+void systemBeep(bool onoff);
 
 // cli
 void cliProcess(void);
 
 // gps
-void gpsInit(uint32_t baudrate);
+void gpsInit(uint8_t baudrate);
+void gpsThread(void);
+void gpsSetPIDs(void);
 void GPS_reset_home_position(void);
 void GPS_reset_nav(void);
-void GPS_set_pids(void);
 void GPS_set_next_wp(int32_t* lat, int32_t* lon);
 int32_t wrap_18000(int32_t error);
 

@@ -1,40 +1,43 @@
 #include "board.h"
 #include "mw.h"
 
-core_t core;
-
 // my 'very' own settings
 #define ROBERT
 #undef	ROBERT
 
+core_t core;
+
 extern rcReadRawDataPtr rcReadRawFunc;
 
-// two receiver read functions
+// receiver read function
 extern uint16_t pwmReadRawRC(uint8_t chan);
-extern uint16_t spektrumReadRawRC(uint8_t chan);
 
 #ifdef USE_LAME_PRINTF
 // gcc/GNU version
 static void _putc(void *p, char c)
 {
-    uartWrite(core.mainport, c);
+    serialWrite(core.mainport, c);
 }
 #else
 // keil/armcc version
 int fputc(int c, FILE *f)
 {
     // let DMA catch up a bit when using set or dump, we're too fast.
-    while (!isUartTransmitEmpty(core.mainport));
-    uartWrite(core.mainport, c);
+    while (!isSerialTransmitBufferEmpty(core.mainport));
+    serialWrite(core.mainport, c);
     return c;
 }
 #endif
 
 int main(void)
 {
-    uint8_t i;
+	extern float samples_gyroADC[3], samples_accADC[3];
+	extern volatile uint8_t doTimerUpdate;
+
+    uint8_t i, sampleCount = 0;
     drv_pwm_config_t pwm_params;
     drv_adc_config_t adc_params;
+    serialPort_t* loopbackPort = NULL;
 
     systemInit();
 #ifdef USE_LAME_PRINTF
@@ -44,9 +47,10 @@ int main(void)
     checkFirstTime(false);
     readEEPROM();
 
+    init_hp_filters();
 #ifdef ROBERT
     // futaba
-    mcfg.midrc = 1538;
+    mcfg.midrc = 1520;
     mcfg.mincheck = 1150;
     mcfg.maxcheck = 1850;
     featureSet(FEATURE_PPM);
@@ -58,6 +62,7 @@ int main(void)
 	mcfg.motor_pwm_rate = 498;
 	mcfg.gyro_lpf = 188;
 	cfg.mag_declination = 138;
+	cfg.baro_cf_alt = 0.9;
 #else
     pwm_params.usePPM = feature(FEATURE_PPM);
 #endif
@@ -81,9 +86,10 @@ int main(void)
         pwm_params.airplane = true;
     else
         pwm_params.airplane = false;
-    pwm_params.useUART = feature(FEATURE_GPS) || feature(FEATURE_SPEKTRUM); // spektrum support uses UART too
+    pwm_params.useUART = feature(FEATURE_GPS) || feature(FEATURE_SERIALRX); // spektrum/sbus support uses UART too
+    pwm_params.useSoftSerial = feature(FEATURE_SOFTSERIAL);
     pwm_params.usePPM = feature(FEATURE_PPM);
-    pwm_params.enableInput = !feature(FEATURE_SPEKTRUM); // disable inputs if using spektrum
+    pwm_params.enableInput = !feature(FEATURE_SERIALRX); // disable inputs if using spektrum
     pwm_params.useServos = core.useServo;
     pwm_params.extraServos = cfg.gimbal_flags & GIMBAL_FORWARDAUX;
     pwm_params.motorPwmRate = mcfg.motor_pwm_rate;
@@ -103,17 +109,30 @@ int main(void)
 
     pwmInit(&pwm_params);
 
-    // configure PWM/CPPM read function. spektrum below will override that
+    // configure PWM/CPPM read function and max number of channels. spektrum or sbus below will override both of these, if enabled
+    for (i = 0; i < RC_CHANS; i++)
+        rcData[i] = 1502;
     rcReadRawFunc = pwmReadRawRC;
+    core.numRCChannels = MAX_INPUTS;
 
-    if (feature(FEATURE_SPEKTRUM)) {
-        spektrumInit();
-        rcReadRawFunc = spektrumReadRawRC;
-    } else {
-        // spektrum and GPS are mutually exclusive
+    if (feature(FEATURE_SERIALRX)) {
+        switch (mcfg.serialrx_type) {
+            case SERIALRX_SPEKTRUM1024:
+            case SERIALRX_SPEKTRUM2048:
+                spektrumInit(&rcReadRawFunc);
+                break;
+
+            case SERIALRX_SBUS:
+                sbusInit(&rcReadRawFunc);
+                break;
+        }
+    } else { // spektrum and GPS are mutually exclusive
         // Optional GPS - available in both PPM and PWM input mode, in PWM input, reduces number of available channels by 2.
-        if (feature(FEATURE_GPS))
-            gpsInit(mcfg.gps_baudrate);
+        // gpsInit will return if FEATURE_GPS is not enabled.
+        // Sanity check below - protocols other than NMEA do not support baud rate autodetection
+        if (mcfg.gps_type > 0 && mcfg.gps_baudrate < 0)
+            mcfg.gps_baudrate = 0;
+        gpsInit(mcfg.gps_baudrate);
     }
 #ifdef SONAR
     // sonar stuff only works with PPM
@@ -144,31 +163,58 @@ int main(void)
     if (feature(FEATURE_VBAT))
         batteryInit();
 
-#ifdef SOFTSERIAL_19200_LOOPBACK
-
-    serialInit(19200);
-    setupSoftSerial1(19200);
-    uartPrint(core.mainport, "LOOPBACK 19200 ENABLED");
-#else
     serialInit(mcfg.serial_baudrate);
+    
+    if (feature(FEATURE_SOFTSERIAL)) {
+      setupSoftSerial1(mcfg.softserial_baudrate, mcfg.softserial_inverted);
+#ifdef SOFTSERIAL_LOOPBACK
+      loopbackPort = (serialPort_t*)&(softSerialPorts[0]);
+      serialPrint(loopbackPort, "LOOPBACK ENABLED\r\n");
 #endif
+    }
 
     previousTime = micros();
     if (mcfg.mixerConfiguration == MULTITYPE_GIMBAL)
-        calibratingA = 400;
-    calibratingG = 1000;
-    calibratingB = 200;             // 10 seconds init_delay + 200 * 25 ms = 15 seconds before ground pressure settles
+        calibratingA = CALIBRATING_ACC_CYCLES;
+    calibratingG = CALIBRATING_GYRO_CYCLES;
+    calibratingB = CALIBRATING_BARO_CYCLES;             // 10 seconds init_delay + 200 * 25 ms = 15 seconds before ground pressure settles
     f.SMALL_ANGLES_25 = 1;
 
     // loopy
     while (1) {
-        loop();
-#ifdef SOFTSERIAL_19200_LOOPBACK
-        while (serialAvailable(&softSerialPorts[0])) {
+    	if (doTimerUpdate)
+    	{
+    		// each milli second
+    		sampleCount++;
+    		doTimerUpdate = 0;
+    		sampleMemsDevices();
 
-            uint8_t b = serialReadByte(&softSerialPorts[0]);
-            uartWrite(core.mainport, b);
-        };
+    		// comment for testing loop time efficiency
+    		if (sampleCount >= 3)
+    		{
+    			// running at 333 hz
+    			// average the samples
+    			for (i = 0; i < 3; i++)
+    			{
+    				accADC[i] = (samples_accADC[i] / (float) sampleCount + 0.5f);
+    				gyroADC[i] = (samples_gyroADC[i] / (float) sampleCount + 0.5f);
+
+    				samples_accADC[i] = 0.0;
+    				samples_gyroADC[i] = 0.0;
+    			}
+    			loop();
+    			sampleCount = 0;
+    		}
+    	}
+#ifdef SOFTSERIAL_LOOPBACK
+        if (loopbackPort) {
+            while (serialTotalBytesWaiting(loopbackPort)) {
+    
+                uint8_t b = serialRead(loopbackPort);
+                serialWrite(loopbackPort, b);
+                //serialWrite(core.mainport, b);
+            };
+        }
 #endif
     }
 }

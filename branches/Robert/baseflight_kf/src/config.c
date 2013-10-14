@@ -13,7 +13,7 @@ master_t mcfg;  // master config struct with data independent from profiles
 config_t cfg;   // profile config struct
 const char rcChannelLetters[] = "AERT1234";
 
-static const uint8_t EEPROM_CONF_VERSION = 51;
+static const uint8_t EEPROM_CONF_VERSION = 57;
 static uint32_t enabledSensors = 0;
 static void resetConf(void);
 
@@ -83,9 +83,8 @@ void readEEPROM(void)
         lookupThrottleRC[i] = mcfg.minthrottle + (int32_t) (mcfg.maxthrottle - mcfg.minthrottle) * lookupThrottleRC[i] / 1000;     // [0;1000] -> [MINTHROTTLE;MAXTHROTTLE]
     }
 
-    cfg.tri_yaw_middle = constrain(cfg.tri_yaw_middle, cfg.tri_yaw_min, cfg.tri_yaw_max);       //REAR
     setPIDController(cfg.pidController);
-    GPS_set_pids();
+    gpsSetPIDs();
 }
 
 void writeEEPROM(uint8_t b, uint8_t updateProfile)
@@ -159,6 +158,7 @@ void checkFirstTime(bool reset)
 static void resetConf(void)
 {
     int i;
+    int8_t servoRates[8] = { 30, 30, 100, 100, 100, 100, 100, 100 };
 
     // Clear all configuration
     memset(&mcfg, 0, sizeof(master_t));
@@ -173,7 +173,7 @@ static void resetConf(void)
     mcfg.current_profile = 0;       // default profile
     mcfg.gyro_cmpf_factor = 600;    // default MWC
     mcfg.gyro_cmpfm_factor = 250;   // default MWC
-    mcfg.gyro_lpf = 42;             // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
+    mcfg.gyro_lpf = 188;            // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
     mcfg.accZero[0] = 0;
     mcfg.accZero[1] = 0;
     mcfg.accZero[2] = 0;
@@ -188,7 +188,7 @@ static void resetConf(void)
     mcfg.vbatmaxcellvoltage = 43;
     mcfg.vbatmincellvoltage = 33;
     mcfg.power_adc_channel = 0;
-    mcfg.spektrum_hires = 0;
+    mcfg.serialrx_type = 0;
     mcfg.midrc = 1500;
     mcfg.mincheck = 1100;
     mcfg.maxcheck = 1900;
@@ -205,10 +205,13 @@ static void resetConf(void)
     mcfg.servo_pwm_rate = 50;
     // gps/nav stuff
     mcfg.gps_type = GPS_NMEA;
-    mcfg.gps_baudrate = 115200;
+    mcfg.gps_baudrate = 0;
     // serial (USART1) baudrate
     mcfg.serial_baudrate = 115200;
+    mcfg.softserial_baudrate = 19200;
+    mcfg.softserial_inverted = 0;
     mcfg.looptime = 3500;
+    mcfg.rssi_aux_channel = 0;
 
     cfg.pidController = 0;
     cfg.P8[ROLL] = 40;
@@ -256,8 +259,8 @@ static void resetConf(void)
     cfg.accxy_deadband = 40;
     cfg.baro_tab_size = 21;
     cfg.baro_noise_lpf = 0.6f;
-    cfg.baro_cf_vel = 0.995f;
-    cfg.baro_cf_alt = 0.950f;
+    cfg.baro_cf_vel = 0.9f;
+    cfg.baro_cf_alt = 0.9f;
     cfg.acc_unarmedcal = 1;
 
     // Radio
@@ -275,34 +278,18 @@ static void resetConf(void)
     cfg.failsafe_detect_threshold = 985;    // any of first 4 channels below this value will trigger failsafe
 
     // servos
+    for (i = 0; i < 8; i++) {
+        cfg.servoConf[i].min = 1020;
+        cfg.servoConf[i].max = 2000;
+        cfg.servoConf[i].middle = 1500;
+        cfg.servoConf[i].rate = servoRates[i];
+    }
+
     cfg.yaw_direction = 1;
     cfg.tri_unarmed_servo = 1;
-    cfg.tri_yaw_middle = 1500;
-    cfg.tri_yaw_min = 1020;
-    cfg.tri_yaw_max = 2000;
-
-    // flying wing
-    cfg.wing_left_min = 1020;
-    cfg.wing_left_mid = 1500;
-    cfg.wing_left_max = 2000;
-    cfg.wing_right_min = 1020;
-    cfg.wing_right_mid = 1500;
-    cfg.wing_right_max = 2000;
-    cfg.pitch_direction_l = 1;
-    cfg.pitch_direction_r = -1;
-    cfg.roll_direction_l = 1;
-    cfg.roll_direction_r = 1;
 
     // gimbal
-    cfg.gimbal_pitch_gain = 10;
-    cfg.gimbal_roll_gain = 10;
     cfg.gimbal_flags = GIMBAL_NORMAL;
-    cfg.gimbal_pitch_min = 1020;
-    cfg.gimbal_pitch_max = 2000;
-    cfg.gimbal_pitch_mid = 1500;
-    cfg.gimbal_roll_min = 1020;
-    cfg.gimbal_roll_max = 2000;
-    cfg.gimbal_roll_mid = 1500;
 
     // gps/nav stuff
     cfg.gps_wp_radius = 200;

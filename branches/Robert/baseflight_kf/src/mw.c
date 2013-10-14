@@ -18,7 +18,7 @@ int16_t telemTemperature1;      // gyro sensor temperature
 
 int16_t failsafeCnt = 0;
 int16_t failsafeEvents = 0;
-int16_t rcData[8] = { 1502, 1502, 1502, 1502, 1502, 1502, 1502, 1502 }; // interval [1000;2000]
+int16_t rcData[RC_CHANS];       // interval [1000;2000]
 int16_t rcCommand[4];           // interval [1000;2000] for THROTTLE and [-500;+500] for ROLL/PITCH/YAW
 int16_t lookupPitchRollRC[6];   // lookup table for expo & RC rate PITCH+ROLL
 int16_t lookupThrottleRC[11];   // lookup table for expo & mid THROTTLE
@@ -47,8 +47,6 @@ uint16_t GPS_altitude, GPS_speed;   // altitude in 0.1m and speed in 0.1m/s
 uint8_t GPS_update = 0;             // it's a binary toogle to distinct a GPS position update
 int16_t GPS_angle[2] = { 0, 0 };    // it's the angles that must be applied for GPS correction
 uint16_t GPS_ground_course = 0;     // degrees * 10
-uint8_t GPS_Present = 0;            // Checksum from Gps serial
-uint8_t GPS_Enable = 0;
 int16_t nav[2];
 int16_t nav_rated[2];               // Adding a rate controller to the navigation to make it smoother
 int8_t nav_mode = NAV_MODE_NONE;    // Navigation mode
@@ -89,14 +87,17 @@ void blinkLED(uint8_t num, uint8_t wait, uint8_t repeat)
 void annexCode(void)
 {
     static uint32_t calibratedAccTime;
-    uint16_t tmp, tmp2;
-    static uint8_t buzzerFreq;  //delay between buzzer ring
+    int32_t tmp, tmp2;
+    int32_t axis, prop1, prop2;
+    static uint8_t buzzerFreq;  // delay between buzzer ring
+
+    // vbat shit
     static uint8_t vbatTimer = 0;
-    uint8_t axis, prop1, prop2;
     static uint8_t ind = 0;
     uint16_t vbatRaw = 0;
     static uint16_t vbatRawArray[8];
-    uint8_t i;
+
+    int i;
 
     // PITCH & ROLL only dynamic PID adjustemnt,  depending on throttle value
     if (rcData[THROTTLE] < BREAKPOINT) {
@@ -125,7 +126,6 @@ void annexCode(void)
             prop1 = 100 - (uint16_t) cfg.rollPitchRate * tmp / 500;
             prop1 = (uint16_t) prop1 *prop2 / 100;
         } else {                // YAW
-            tmp *= -mcfg.yaw_control_direction; //change control direction for yaw needed with new gyro orientation
             if (cfg.yawdeadband) {
                 if (tmp > cfg.yawdeadband) {
                     tmp -= cfg.yawdeadband;
@@ -133,12 +133,12 @@ void annexCode(void)
                     tmp = 0;
                 }
             }
-            rcCommand[axis] = tmp;
-            prop1 = 100 - (uint16_t) cfg.yawRate * tmp / 500;
+            rcCommand[axis] = tmp * -mcfg.yaw_control_direction;
+            prop1 = 100 - (uint16_t)cfg.yawRate * abs(tmp) / 500;
         }
-        dynP8[axis] = (uint16_t) cfg.P8[axis] * prop1 / 100;
-        dynI8[axis] = (uint16_t) cfg.I8[axis] * prop1 / 100;
-        dynD8[axis] = (uint16_t) cfg.D8[axis] * prop1 / 100;
+        dynP8[axis] = (uint16_t)cfg.P8[axis] * prop1 / 100;
+        dynI8[axis] = (uint16_t)cfg.I8[axis] * prop1 / 100;
+        dynD8[axis] = (uint16_t)cfg.D8[axis] * prop1 / 100;
         if (rcData[axis] < mcfg.midrc)
             rcCommand[axis] = -rcCommand[axis];
     }
@@ -341,7 +341,7 @@ static void pidMultiWii(void)
 		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
 		lastDTerm[axis] = deltaSum;
 
-        DTerm = (deltaSum * dynD8[axis]) / 32;
+		DTerm = (deltaSum * dynD8[axis]) / 32;
         axisPID[axis] = PTerm + ITerm - DTerm;
     }
 }
@@ -416,7 +416,7 @@ static void pidRewrite(void)
 		deltaSum = lastDTerm[axis] + (dT / (RC + dT)) * (deltaSum - lastDTerm[axis]);
 		lastDTerm[axis] = deltaSum;
 
-       DTerm = (deltaSum * cfg.D8[axis]) >> 8;
+		DTerm = (deltaSum * cfg.D8[axis]) >> 8;
 
         // -----calculate total PID output
         axisPID[axis] = PTerm + ITerm + DTerm;
@@ -450,21 +450,38 @@ void loop(void)
     uint16_t auxState = 0;
     static uint8_t GPSNavReset = 1;
     bool isThrottleLow = false;
+    bool rcReady = false;
 
-    // this will return false if spektrum is disabled. shrug.
-    if (spektrumFrameComplete())
-        computeRC();
+    // calculate rc stuff from serial-based receivers (spek/sbus)
+    if (feature(FEATURE_SERIALRX)) {
+        switch (mcfg.serialrx_type) {
+            case SERIALRX_SPEKTRUM1024:
+            case SERIALRX_SPEKTRUM2048:
+                rcReady = spektrumFrameComplete();
+                break;
+            case SERIALRX_SBUS:
+                rcReady = sbusFrameComplete();
+                break;
+        }
+    }
 
-    if ((int32_t)(currentTime - rcTime) >= 0) { // 50Hz
+    if (((int32_t)(currentTime - rcTime) >= 0) || rcReady) { // 50Hz or data driven
+        rcReady = false;
         rcTime = currentTime + 20000;
-        // TODO clean this up. computeRC should handle this check
-        if (!feature(FEATURE_SPEKTRUM))
-            computeRC();
+        computeRC();
 
         // in 3D mode, we need to be able to disarm by switch at any time
         if (feature(FEATURE_3D)) {
             if (!rcOptions[BOXARM])
                 mwDisarm();
+        }
+
+        // Read value of AUX channel as rssi
+        // 0 is disable, 1-4 is AUX{1..4}
+        if (mcfg.rssi_aux_channel > 0) {
+            const int16_t rssiChannelData = rcData[AUX1 + mcfg.rssi_aux_channel - 1];
+            // Range of rssiChannelData is [1000;2000]. rssi should be in [0;1023];
+            rssi = (uint16_t)((constrain(rssiChannelData - 1000, 0, 1000) / 1000.0f) * 1023.0f);
         }
 
         // Failsafe routine
@@ -534,11 +551,13 @@ void loop(void)
                 i = 0;
                 // GYRO calibration
                 if (rcSticks == THR_LO + YAW_LO + PIT_LO + ROL_CE) {
-                    calibratingG = 1000;
+                    calibratingG = CALIBRATING_GYRO_CYCLES;
                     if (feature(FEATURE_GPS))
                         GPS_reset_home_position();
                     if (sensors(SENSOR_BARO))
                         calibratingB = 10; // calibrate baro to new ground level (10 * 25 ms = ~250 ms non blocking)
+                    if (!sensors(SENSOR_MAG))
+                        heading = 0; // reset heading to zero after gyro calibration
                 // Inflight ACC Calibration
                 } else if (feature(FEATURE_INFLIGHT_ACC_CAL) && (rcSticks == THR_LO + YAW_LO + PIT_HI + ROL_HI)) {
                     if (AccInflightCalibrationMeasurementDone) {        // trigger saving into eeprom after landing
@@ -576,7 +595,7 @@ void loop(void)
                     mwArm();
                 // Calibrating Acc
                 else if (rcSticks == THR_HI + YAW_LO + PIT_LO + ROL_CE)
-                    calibratingA = 400;
+                    calibratingA = CALIBRATING_ACC_CYCLES;
                 // Calibrating Mag
                 else if (rcSticks == THR_HI + YAW_HI + PIT_LO + ROL_CE)
                     f.CALIBRATE_MAG = 1;
@@ -681,7 +700,7 @@ void loop(void)
 #endif
 
 #ifdef  MAG
-        if (sensors(SENSOR_MAG)) {
+        if (sensors(SENSOR_ACC) || sensors(SENSOR_MAG)) {
             if (rcOptions[BOXMAG]) {
                 if (!f.MAG_MODE) {
                     f.MAG_MODE = 1;
@@ -771,9 +790,16 @@ void loop(void)
             taskOrder++;
 #ifdef BARO
             if (sensors(SENSOR_BARO) && getEstimatedAltitude())
-            break;
+                break;
 #endif
         case 3:
+            // if GPS feature is enabled, gpsThread() will be called at some intervals to check for stuck
+            // hardware, wrong baud rates, init GPS if needed, etc. Don't use SENSOR_GPS here as gpsThread() can and will
+            // change this based on available hardware
+            if (feature(FEATURE_GPS))
+                gpsThread();
+            break;
+        case 4:
             taskOrder++;
 #ifdef SONAR
             if (sensors(SENSOR_SONAR)) {
@@ -787,7 +813,7 @@ void loop(void)
     }
 
     currentTime = micros();
-    if (mcfg.looptime == 0 || (int32_t)(currentTime - loopTime) >= 0) {
+    if ( 1 /* mcfg.looptime == 0 || (int32_t)(currentTime - loopTime ) >= 0 */ ) {
         loopTime = currentTime + mcfg.looptime;
 
         computeIMU();
@@ -796,9 +822,6 @@ void loop(void)
         currentTime = micros();
         cycleTime = (int32_t)(currentTime - previousTime);
         previousTime = currentTime;
-#ifdef MPU6050_DMP
-        mpu6050DmpLoop();
-#endif
 
 #ifdef MAG
         if (sensors(SENSOR_MAG)) {
@@ -871,6 +894,20 @@ void loop(void)
                     GPS_angle[PITCH] = (nav[LON] * sin_yaw_y + nav[LAT] * cos_yaw_x) / 10;
                 }
             }
+        }
+
+        // dada ante portas
+        bool upside_down = angle[ROLL] > 900 || angle[ROLL] < -900;
+        if (upside_down)
+        {
+        	int16_t roll_delta, pitch_delta, delta;
+        	roll_delta = abs(angle[ROLL]) - 900;
+        	pitch_delta = abs(abs(angle[PITCH]) - 900);
+        	delta = min(roll_delta, pitch_delta);
+        	delta *= 2;
+        	rcCommand[3] -= delta;
+        	if (rcCommand[3] < 1100)
+        		rcCommand[3] = 1100;
         }
 
         // PID - note this is function pointer set by setPIDController()

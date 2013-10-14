@@ -149,7 +149,6 @@ static const char pidnames[] =
 
 static uint8_t checksum, indRX, inBuf[INBUF_SIZE];
 static uint8_t cmdMSP;
-static bool guiConnected = false;
 // signal that we're in cli mode
 uint8_t cliMode = 0;
 
@@ -157,16 +156,16 @@ void serialize32(uint32_t a)
 {
     static uint8_t t;
     t = a;
-    uartWrite(core.mainport, t);
+    serialWrite(core.mainport, t);
     checksum ^= t;
     t = a >> 8;
-    uartWrite(core.mainport, t);
+    serialWrite(core.mainport, t);
     checksum ^= t;
     t = a >> 16;
-    uartWrite(core.mainport, t);
+    serialWrite(core.mainport, t);
     checksum ^= t;
     t = a >> 24;
-    uartWrite(core.mainport, t);
+    serialWrite(core.mainport, t);
     checksum ^= t;
 }
 
@@ -174,16 +173,16 @@ void serialize16(int16_t a)
 {
     static uint8_t t;
     t = a;
-    uartWrite(core.mainport, t);
+    serialWrite(core.mainport, t);
     checksum ^= t;
     t = a >> 8 & 0xff;
-    uartWrite(core.mainport, t);
+    serialWrite(core.mainport, t);
     checksum ^= t;
 }
 
 void serialize8(uint8_t a)
 {
-    uartWrite(core.mainport, a);
+    serialWrite(core.mainport, a);
     checksum ^= a;
 }
 
@@ -231,6 +230,13 @@ void tailSerialReply(void)
     serialize8(checksum);
 }
 
+void s_struct(uint8_t *cb, uint8_t siz)
+{
+    headSerialReply(siz);
+    while (siz--)
+        serialize8(*cb++);
+}
+
 void serializeNames(const char *s)
 {
     const char *c;
@@ -260,6 +266,7 @@ void serializeBoxNamesReply(void)
 void serialInit(uint32_t baudrate)
 {
     int idx;
+    bool hfadded = false;
 
     core.mainport = uartOpen(USART1, NULL, baudrate, MODE_RXTX);
     // TODO fix/hax
@@ -272,6 +279,10 @@ void serialInit(uint32_t baudrate)
     if (sensors(SENSOR_ACC)) {
         availableBoxes[idx++] = BOXANGLE;
         availableBoxes[idx++] = BOXHORIZON;
+        availableBoxes[idx++] = BOXMAG;
+        availableBoxes[idx++] = BOXHEADFREE;
+        availableBoxes[idx++] = BOXHEADADJ;
+        hfadded = true;
     }
     if (sensors(SENSOR_BARO)) {
         availableBoxes[idx++] = BOXBARO;
@@ -279,13 +290,16 @@ void serialInit(uint32_t baudrate)
             availableBoxes[idx++] = BOXVARIO;
     }
     if (sensors(SENSOR_MAG)) {
-        availableBoxes[idx++] = BOXMAG;
-        availableBoxes[idx++] = BOXHEADFREE;
-        availableBoxes[idx++] = BOXHEADADJ;
+        // this really shouldn't even needed to be tested as it wouldn't be possible without acc anyway
+        if (!hfadded) {
+            availableBoxes[idx++] = BOXMAG;
+            availableBoxes[idx++] = BOXHEADFREE;
+            availableBoxes[idx++] = BOXHEADADJ;
+        }
     }
     if (feature(FEATURE_SERVO_TILT))
         availableBoxes[idx++] = BOXCAMSTAB;
-    if (feature(FEATURE_GPS) && sensors(SENSOR_GPS)) {
+    if (feature(FEATURE_GPS)) {
         availableBoxes[idx++] = BOXGPSHOME;
         availableBoxes[idx++] = BOXGPSHOLD;
     }
@@ -348,6 +362,17 @@ static void evaluateCommand(void)
         headSerialReply(0);
         break;
     case MSP_SET_MISC:
+        read16(); // powerfailmeter
+        mcfg.minthrottle = read16();
+        read32(); // mcfg.maxthrottle, mcfg.mincommand
+        cfg.failsafe_throttle = read16();
+        read16();
+        read32();
+        cfg.mag_declination = read16() * 10;
+        mcfg.vbatscale = read8();           // actual vbatscale as intended
+        mcfg.vbatmincellvoltage = read8();  // vbatlevel_warn1 in MWC2.3 GUI
+        mcfg.vbatmaxcellvoltage = read8();  // vbatlevel_warn2 in MWC2.3 GUI
+        read8();                            // vbatlevel_crit (unused)
         headSerialReply(0);
         break;
     case MSP_SELECT_SETTING:
@@ -453,14 +478,28 @@ static void evaluateCommand(void)
             serialize16(magADC[i]);
         break;
     case MSP_SERVO:
-        headSerialReply(16);
-        for (i = 0; i < 8; i++)
-            serialize16(servo[i]);
+        s_struct((uint8_t *)&servo, 16);
+        break;
+    case MSP_SERVO_CONF:
+        headSerialReply(56);
+        for (i = 0; i < MAX_SERVOS; i++) {
+            serialize16(cfg.servoConf[i].min);
+            serialize16(cfg.servoConf[i].max);
+            serialize16(cfg.servoConf[i].middle);
+            serialize8(cfg.servoConf[i].rate);
+        }
+        break;
+    case MSP_SET_SERVO_CONF:
+        headSerialReply(0);
+        for (i = 0; i < MAX_SERVOS; i++) {
+            cfg.servoConf[i].min = read16();
+            cfg.servoConf[i].max = read16();
+            cfg.servoConf[i].middle = read16();
+            cfg.servoConf[i].rate = read8();
+        }
         break;
     case MSP_MOTOR:
-        headSerialReply(16);
-        for (i = 0; i < 8; i++)
-            serialize16(motor[i]);
+        s_struct((uint8_t *)motor, 16);
         break;
     case MSP_RC:
         headSerialReply(16);
@@ -538,8 +577,19 @@ static void evaluateCommand(void)
             serialize8(availableBoxes[i]);
         break;
     case MSP_MISC:
-        headSerialReply(2);
-        serialize16(0); // intPowerTrigger1
+        headSerialReply(2 * 6 + 4 + 2 + 8 * 4);
+        serialize16(0); // intPowerTrigger1 (aka useless trash)
+        serialize16(mcfg.minthrottle);
+        serialize16(mcfg.maxthrottle);
+        serialize16(mcfg.mincommand);
+        serialize16(cfg.failsafe_throttle);
+        serialize16(0); // plog useless shit
+        serialize32(0); // plog useless shit
+        serialize16(cfg.mag_declination / 10); // TODO check this shit
+        serialize8(mcfg.vbatscale);
+        serialize8(mcfg.vbatmincellvoltage);
+        serialize8(mcfg.vbatmaxcellvoltage);
+        serialize8(0);
         break;
     case MSP_MOTOR_PINS:
         headSerialReply(8);
@@ -596,7 +646,7 @@ static void evaluateCommand(void)
         break;
     case MSP_ACC_CALIBRATION:
         if (!f.ARMED)
-            calibratingA = 400;
+            calibratingA = CALIBRATING_ACC_CYCLES;
         headSerialReply(0);
         break;
     case MSP_MAG_CALIBRATION:
@@ -672,14 +722,14 @@ void serialCom(void)
         HEADER_CMD,
     } c_state = IDLE;
 
-    // in cli mode, all uart stuff goes to here. enter cli mode by sending #
+    // in cli mode, all serial stuff goes to here. enter cli mode by sending #
     if (cliMode) {
         cliProcess();
         return;
     }
 
-    while (isUartAvailable(core.mainport)) {
-        c = uartRead(core.mainport);
+    while (serialTotalBytesWaiting(core.mainport)) {
+        c = serialRead(core.mainport);
 
         if (c_state == IDLE) {
             c_state = (c == '$') ? HEADER_START : IDLE;
@@ -700,7 +750,6 @@ void serialCom(void)
             indRX = 0;
             checksum ^= c;
             c_state = HEADER_SIZE;      // the command is to follow
-            guiConnected = true;
         } else if (c_state == HEADER_SIZE) {
             cmdMSP = c;
             checksum ^= c;
@@ -715,7 +764,7 @@ void serialCom(void)
             c_state = IDLE;
         }
     }
-    if (!cliMode && !isUartAvailable(core.telemport) && feature(FEATURE_TELEMETRY) && f.ARMED) { // The first 2 conditions should never evaluate to true but I'm putting it here anyway - silpstream
+    if (!cliMode && !serialTotalBytesWaiting(core.telemport) && feature(FEATURE_TELEMETRY) && f.ARMED) { // The first 2 conditions should never evaluate to true but I'm putting it here anyway - silpstream
         sendTelemetry();
         return;
     }

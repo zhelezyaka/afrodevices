@@ -42,9 +42,9 @@ static const char * const mixerNames[] = {
 
 // sync this with AvailableFeatures enum from board.h
 static const char * const featureNames[] = {
-    "PPM", "VBAT", "INFLIGHT_ACC_CAL", "SPEKTRUM", "MOTOR_STOP",
+    "PPM", "VBAT", "INFLIGHT_ACC_CAL", "SERIALRX", "MOTOR_STOP",
     "SERVO_TILT", "GYRO_SMOOTHING", "LED_RING", "GPS",
-    "FAILSAFE", "SONAR", "TELEMETRY", "POWERMETER", "VARIO", "3D",
+    "FAILSAFE", "SONAR", "TELEMETRY", "POWERMETER", "VARIO", "3D", "SOFTSERIAL",
     NULL
 };
 
@@ -54,7 +54,7 @@ static const char * const sensorNames[] = {
 };
 
 static const char * const accNames[] = {
-    "", "ADXL345", "MPU6050", "MMA845x", NULL
+    "", "ADXL345", "MPU6050", "MMA845x", "BMA280", "None", NULL
 };
 
 typedef struct {
@@ -115,8 +115,11 @@ const clivalue_t valueTable[] = {
     { "servo_pwm_rate", VAR_UINT16, &mcfg.servo_pwm_rate, 50, 498 },
     { "retarded_arm", VAR_UINT8, &mcfg.retarded_arm, 0, 1 },
     { "serial_baudrate", VAR_UINT32, &mcfg.serial_baudrate, 1200, 115200 },
-    { "gps_baudrate", VAR_UINT32, &mcfg.gps_baudrate, 1200, 115200 },
-    { "spektrum_hires", VAR_UINT8, &mcfg.spektrum_hires, 0, 1 },
+    { "softserial_baudrate", VAR_UINT32, &mcfg.softserial_baudrate, 9600, 19200 },
+    { "softserial_inverted", VAR_UINT8, &mcfg.softserial_inverted, 0, 1 },
+    { "gps_type", VAR_UINT8, &mcfg.gps_type, 0, 3 },
+    { "gps_baudrate", VAR_INT8, &mcfg.gps_baudrate, -1, 4 },
+    { "serialrx_type", VAR_UINT8, &mcfg.serialrx_type, 0, 2 },
     { "vbatscale", VAR_UINT8, &mcfg.vbatscale, 10, 200 },
     { "vbatmaxcellvoltage", VAR_UINT8, &mcfg.vbatmaxcellvoltage, 10, 50 },
     { "vbatmincellvoltage", VAR_UINT8, &mcfg.vbatmincellvoltage, 10, 50 },
@@ -125,12 +128,11 @@ const clivalue_t valueTable[] = {
     { "align_acc", VAR_UINT8, &mcfg.acc_align, 0, 8 },
     { "align_mag", VAR_UINT8, &mcfg.mag_align, 0, 8 },
     { "yaw_control_direction", VAR_INT8, &mcfg.yaw_control_direction, -1, 1 },
-    { "acc_hardware", VAR_UINT8, &mcfg.acc_hardware, 0, 4 },
+    { "acc_hardware", VAR_UINT8, &mcfg.acc_hardware, 0, 5 },
     { "moron_threshold", VAR_UINT8, &mcfg.moron_threshold, 0, 128 },
     { "gyro_lpf", VAR_UINT16, &mcfg.gyro_lpf, 0, 256 },
     { "gyro_cmpf_factor", VAR_UINT16, &mcfg.gyro_cmpf_factor, 100, 1000 },
     { "gyro_cmpfm_factor", VAR_UINT16, &mcfg.gyro_cmpfm_factor, 100, 1000 },
-    { "gps_type", VAR_UINT8, &mcfg.gps_type, 0, 3 },
     { "pid_controller", VAR_UINT8, &cfg.pidController, 0, 1 },
     { "deadband", VAR_UINT8, &cfg.deadband, 0, 32 },
     { "yawdeadband", VAR_UINT8, &cfg.yawdeadband, 0, 100 },
@@ -147,30 +149,10 @@ const clivalue_t valueTable[] = {
     { "failsafe_off_delay", VAR_UINT8, &cfg.failsafe_off_delay, 0, 200 },
     { "failsafe_throttle", VAR_UINT16, &cfg.failsafe_throttle, 1000, 2000 },
     { "failsafe_detect_threshold", VAR_UINT16, &cfg.failsafe_detect_threshold, 100, 2000 },
+    { "rssi_aux_channel", VAR_INT8, &mcfg.rssi_aux_channel, 0, 4 },
     { "yaw_direction", VAR_INT8, &cfg.yaw_direction, -1, 1 },
     { "tri_unarmed_servo", VAR_INT8, &cfg.tri_unarmed_servo, 0, 1 },
-    { "tri_yaw_middle", VAR_UINT16, &cfg.tri_yaw_middle, 0, 2000 },
-    { "tri_yaw_min", VAR_UINT16, &cfg.tri_yaw_min, 0, 2000 },
-    { "tri_yaw_max", VAR_UINT16, &cfg.tri_yaw_max, 0, 2000 },
-    { "wing_left_min", VAR_UINT16, &cfg.wing_left_min, 0, 2000 },
-    { "wing_left_mid", VAR_UINT16, &cfg.wing_left_mid, 0, 2000 },
-    { "wing_left_max", VAR_UINT16, &cfg.wing_left_max, 0, 2000 },
-    { "wing_right_min", VAR_UINT16, &cfg.wing_right_min, 0, 2000 },
-    { "wing_right_mid", VAR_UINT16, &cfg.wing_right_mid, 0, 2000 },
-    { "wing_right_max", VAR_UINT16, &cfg.wing_right_max, 0, 2000 },
-    { "pitch_direction_l", VAR_INT8, &cfg.pitch_direction_l, -1, 1 },
-    { "pitch_direction_r", VAR_INT8, &cfg.pitch_direction_r, -1, 1 },
-    { "roll_direction_l", VAR_INT8, &cfg.roll_direction_l, -1, 1 },
-    { "roll_direction_r", VAR_INT8, &cfg.roll_direction_r, -1, 1 },
     { "gimbal_flags", VAR_UINT8, &cfg.gimbal_flags, 0, 255},
-    { "gimbal_pitch_gain", VAR_INT8, &cfg.gimbal_pitch_gain, -100, 100 },
-    { "gimbal_roll_gain", VAR_INT8, &cfg.gimbal_roll_gain, -100, 100 },
-    { "gimbal_pitch_min", VAR_UINT16, &cfg.gimbal_pitch_min, 100, 3000 },
-    { "gimbal_pitch_max", VAR_UINT16, &cfg.gimbal_pitch_max, 100, 3000 },
-    { "gimbal_pitch_mid", VAR_UINT16, &cfg.gimbal_pitch_mid, 100, 3000 },
-    { "gimbal_roll_min", VAR_UINT16, &cfg.gimbal_roll_min, 100, 3000 },
-    { "gimbal_roll_max", VAR_UINT16, &cfg.gimbal_roll_max, 100, 3000 },
-    { "gimbal_roll_mid", VAR_UINT16, &cfg.gimbal_roll_mid, 100, 3000 },
     { "acc_lpf_factor", VAR_UINT8, &cfg.acc_lpf_factor, 0, 250 },
     { "accxy_deadband", VAR_UINT8, &cfg.accxy_deadband, 0, 100 },
     { "accz_deadband", VAR_UINT8, &cfg.accz_deadband, 0, 100 },
@@ -276,7 +258,7 @@ char *itoa(int i, char *a, int r)
 static float _atof(const char *p)
 {
     int frac = 0;
-    double sign, value, scale;
+    float sign, value, scale;
 
     // Skip leading white space, if any.
     while (white_space(*p) ) {
@@ -284,9 +266,9 @@ static float _atof(const char *p)
     }
 
     // Get sign, if any.
-    sign = 1.0;
+    sign = 1.0f;
     if (*p == '-') {
-        sign = -1.0;
+        sign = -1.0f;
         p += 1;
 
     } else if (*p == '+') {
@@ -294,26 +276,26 @@ static float _atof(const char *p)
     }
 
     // Get digits before decimal point or exponent, if any.
-    value = 0.0;
+    value = 0.0f;
     while (valid_digit(*p)) {
-        value = value * 10.0 + (*p - '0');
+        value = value * 10.0f + (*p - '0');
         p += 1;
     }
 
     // Get digits after decimal point, if any.
     if (*p == '.') {
-        double pow10 = 10.0;
+        float pow10 = 10.0f;
         p += 1;
 
         while (valid_digit(*p)) {
             value += (*p - '0') / pow10;
-            pow10 *= 10.0;
+            pow10 *= 10.0f;
             p += 1;
         }
     }
 
     // Handle exponent, if any.
-    scale = 1.0;
+    scale = 1.0f;
     if ((*p == 'e') || (*p == 'E')) {
         unsigned int expon;
         p += 1;
@@ -334,12 +316,13 @@ static float _atof(const char *p)
             expon = expon * 10 + (*p - '0');
             p += 1;
         }
-        if (expon > 308) expon = 308;
+        if (expon > 308) 
+            expon = 308;
 
         // Calculate scaling factor.
-        while (expon >= 50) { scale *= 1E50; expon -= 50; }
-        while (expon >=  8) { scale *= 1E8;  expon -=  8; }
-        while (expon >   0) { scale *= 10.0; expon -=  1; }
+        // while (expon >= 50) { scale *= 1E50f; expon -= 50; }
+        while (expon >=  8) { scale *= 1E8f;  expon -=  8; }
+        while (expon >   0) { scale *= 10.0f; expon -=  1; }
     }
 
     // Return signed and scaled floating point result.
@@ -463,7 +446,7 @@ static void cliCMix(char *cmdline)
         }
         cliPrint("Sanity check:\t");
         for (i = 0; i < 3; i++)
-            cliPrint(fabs(mixsum[i]) > 0.01f ? "NG\t" : "OK\t");
+            cliPrint(fabsf(mixsum[i]) > 0.01f ? "NG\t" : "OK\t");
         cliPrint("\r\n");
         return;
     } else if (strncasecmp(cmdline, "reset", 5) == 0) {
@@ -930,8 +913,8 @@ void cliProcess(void)
         cliPrompt();
     }
 
-    while (isUartAvailable(core.mainport)) {
-        uint8_t c = uartRead(core.mainport);
+    while (serialTotalBytesWaiting(core.mainport)) {
+        uint8_t c = serialRead(core.mainport);
         if (c == '\t' || c == '?') {
             // do tab completion
             const clicmd_t *cmd, *pstart = NULL, *pend = NULL;
