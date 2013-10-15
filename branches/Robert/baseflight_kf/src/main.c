@@ -56,7 +56,7 @@ int main(void)
     featureSet(FEATURE_PPM);
     pwm_params.usePPM = true; //  feature(FEATURE_PPM);
     mcfg.acc_hardware = ACC_MPU6050;
-	mcfg.mixerConfiguration = MULTITYPE_QUADP;
+	mcfg.mixerConfiguration = MULTITYPE_QUADX;
     cfg.acc_lpf_factor = 4;
 	mcfg.looptime = 2000;
 	mcfg.motor_pwm_rate = 498;
