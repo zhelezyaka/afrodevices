@@ -260,10 +260,12 @@ static void getEstimatedAttitude(void)
     static t_fp_vector EstM;
     static t_fp_vector EstN = { .A = { 1000.0f, 0.0f, 0.0f } };
     static float accLPF[3];
+    float magN[3] = {magADC[0], magADC[1], magADC[2]};
     static uint32_t previousT;
     uint32_t currentT = micros();
     uint32_t deltaT;
     float scale, deltaGyroAngle[3];
+
     deltaT = currentT - previousT;
     scale = deltaT * gyro.scale;
     previousT = currentT;
@@ -282,6 +284,7 @@ static void getEstimatedAttitude(void)
     accMag = accMag * 100 / ((int32_t)acc_1G * acc_1G);
 
     normalize3DVector(accLPF);
+    normalize3DVector(magN);
 
     rotateV(&EstG.V, deltaGyroAngle);
     if (sensors(SENSOR_MAG))
@@ -302,7 +305,7 @@ static void getEstimatedAttitude(void)
     if (sensors(SENSOR_MAG)) {
         for (axis = 0; axis < 3; axis++) {
             //EstM.A[axis] = (EstM.A[axis] * (float)mcfg.gyro_cmpfm_factor + magADC[axis]) * INV_GYR_CMPFM_FACTOR;
-            EstM.A[axis] = EstG.A[axis] * (1.0f - MagComplFilterConst) + magADC[axis] * MagComplFilterConst;
+            EstM.A[axis] = EstG.A[axis] * (1.0f - MagComplFilterConst) + magN[axis] * MagComplFilterConst;
         }
     }
 
