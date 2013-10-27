@@ -328,6 +328,8 @@ static void getEstimatedAttitude(void)
         int cosZ = EstG.V.Z / acc_1G * 100.0f;
         throttleAngleCorrection = cfg.throttle_angle_correction * constrain(100 - cosZ, 0, 100) / 8;
     }
+
+    normalize3DVector(EstG.A);
 }
 
 #ifdef BARO
