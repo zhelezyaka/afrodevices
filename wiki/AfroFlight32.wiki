@@ -5,7 +5,7 @@
 Simple, small, fun flight controller. 
 Several available firmware choices:
 
-  # MultiWii-dev port to STM32 ("baseflight" in SVN)
+  # MultiWii-dev port to STM32 ("baseflight" @ github - https://github.com/multiwii/baseflight)
   # Written from scratch "correct" firmware using various attitude estimators, Kalman filtering, etc ("baseflightplus" in SVN)
   # Chinese 'FreeFlight' firmware. Autolevel/gyro, limited functionality. Supported on rev0 to rev3 hardware. Not supported on rev4 hardware.
 
@@ -41,6 +41,10 @@ It works.
 Discussion forum at multiwii.com 32bit section: 
 
 http://www.multiwii.com/forum/viewforum.php?f=21
+
+Current development source code:
+
+https://github.com/multiwii/baseflight
 
 RCGroups thread (now defunct):
 
