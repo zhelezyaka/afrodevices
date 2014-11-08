@@ -53,7 +53,17 @@ Manual:
 
 http://www.abusemark.com/downloads/naze32_rev3.pdf
 
+== What isn't Naze32 ==
+
+Flip32, Nanj32 and similar stuff that's been based on the published rev4 schematic is not Naze32. You can generally tell by the soldering, pcb and silk  quality:
+
+http://i.imgur.com/3Cse4Wj.jpg
+
 == Board revisions ==
+
+AfroFlight rev6 (currently unavailable, ETA unknown)
+
+http://i.imgur.com/SOTMUfL.jpg
 
 AfroFlight32 rev5 (current production version)
 
